@@ -1,0 +1,17 @@
+# TRACK B (documentation-only, not run in this sandbox — no Docker available).
+# Ships the same data/auth.log that Track A's Python pipeline parses, so both
+# tracks operate on byte-identical input.
+
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/siem-lab/auth.log
+    fields:
+      log_type: siem_lab_auth
+    fields_under_root: true
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+logging.level: info

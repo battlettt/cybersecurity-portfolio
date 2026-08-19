@@ -1,0 +1,19 @@
+{
+  "name": "sql-injection-lab-app",
+  "version": "1.0.0",
+  "description": "Intentionally vulnerable + fixed Express/MySQL app for the SQL injection lab",
+  "main": "server.js",
+  "scripts": {
+    "seed": "node seed.js",
+    "start": "node server.js",
+    "start:fixed": "node server-fixed.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.23.3"
+  }
+}

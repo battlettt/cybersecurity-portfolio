@@ -1,0 +1,66 @@
+# =============================================================================
+# TRACK B — production-equivalent ELK stack. DOCUMENTATION-ONLY in this
+# environment (no Docker available in the sandbox this repo was built in).
+# Not run or verified here. See PRODUCTION_SETUP.md for exact run steps and
+# what to expect. Track A (the Python pipeline in this same directory) is
+# the verified, actually-executed proof-of-work.
+# =============================================================================
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: siem-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.13.4
+    container_name: siem-logstash
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    volumes:
+      - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5044:5044"   # beats input (from Filebeat)
+    environment:
+      - "LS_JAVA_OPTS=-Xms256m -Xmx256m"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.4
+    container_name: siem-kibana
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.13.4
+    container_name: siem-filebeat
+    user: root
+    depends_on:
+      - logstash
+    volumes:
+      - ./elk/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      # Mount the SAME log file Track A generates, so both tracks ingest
+      # byte-identical data and can be cross-checked against each other.
+      - ./data:/var/log/siem-lab:ro
+    command: ["--strict.perms=false"]
+
+volumes:
+  es-data:

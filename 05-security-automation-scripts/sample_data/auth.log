@@ -1,0 +1,13 @@
+Aug 18 21:58:02 web01 sshd[3991]: Failed password for alice from 198.51.100.23 port 55210 ssh2
+Aug 18 22:14:47 web01 sshd[3993]: Failed password for invalid user test from 198.51.100.44 port 55391 ssh2
+Aug 18 22:15:10 web01 sshd[3995]: Accepted password for bob from 198.51.100.10 port 55402 ssh2
+Aug 18 22:30:01 web01 sshd[4021]: Failed password for root from 203.0.113.9 port 51422 ssh2
+Aug 18 22:30:03 web01 sshd[4022]: Failed password for root from 203.0.113.9 port 51424 ssh2
+Aug 18 22:30:05 web01 sshd[4023]: Failed password for invalid user admin from 203.0.113.9 port 51426 ssh2
+Aug 18 22:30:07 web01 sshd[4024]: Failed password for invalid user administrator from 203.0.113.9 port 51428 ssh2
+Aug 18 22:30:09 web01 sshd[4025]: Failed password for invalid user oracle from 203.0.113.9 port 51430 ssh2
+Aug 18 22:30:11 web01 sshd[4026]: Failed password for invalid user postgres from 203.0.113.9 port 51432 ssh2
+Aug 18 22:30:13 web01 sshd[4027]: Failed password for invalid user ubuntu from 203.0.113.9 port 51434 ssh2
+Aug 18 22:30:15 web01 sshd[4028]: Failed password for root from 203.0.113.9 port 51436 ssh2
+Aug 18 22:41:55 web01 sshd[4055]: Accepted password for alice from 198.51.100.23 port 55501 ssh2
+Aug 18 23:02:18 web01 sshd[4090]: Failed password for invalid user guest from 198.51.100.77 port 55620 ssh2

@@ -1,0 +1,170 @@
+2026-08-18T00:24:00.000000+00:00 web01 sshd[10002]: Accepted password for jsmith from 10.0.0.15 port 58164 ssh2
+2026-08-18T00:31:00.000000+00:00 db01 sshd[10003]: Accepted password for dlopez from 10.0.0.63 port 52000 ssh2
+2026-08-18T00:35:00.000000+00:00 web01 sshd[10004]: Accepted password for jsmith from 10.0.0.15 port 56775 ssh2
+2026-08-18T00:56:00.000000+00:00 db01 sshd[10009]: Accepted password for agupta from 10.0.0.22 port 62898 ssh2
+2026-08-18T01:08:00.000000+00:00 web01 sshd[10011]: Accepted password for jsmith from 10.0.0.15 port 63000 ssh2
+2026-08-18T01:18:00.000000+00:00 web01 sshd[10014]: Accepted password for mwong from 10.0.0.31 port 52191 ssh2
+2026-08-18T01:33:00.000000+00:00 app02 sshd[10019]: Accepted password for ktanaka from 10.0.0.51 port 50575 ssh2
+2026-08-18T01:40:00.000000+00:00 web01 sshd[10024]: Accepted password for rpatel from 10.0.0.44 port 58758 ssh2
+2026-08-18T01:55:00.000000+00:00 web01 sshd[10026]: Failed password for ktanaka from 10.0.0.51 port 51431 ssh2
+2026-08-18T01:55:05.092273+00:00 web01 sshd[10027]: Accepted password for ktanaka from 10.0.0.51 port 51431 ssh2
+2026-08-18T02:06:00.000000+00:00 app02 sshd[10034]: Accepted password for jsmith from 10.0.0.15 port 58260 ssh2
+2026-08-18T02:21:00.000000+00:00 app02 sshd[10037]: Accepted password for agupta from 10.0.0.22 port 60793 ssh2
+2026-08-18T02:47:00.000000+00:00 db01 sshd[10039]: Accepted password for dlopez from 10.0.0.63 port 51491 ssh2
+2026-08-18T03:08:00.000000+00:00 web01 sshd[10042]: Accepted password for dlopez from 10.0.0.63 port 54506 ssh2
+2026-08-18T03:32:00.000000+00:00 db01 sshd[10049]: Accepted password for dlopez from 10.0.0.63 port 56348 ssh2
+2026-08-18T03:37:00.000000+00:00 web01 sshd[10050]: Accepted password for agupta from 10.0.0.22 port 59488 ssh2
+2026-08-18T03:47:00.000000+00:00 db01 sshd[10054]: Accepted password for ktanaka from 10.0.0.51 port 59463 ssh2
+2026-08-18T04:03:00.000000+00:00 app02 sshd[10056]: Accepted password for dlopez from 10.0.0.63 port 53833 ssh2
+2026-08-18T04:24:00.000000+00:00 app02 sshd[10060]: Accepted password for ktanaka from 10.0.0.51 port 63190 ssh2
+2026-08-18T04:39:00.000000+00:00 web01 sshd[10061]: Accepted password for agupta from 10.0.0.22 port 65323 ssh2
+2026-08-18T04:46:00.000000+00:00 db01 sshd[10065]: Accepted password for agupta from 10.0.0.22 port 54394 ssh2
+2026-08-18T05:09:00.000000+00:00 app02 sshd[10069]: Accepted password for jsmith from 10.0.0.15 port 61656 ssh2
+2026-08-18T05:29:00.000000+00:00 db01 sshd[10070]: Accepted password for mwong from 10.0.0.31 port 49528 ssh2
+2026-08-18T05:54:00.000000+00:00 app02 sshd[10074]: Accepted password for ktanaka from 10.0.0.51 port 60298 ssh2
+2026-08-18T06:03:00.000000+00:00 web01 sshd[10081]: Accepted password for rpatel from 10.0.0.44 port 57782 ssh2
+2026-08-18T06:12:00.000000+00:00 web01 sshd[10086]: Accepted password for ktanaka from 10.0.0.51 port 58931 ssh2
+2026-08-18T06:35:00.000000+00:00 web01 sshd[10091]: Accepted password for agupta from 10.0.0.22 port 61404 ssh2
+2026-08-18T06:55:00.000000+00:00 db01 sshd[10092]: Accepted password for jsmith from 10.0.0.15 port 59773 ssh2
+2026-08-18T07:10:00.000000+00:00 web01 sshd[10097]: Accepted password for mwong from 10.0.0.31 port 51050 ssh2
+2026-08-18T07:16:00.000000+00:00 db01 sshd[10104]: Accepted password for jsmith from 10.0.0.15 port 65076 ssh2
+2026-08-18T07:37:00.000000+00:00 web01 sshd[10106]: Accepted password for agupta from 10.0.0.22 port 64726 ssh2
+2026-08-18T07:49:00.000000+00:00 db01 sshd[10111]: Accepted password for ktanaka from 10.0.0.51 port 63017 ssh2
+2026-08-18T08:15:00.000000+00:00 db01 sshd[10117]: Accepted password for agupta from 10.0.0.22 port 59366 ssh2
+2026-08-18T08:39:00.000000+00:00 app02 sshd[10119]: Accepted password for mwong from 10.0.0.31 port 63946 ssh2
+2026-08-18T08:45:00.000000+00:00 web01 sshd[10120]: Accepted password for mwong from 10.0.0.31 port 56692 ssh2
+2026-08-18T08:51:00.000000+00:00 db01 sshd[10121]: Accepted password for dlopez from 10.0.0.63 port 51081 ssh2
+2026-08-18T09:12:03.042468+00:00 web01 sshd[10123]: Failed password for invalid user guest from 203.0.113.77 port 65058 ssh2
+2026-08-18T09:12:06.160170+00:00 web01 sshd[10125]: Failed password for invalid user backup from 203.0.113.77 port 64640 ssh2
+2026-08-18T09:12:10.014028+00:00 web01 sshd[10127]: Failed password for invalid user support from 203.0.113.77 port 62490 ssh2
+2026-08-18T09:12:11.797005+00:00 web01 sshd[10130]: Failed password for invalid user deploy from 203.0.113.77 port 63276 ssh2
+2026-08-18T09:12:14.567741+00:00 web01 sshd[10136]: Failed password for invalid user postgres from 203.0.113.77 port 50927 ssh2
+2026-08-18T09:12:18.028107+00:00 web01 sshd[10137]: Failed password for invalid user deploy from 203.0.113.77 port 52376 ssh2
+2026-08-18T09:12:20.735971+00:00 web01 sshd[10139]: Failed password for invalid user ubuntu from 203.0.113.77 port 52732 ssh2
+2026-08-18T09:12:22.810741+00:00 web01 sshd[10141]: Failed password for invalid user user from 203.0.113.77 port 63852 ssh2
+2026-08-18T09:12:25.576386+00:00 web01 sshd[10143]: Failed password for invalid user guest from 203.0.113.77 port 64311 ssh2
+2026-08-18T09:12:29.699844+00:00 web01 sshd[10150]: Failed password for invalid user admin from 203.0.113.77 port 63672 ssh2
+2026-08-18T09:12:33.783891+00:00 web01 sshd[10151]: Failed password for invalid user user from 203.0.113.77 port 52360 ssh2
+2026-08-18T09:12:37.240326+00:00 web01 sshd[10152]: Failed password for invalid user user from 203.0.113.77 port 49635 ssh2
+2026-08-18T09:12:41.519427+00:00 web01 sshd[10156]: Failed password for invalid user test from 203.0.113.77 port 54601 ssh2
+2026-08-18T09:12:44.476350+00:00 web01 sshd[10157]: Failed password for invalid user test from 203.0.113.77 port 62293 ssh2
+2026-08-18T09:12:46.470261+00:00 web01 sshd[10160]: Failed password for invalid user root from 203.0.113.77 port 61945 ssh2
+2026-08-18T09:12:50.749815+00:00 web01 sshd[10163]: Failed password for invalid user support from 203.0.113.77 port 64061 ssh2
+2026-08-18T09:12:53.518837+00:00 web01 sshd[10165]: Failed password for invalid user backup from 203.0.113.77 port 65099 ssh2
+2026-08-18T09:12:55.588531+00:00 web01 sshd[10170]: Failed password for invalid user test from 203.0.113.77 port 51068 ssh2
+2026-08-18T09:12:59.295743+00:00 web01 sshd[10171]: Failed password for invalid user root from 203.0.113.77 port 59428 ssh2
+2026-08-18T09:13:00.946170+00:00 web01 sshd[10172]: Failed password for invalid user postgres from 203.0.113.77 port 54310 ssh2
+2026-08-18T09:13:05.328507+00:00 web01 sshd[10173]: Failed password for invalid user admin from 203.0.113.77 port 55241 ssh2
+2026-08-18T09:13:08.613612+00:00 web01 sshd[10177]: Failed password for invalid user deploy from 203.0.113.77 port 56859 ssh2
+2026-08-18T09:13:10.473272+00:00 web01 sshd[10182]: Failed password for invalid user pi from 203.0.113.77 port 57219 ssh2
+2026-08-18T09:13:13.756829+00:00 web01 sshd[10186]: Failed password for invalid user pi from 203.0.113.77 port 51838 ssh2
+2026-08-18T09:13:17.228948+00:00 web01 sshd[10189]: Failed password for invalid user pi from 203.0.113.77 port 59518 ssh2
+2026-08-18T09:13:19.341726+00:00 web01 sshd[10191]: Failed password for invalid user backup from 203.0.113.77 port 59447 ssh2
+2026-08-18T09:13:21.638570+00:00 web01 sshd[10195]: Failed password for invalid user administrator from 203.0.113.77 port 58982 ssh2
+2026-08-18T09:13:24.087102+00:00 web01 sshd[10196]: Failed password for invalid user support from 203.0.113.77 port 51529 ssh2
+2026-08-18T09:13:26.961959+00:00 web01 sshd[10197]: Failed password for invalid user pi from 203.0.113.77 port 52428 ssh2
+2026-08-18T09:13:30.074862+00:00 web01 sshd[10199]: Failed password for invalid user user from 203.0.113.77 port 57842 ssh2
+2026-08-18T09:13:34.374640+00:00 web01 sshd[10202]: Failed password for invalid user admin from 203.0.113.77 port 57156 ssh2
+2026-08-18T09:13:36.729602+00:00 web01 sshd[10207]: Failed password for invalid user postgres from 203.0.113.77 port 59064 ssh2
+2026-08-18T09:13:41.181162+00:00 web01 sshd[10213]: Failed password for invalid user support from 203.0.113.77 port 49408 ssh2
+2026-08-18T09:13:45.132474+00:00 web01 sshd[10215]: Failed password for invalid user guest from 203.0.113.77 port 52546 ssh2
+2026-08-18T09:13:47.425872+00:00 web01 sshd[10218]: Failed password for invalid user admin from 203.0.113.77 port 54245 ssh2
+2026-08-18T09:13:49.771141+00:00 web01 sshd[10220]: Failed password for invalid user test from 203.0.113.77 port 60387 ssh2
+2026-08-18T09:13:53.333632+00:00 web01 sshd[10223]: Failed password for invalid user guest from 203.0.113.77 port 65160 ssh2
+2026-08-18T09:13:57.549641+00:00 web01 sshd[10229]: Failed password for invalid user root from 203.0.113.77 port 52176 ssh2
+2026-08-18T09:14:00.320368+00:00 web01 sshd[10230]: Failed password for invalid user guest from 203.0.113.77 port 50596 ssh2
+2026-08-18T09:14:02.821038+00:00 web01 sshd[10232]: Failed password for invalid user administrator from 203.0.113.77 port 57735 ssh2
+2026-08-18T09:14:06.544731+00:00 web01 sshd[10237]: Failed password for invalid user user from 203.0.113.77 port 63166 ssh2
+2026-08-18T09:14:08.073740+00:00 web01 sshd[10242]: Failed password for invalid user admin from 203.0.113.77 port 54036 ssh2
+2026-08-18T09:14:09.681824+00:00 web01 sshd[10246]: Failed password for invalid user ubuntu from 203.0.113.77 port 54004 ssh2
+2026-08-18T09:14:11.564161+00:00 web01 sshd[10253]: Failed password for invalid user guest from 203.0.113.77 port 61100 ssh2
+2026-08-18T09:14:15.980750+00:00 web01 sshd[10255]: Failed password for invalid user root from 203.0.113.77 port 60876 ssh2
+2026-08-18T09:14:19.526950+00:00 web01 sshd[10258]: Failed password for invalid user deploy from 203.0.113.77 port 52520 ssh2
+2026-08-18T09:14:23.367299+00:00 web01 sshd[10260]: Failed password for invalid user oracle from 203.0.113.77 port 54216 ssh2
+2026-08-18T09:14:27.461116+00:00 web01 sshd[10264]: Failed password for invalid user support from 203.0.113.77 port 54953 ssh2
+2026-08-18T09:14:29.035475+00:00 web01 sshd[10271]: Failed password for invalid user backup from 203.0.113.77 port 60037 ssh2
+2026-08-18T09:14:33.327923+00:00 web01 sshd[10274]: Failed password for invalid user support from 203.0.113.77 port 57283 ssh2
+2026-08-18T09:14:35.305517+00:00 web01 sshd[10278]: Failed password for invalid user backup from 203.0.113.77 port 52694 ssh2
+2026-08-18T09:14:39.422017+00:00 web01 sshd[10280]: Failed password for invalid user postgres from 203.0.113.77 port 56440 ssh2
+2026-08-18T09:14:43.371777+00:00 web01 sshd[10283]: Failed password for invalid user postgres from 203.0.113.77 port 60609 ssh2
+2026-08-18T09:14:47.333386+00:00 web01 sshd[10284]: Failed password for invalid user test from 203.0.113.77 port 56456 ssh2
+2026-08-18T09:14:50.813486+00:00 web01 sshd[10287]: Failed password for invalid user oracle from 203.0.113.77 port 59908 ssh2
+2026-08-18T09:56:51.320898+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=50278 DPT=25 WINDOW=1024 SYN
+2026-08-18T09:56:51.882734+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=56758 DPT=445 WINDOW=1024 SYN
+2026-08-18T09:56:52.252121+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=58893 DPT=6379 WINDOW=1024 SYN
+2026-08-18T09:56:52.666168+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=41454 DPT=110 WINDOW=1024 SYN
+2026-08-18T09:56:53.391439+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=40055 DPT=3389 WINDOW=1024 SYN
+2026-08-18T09:56:54.003391+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=57643 DPT=143 WINDOW=1024 SYN
+2026-08-18T09:56:54.715505+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=46456 DPT=5432 WINDOW=1024 SYN
+2026-08-18T09:56:55.234038+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=42292 DPT=8443 WINDOW=1024 SYN
+2026-08-18T09:56:56.103363+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=50819 DPT=53 WINDOW=1024 SYN
+2026-08-18T09:56:56.777256+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=44083 DPT=22 WINDOW=1024 SYN
+2026-08-18T09:56:57.509109+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=49840 DPT=21 WINDOW=1024 SYN
+2026-08-18T09:56:58.113383+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=53382 DPT=80 WINDOW=1024 SYN
+2026-08-18T09:56:58.609093+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=49688 DPT=8080 WINDOW=1024 SYN
+2026-08-18T09:56:59.241740+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=46286 DPT=3306 WINDOW=1024 SYN
+2026-08-18T09:56:59.794008+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=52423 DPT=1433 WINDOW=1024 SYN
+2026-08-18T09:57:00.500399+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=45702 DPT=2049 WINDOW=1024 SYN
+2026-08-18T09:57:01.169708+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=49861 DPT=5900 WINDOW=1024 SYN
+2026-08-18T09:57:01.713353+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=40013 DPT=1521 WINDOW=1024 SYN
+2026-08-18T09:57:02.195678+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=46887 DPT=443 WINDOW=1024 SYN
+2026-08-18T09:57:02.753611+00:00 db01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=198.51.100.23 DST=10.0.0.5 LEN=60 TTL=44 PROTO=TCP SPT=59004 DPT=23 WINDOW=1024 SYN
+2026-08-18T11:19:02.753611+00:00 app02 sshd[10289]: Accepted password for mwong from 10.0.0.31 port 63628 ssh2
+2026-08-18T11:39:02.753611+00:00 db01 sshd[10292]: Accepted password for rpatel from 10.0.0.44 port 54712 ssh2
+2026-08-18T11:59:02.753611+00:00 db01 sshd[10299]: Accepted password for dlopez from 10.0.0.63 port 60135 ssh2
+2026-08-18T12:10:02.753611+00:00 app02 sshd[10301]: Accepted password for dlopez from 10.0.0.63 port 56513 ssh2
+2026-08-18T12:14:02.753611+00:00 web01 sshd[10308]: Accepted password for jsmith from 10.0.0.15 port 64721 ssh2
+2026-08-18T12:20:02.753611+00:00 app02 sshd[10312]: Accepted password for rpatel from 10.0.0.44 port 55523 ssh2
+2026-08-18T12:39:02.753611+00:00 web01 sshd[10313]: Accepted password for rpatel from 10.0.0.44 port 53987 ssh2
+2026-08-18T12:46:02.753611+00:00 web01 sshd[10319]: Accepted password for rpatel from 10.0.0.44 port 54915 ssh2
+2026-08-18T13:06:02.753611+00:00 web01 sshd[10320]: Accepted password for rpatel from 10.0.0.44 port 57317 ssh2
+2026-08-18T13:24:02.753611+00:00 app02 sshd[10324]: Accepted password for agupta from 10.0.0.22 port 59549 ssh2
+2026-08-18T13:47:02.753611+00:00 db01 sshd[10329]: Accepted password for dlopez from 10.0.0.63 port 63135 ssh2
+2026-08-18T14:05:02.753611+00:00 db01 sshd[10336]: Accepted password for agupta from 10.0.0.22 port 64706 ssh2
+2026-08-18T14:16:02.753611+00:00 app02 sshd[10339]: Accepted password for dlopez from 10.0.0.63 port 65031 ssh2
+2026-08-18T14:34:02.753611+00:00 db01 sshd[10342]: Accepted password for jsmith from 10.0.0.15 port 58514 ssh2
+2026-08-18T14:48:02.753611+00:00 web01 sshd[10346]: Accepted password for ktanaka from 10.0.0.51 port 53686 ssh2
+2026-08-18T15:14:02.753611+00:00 db01 sshd[10350]: Accepted password for agupta from 10.0.0.22 port 56162 ssh2
+2026-08-18T15:28:02.753611+00:00 app02 sshd[10357]: Accepted password for ktanaka from 10.0.0.51 port 62776 ssh2
+2026-08-18T15:45:02.753611+00:00 db01 sshd[10364]: Accepted password for rpatel from 10.0.0.44 port 49792 ssh2
+2026-08-18T16:07:02.753611+00:00 app02 sshd[10367]: Accepted password for rpatel from 10.0.0.44 port 49345 ssh2
+2026-08-18T16:23:02.753611+00:00 db01 sshd[10370]: Accepted password for rpatel from 10.0.0.44 port 56378 ssh2
+2026-08-18T16:40:02.753611+00:00 web01 sshd[10376]: Accepted password for rpatel from 10.0.0.44 port 61894 ssh2
+2026-08-18T16:56:02.753611+00:00 web01 sshd[10381]: Accepted password for dlopez from 10.0.0.63 port 64467 ssh2
+2026-08-18T17:17:02.753611+00:00 app02 sshd[10385]: Accepted password for jsmith from 10.0.0.15 port 50040 ssh2
+2026-08-18T17:25:02.753611+00:00 web01 sshd[10388]: Accepted password for rpatel from 10.0.0.44 port 50799 ssh2
+2026-08-18T17:35:02.753611+00:00 app02 sshd[10392]: Accepted password for rpatel from 10.0.0.44 port 60211 ssh2
+2026-08-18T17:47:02.753611+00:00 app02 sshd[10398]: Accepted password for rpatel from 10.0.0.44 port 51835 ssh2
+2026-08-18T18:08:02.753611+00:00 app02 sshd[10405]: Accepted password for jsmith from 10.0.0.15 port 56499 ssh2
+2026-08-18T18:32:02.753611+00:00 web01 sshd[10406]: Accepted password for jsmith from 10.0.0.15 port 57254 ssh2
+2026-08-18T18:55:02.753611+00:00 web01 sshd[10407]: Accepted password for agupta from 10.0.0.22 port 53288 ssh2
+2026-08-18T19:17:02.753611+00:00 app02 sshd[10409]: Accepted password for agupta from 10.0.0.22 port 57548 ssh2
+2026-08-18T19:40:02.753611+00:00 db01 sshd[10411]: Accepted password for ktanaka from 10.0.0.51 port 52905 ssh2
+2026-08-18T19:53:02.753611+00:00 db01 sshd[10416]: Accepted password for jsmith from 10.0.0.15 port 49993 ssh2
+2026-08-18T20:18:02.753611+00:00 app02 sshd[10422]: Accepted password for rpatel from 10.0.0.44 port 55650 ssh2
+2026-08-18T20:42:02.753611+00:00 web01 sshd[10427]: Accepted password for agupta from 10.0.0.22 port 59034 ssh2
+2026-08-18T20:49:02.753611+00:00 web01 sshd[10433]: Accepted password for ktanaka from 10.0.0.51 port 60529 ssh2
+2026-08-18T21:04:02.753611+00:00 db01 sshd[10437]: Failed password for jsmith from 10.0.0.15 port 60333 ssh2
+2026-08-18T21:04:08.042935+00:00 db01 sshd[10438]: Accepted password for jsmith from 10.0.0.15 port 60333 ssh2
+2026-08-18T21:21:02.753611+00:00 db01 sshd[10442]: Accepted password for mwong from 10.0.0.31 port 64216 ssh2
+2026-08-18T21:30:02.753611+00:00 db01 sshd[10447]: Accepted password for dlopez from 10.0.0.63 port 58002 ssh2
+2026-08-18T21:49:02.753611+00:00 app02 sshd[10449]: Accepted password for rpatel from 10.0.0.44 port 57946 ssh2
+2026-08-18T21:55:02.753611+00:00 app02 sshd[10454]: Accepted password for mwong from 10.0.0.31 port 57142 ssh2
+2026-08-18T22:18:02.753611+00:00 app02 sshd[10461]: Failed password for dlopez from 10.0.0.63 port 60175 ssh2
+2026-08-18T22:18:06.053668+00:00 app02 sshd[10465]: Accepted password for dlopez from 10.0.0.63 port 60175 ssh2
+2026-08-18T22:28:02.753611+00:00 app02 sshd[10470]: Accepted password for mwong from 10.0.0.31 port 60304 ssh2
+2026-08-18T22:54:02.753611+00:00 db01 sshd[10472]: Accepted password for mwong from 10.0.0.31 port 49484 ssh2
+2026-08-18T23:00:02.753611+00:00 db01 sshd[10479]: Accepted password for agupta from 10.0.0.22 port 62469 ssh2
+2026-08-18T23:11:02.753611+00:00 app02 sshd[10480]: Accepted password for dlopez from 10.0.0.63 port 65235 ssh2
+2026-08-18T23:17:02.753611+00:00 web01 sshd[10483]: Accepted password for mwong from 10.0.0.31 port 62403 ssh2
+2026-08-18T23:42:02.753611+00:00 app02 sshd[10486]: Accepted password for ktanaka from 10.0.0.51 port 64659 ssh2
+2026-08-18T23:59:02.753611+00:00 db01 sshd[10490]: Accepted password for dlopez from 10.0.0.63 port 59991 ssh2
+2026-08-19T00:11:02.753611+00:00 app02 sshd[10492]: Accepted password for mwong from 10.0.0.31 port 56706 ssh2
+2026-08-19T00:25:02.753611+00:00 db01 sshd[10498]: Accepted password for jsmith from 10.0.0.15 port 55218 ssh2
+2026-08-19T00:44:02.753611+00:00 db01 sshd[10505]: Accepted password for mwong from 10.0.0.31 port 58425 ssh2
+2026-08-19T00:54:02.753611+00:00 web01 sshd[10506]: Accepted password for mwong from 10.0.0.31 port 60977 ssh2
+2026-08-19T01:20:02.753611+00:00 web01 sshd[10507]: Failed password for ktanaka from 10.0.0.51 port 58140 ssh2
+2026-08-19T01:20:06.967047+00:00 web01 sshd[10513]: Accepted password for ktanaka from 10.0.0.51 port 58140 ssh2
+2026-08-19T01:28:02.753611+00:00 app02 sshd[10518]: Accepted password for dlopez from 10.0.0.63 port 52513 ssh2
+2026-08-19T01:41:02.753611+00:00 app02 sshd[10519]: Accepted password for rpatel from 10.0.0.44 port 63585 ssh2
+2026-08-19T01:53:02.753611+00:00 web01 sshd[10520]: Accepted password for rpatel from 10.0.0.44 port 51293 ssh2

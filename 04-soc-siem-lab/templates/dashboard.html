@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SOC/SIEM Lab Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  :root { color-scheme: dark; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background:#0b0f14; color:#d7e0ea; margin:0; padding:24px 32px; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  .sub { color:#7c8b9c; margin-bottom: 24px; font-size:.9rem; }
+  .cards { display:flex; gap:16px; margin-bottom:28px; flex-wrap:wrap; }
+  .card { background:#141b23; border:1px solid #223040; border-radius:10px; padding:16px 20px; min-width:150px; }
+  .card .n { font-size:1.8rem; font-weight:700; }
+  .card .l { color:#7c8b9c; font-size:.8rem; text-transform:uppercase; letter-spacing:.04em; }
+  .card.high .n { color:#ff6161; }
+  .card.medium .n { color:#ffb454; }
+  h2 { font-size:1.05rem; margin-top:32px; border-bottom:1px solid #223040; padding-bottom:8px; }
+  table { width:100%; border-collapse: collapse; font-size:.85rem; margin-top:10px; }
+  th, td { text-align:left; padding:6px 10px; border-bottom:1px solid #1c2733; }
+  th { color:#7c8b9c; font-weight:600; text-transform:uppercase; font-size:.72rem; letter-spacing:.03em; }
+  tr.high td.sev { color:#ff6161; font-weight:600; }
+  tr.medium td.sev { color:#ffb454; font-weight:600; }
+  tr.auth_failed td.et { color:#ff8a8a; }
+  tr.auth_success td.et { color:#7dd88a; }
+  tr.conn_block td.et { color:#ffb454; }
+  code { background:#1c2733; padding:1px 6px; border-radius:4px; }
+  .chart-wrap { background:#141b23; border:1px solid #223040; border-radius:10px; padding:16px; max-width:900px; }
+  .muted { color:#576372; font-size:.8rem; }
+</style>
+</head>
+<body>
+  <h1>SOC / SIEM Lab &mdash; Home Detection Pipeline</h1>
+  <div class="sub">Events: <code>{{ event_counts_total }}</code> parsed &middot; Alerts: <code>{{ alerts|length }}</code> &middot; DB: <code>{{ db_path }}</code></div>
+
+  <div class="cards">
+    <div class="card"><div class="n">{{ event_counts.get('auth_success', 0) }}</div><div class="l">Successful Logins</div></div>
+    <div class="card"><div class="n">{{ event_counts.get('auth_failed', 0) }}</div><div class="l">Failed Logins</div></div>
+    <div class="card"><div class="n">{{ event_counts.get('conn_block', 0) }}</div><div class="l">Firewall Blocks</div></div>
+    <div class="card high"><div class="n">{{ alerts|selectattr('severity','equalto','high')|list|length }}</div><div class="l">High Severity Alerts</div></div>
+    <div class="card medium"><div class="n">{{ alerts|selectattr('severity','equalto','medium')|list|length }}</div><div class="l">Medium Severity Alerts</div></div>
+  </div>
+
+  <h2>Alerts</h2>
+  <table>
+    <tr><th>Alert ID</th><th>Rule</th><th>Sev</th><th>Source IP</th><th>Window</th><th>Count</th><th>Detail</th></tr>
+    {% for a in alerts %}
+    <tr class="{{ a.severity }}">
+      <td><code>{{ a.alert_id }}</code></td>
+      <td>{{ a.rule }}</td>
+      <td class="sev">{{ a.severity }}</td>
+      <td>{{ a.src_ip }}</td>
+      <td>{{ a.window_start }} &rarr; {{ a.window_end }}</td>
+      <td>{{ a.event_count }}</td>
+      <td class="muted">{{ a.detail }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Failed Logins Over Time (per hour)</h2>
+  <div class="chart-wrap">
+    <canvas id="timeline" height="90"></canvas>
+  </div>
+
+  <h2>Recent Events (most recent 100)</h2>
+  <table>
+    <tr><th>Timestamp</th><th>Host</th><th>Type</th><th>Src IP</th><th>User</th><th>Dst Port</th></tr>
+    {% for e in events %}
+    <tr class="{{ e.event_type }}">
+      <td>{{ e.timestamp }}</td>
+      <td>{{ e.host }}</td>
+      <td class="et">{{ e.event_type }}</td>
+      <td>{{ e.src_ip or '' }}</td>
+      <td>{{ e.username or '' }}</td>
+      <td>{{ e.dst_port or '' }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+<script>
+fetch('/api/timeline').then(r => r.json()).then(data => {
+  new Chart(document.getElementById('timeline'), {
+    type: 'bar',
+    data: {
+      labels: data.labels,
+      datasets: [{ label: 'Failed logins', data: data.counts, backgroundColor: '#ff6161' }]
+    },
+    options: { scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }, plugins: { legend: { display: false } } }
+  });
+});
+</script>
+</body>
+</html>

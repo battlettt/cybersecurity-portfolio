@@ -1,0 +1,71 @@
+{
+  "stage1a_brute_force": {
+    "start": "2026-08-18T07:39:02.000000+00:00",
+    "end": "2026-08-18T07:40:15.372395+00:00",
+    "attempts": 22,
+    "src_ip": "203.0.113.50",
+    "target_host": "web01",
+    "usernames_tried": [
+      "oracle",
+      "ubuntu",
+      "postgres",
+      "user",
+      "admin",
+      "support",
+      "guest",
+      "rpatel",
+      "deploy",
+      "guest",
+      "admin",
+      "root",
+      "test",
+      "deploy",
+      "rpatel",
+      "ubuntu",
+      "support",
+      "backup",
+      "test",
+      "admin",
+      "oracle",
+      "rpatel"
+    ]
+  },
+  "stage1b_successful_login": {
+    "timestamp": "2026-08-18T07:40:33.590395+00:00",
+    "src_ip": "203.0.113.50",
+    "host": "web01",
+    "username": "rpatel"
+  },
+  "stage2_lateral_movement": {
+    "pivot_from_host": "web01",
+    "pivot_from_ip": "10.0.0.10",
+    "username": "rpatel",
+    "events": [
+      {
+        "timestamp": "2026-08-18T07:45:32.285361+00:00",
+        "src_ip": "10.0.0.10",
+        "host": "app02",
+        "username": "rpatel"
+      },
+      {
+        "timestamp": "2026-08-18T07:47:48.517543+00:00",
+        "src_ip": "10.0.0.10",
+        "host": "db01",
+        "username": "rpatel"
+      }
+    ]
+  },
+  "stage3_exfiltration": {
+    "timestamp": "2026-08-18T07:52:10.424165+00:00",
+    "src_host": "db01",
+    "src_ip": "10.0.0.12",
+    "dst_ip": "203.0.113.50",
+    "bytes": 812345120,
+    "duration_s": 46,
+    "dst_port": 443
+  },
+  "chain_start": "2026-08-18T07:39:02.000000+00:00",
+  "chain_end": "2026-08-18T07:52:10.424165+00:00",
+  "total_duration_minutes": 13.1,
+  "total_lines": 99
+}

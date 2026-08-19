@@ -1,0 +1,11 @@
+title: CTF & Lab Write-Ups
+description: >
+  Methodology write-ups from TryHackMe, HackTheBox, and OverTheWire rooms —
+  documenting how I found the flag, not just that I found it.
+theme: minima
+minima:
+  skin: dark
+show_excerpts: true
+markdown: kramdown
+plugins:
+  - jekyll-feed
