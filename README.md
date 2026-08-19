@@ -11,6 +11,10 @@ and verified — not written and assumed to work.** Where a claim is simulated r
 captured from a live environment (e.g., network traffic, since raw packet capture needs
 root), that's stated explicitly in the relevant README rather than glossed over.
 
+**[Read the in-depth technical walkthrough →](docs/deep-dive.html)** — how each project's
+mechanism actually works, the real captured evidence, and the specific judgment calls worth
+being able to defend in an interview, for all 8 projects on one page.
+
 ## Projects
 
 | # | Project | What it demonstrates | Link |

@@ -1,0 +1,769 @@
+<meta charset="utf-8">
+<title>Portfolio Case Files</title>
+<style>
+  :root {
+    --bg: #F6F8F8;
+    --surface: #FFFFFF;
+    --surface-alt: #EAF0F0;
+    --border: #D7E0E0;
+    --ink: #12181A;
+    --ink-muted: #516266;
+    --ink-faint: #7C8B8E;
+    --accent: #1F6F78;
+    --accent-strong: #124249;
+    --accent-soft: #DFEBEA;
+    --accent-soft-border: #C4D9D8;
+    --code-bg: #101A1C;
+    --code-ink: #D9EDEA;
+    --code-muted: #7FA8A2;
+    --code-accent: #6FCF9E;
+    --code-border: #24393C;
+    --sev-critical: #B3261E;
+    --sev-high: #B4590C;
+    --sev-medium: #92720A;
+    --sev-low: #2F7D4F;
+    --focus: #1F6F78;
+    --shadow: 0 1px 2px rgba(18,24,26,0.06), 0 8px 24px rgba(18,24,26,0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1315;
+      --surface: #131C1F;
+      --surface-alt: #182325;
+      --border: #263335;
+      --ink: #E8EFEE;
+      --ink-muted: #9FB2B0;
+      --ink-faint: #6F8280;
+      --accent: #5FBFB6;
+      --accent-strong: #8FDCD3;
+      --accent-soft: #17282A;
+      --accent-soft-border: #274142;
+      --code-bg: #0A1213;
+      --code-ink: #D9EDEA;
+      --code-muted: #6F958F;
+      --code-accent: #7FDCA8;
+      --code-border: #1E2E30;
+      --sev-critical: #E0625B;
+      --sev-high: #E0995B;
+      --sev-medium: #D6B94E;
+      --sev-low: #5FC28A;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0D1315;
+    --surface: #131C1F;
+    --surface-alt: #182325;
+    --border: #263335;
+    --ink: #E8EFEE;
+    --ink-muted: #9FB2B0;
+    --ink-faint: #6F8280;
+    --accent: #5FBFB6;
+    --accent-strong: #8FDCD3;
+    --accent-soft: #17282A;
+    --accent-soft-border: #274142;
+    --code-bg: #0A1213;
+    --code-ink: #D9EDEA;
+    --code-muted: #6F958F;
+    --code-accent: #7FDCA8;
+    --code-border: #1E2E30;
+    --sev-critical: #E0625B;
+    --sev-high: #E0995B;
+    --sev-medium: #D6B94E;
+    --sev-low: #5FC28A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); text-decoration-color: var(--accent-soft-border); text-underline-offset: 2px; }
+  a:hover { text-decoration-color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+
+  code, .mono { font-family: ui-monospace, "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace; }
+
+  h1, h2, h3, h4 { text-wrap: balance; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 0;
+    max-width: 1180px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  /* ---------------- Sidebar ---------------- */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 20px 40px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .brand { display: flex; flex-direction: column; gap: 4px; }
+  .brand .kicker {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .brand .name { font-size: 17px; font-weight: 700; }
+
+  .navlist { display: flex; flex-direction: column; gap: 2px; list-style: none; margin: 0; padding: 0; }
+  .navlist a {
+    display: flex; align-items: center; gap: 9px;
+    padding: 7px 10px; border-radius: 7px;
+    color: var(--ink-muted); text-decoration: none; font-size: 13.5px;
+    border: 1px solid transparent;
+  }
+  .navlist a:hover { background: var(--surface-alt); color: var(--ink); }
+  .navlist a.active { background: var(--accent-soft); border-color: var(--accent-soft-border); color: var(--accent-strong); font-weight: 600; }
+  .navlist .num { font-variant-numeric: tabular-nums; font-size: 11px; color: var(--ink-faint); width: 16px; flex-shrink: 0; }
+  .navlist a.active .num { color: var(--accent); }
+  .navdot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-left: auto; }
+  .navdot.verified { background: var(--sev-low); }
+  .navdot.mixed { background: var(--sev-medium); }
+
+  .sidebar-legend {
+    font-size: 12px; color: var(--ink-faint); border-top: 1px solid var(--border);
+    padding-top: 16px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .sidebar-legend .row { display: flex; align-items: center; gap: 7px; }
+
+  /* ---------------- Main content ---------------- */
+  .main { padding: 56px 48px 120px; min-width: 0; }
+  .intro { max-width: 680px; margin-bottom: 56px; }
+  .intro .kicker {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px; display: block;
+  }
+  .intro h1 { font-size: clamp(28px, 4vw, 38px); line-height: 1.15; margin-bottom: 18px; }
+  .intro p { color: var(--ink-muted); font-size: 16px; max-width: 62ch; margin: 0 0 14px; }
+  .intro p:last-child { margin-bottom: 0; }
+
+  .legend-strip {
+    display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 28px; padding: 16px 18px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow);
+  }
+  .legend-strip .item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-muted); }
+
+  /* index table */
+  .index-table { width: 100%; border-collapse: collapse; margin: 40px 0 64px; font-size: 14px; }
+  .index-table th {
+    text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--ink-faint); font-weight: 700; padding: 0 14px 10px; border-bottom: 1px solid var(--border);
+  }
+  .index-table td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .index-table tr:last-child td { border-bottom: none; }
+  .index-table tr:hover td { background: var(--surface-alt); }
+  .index-table .pnum { font-variant-numeric: tabular-nums; color: var(--ink-faint); }
+  .index-table .pname { font-weight: 600; }
+  .index-table .plane { color: var(--ink-muted); font-size: 13px; }
+  .index-table a { text-decoration: none; color: var(--ink); }
+  .index-table a:hover .pname { color: var(--accent); }
+
+  /* ---------------- Project sections ---------------- */
+  .project {
+    max-width: 720px;
+    padding-top: 64px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    scroll-margin-top: 24px;
+  }
+  .project:first-of-type { border-top: none; }
+
+  .eyebrow-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .eyebrow {
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+  }
+  .eyebrow-num { font-variant-numeric: tabular-nums; color: var(--ink-faint); font-size: 12px; }
+
+  .project h2 { font-size: 27px; margin-bottom: 12px; }
+
+  .chiprow { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  .chip {
+    font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border);
+    color: var(--ink-muted); background: var(--surface); display: inline-flex; align-items: center; gap: 5px;
+  }
+  .chip.status { border-color: var(--accent-soft-border); background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
+  .chip.status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sev-low); }
+  .chip.status.mixed .dot { background: var(--sev-medium); }
+
+  blockquote.resume {
+    margin: 0 0 30px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); border-radius: 4px; font-size: 14.5px; color: var(--ink-muted);
+    line-height: 1.65;
+  }
+  blockquote.resume .label { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+  blockquote.resume p { margin: 0; color: var(--ink); }
+
+  .project h3 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-faint);
+    margin: 34px 0 14px; font-weight: 700;
+  }
+  .project h3:first-of-type { margin-top: 0; }
+  .project p { color: var(--ink); margin: 0 0 14px; max-width: 66ch; }
+  .project p.muted { color: var(--ink-muted); }
+  .project ul, .project ol { margin: 0 0 16px; padding-left: 22px; color: var(--ink); }
+  .project li { margin-bottom: 7px; max-width: 64ch; }
+  .project li::marker { color: var(--ink-faint); }
+  .project strong { font-weight: 650; }
+
+  .code-block {
+    background: var(--surface-alt); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; margin: 0 0 18px; overflow-x: auto; font-size: 13px; line-height: 1.6;
+  }
+  .code-block pre { margin: 0; font-family: inherit; white-space: pre; }
+  .code-block .c-good { color: var(--sev-low); }
+  .code-block .c-bad { color: var(--sev-critical); }
+  .code-block .c-dim { color: var(--ink-faint); }
+
+  .term {
+    background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--code-border);
+    border-radius: 8px; margin: 0 0 20px; overflow: hidden;
+  }
+  .term .term-tab {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--code-muted);
+    padding: 9px 14px; border-bottom: 1px solid var(--code-border); background: rgba(255,255,255,0.02);
+  }
+  .term pre {
+    margin: 0; padding: 14px 16px; overflow-x: auto; font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 12.5px; line-height: 1.65; white-space: pre;
+  }
+  .term .t-ok { color: var(--code-accent); }
+  .term .t-dim { color: var(--code-muted); }
+  .term .t-bad { color: #E4837D; }
+  .term .t-warn { color: #E0C15B; }
+
+  .callout {
+    background: var(--accent-soft); border: 1px solid var(--accent-soft-border); border-radius: 10px;
+    padding: 18px 20px; margin: 8px 0 22px;
+  }
+  .callout .callout-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-strong);
+    margin-bottom: 8px; display: block;
+  }
+  .callout p { margin: 0 0 10px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout ul { margin-bottom: 0; }
+
+  .callout.limits {
+    background: var(--surface); border-color: var(--border);
+  }
+  .callout.limits .callout-label { color: var(--ink-faint); }
+
+  table.metrics { width: 100%; border-collapse: collapse; margin: 0 0 20px; font-size: 13.5px; }
+  table.metrics th { text-align: left; font-weight: 700; color: var(--ink-faint); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.06em; padding: 0 12px 8px 0; border-bottom: 1px solid var(--border); }
+  table.metrics td { padding: 9px 12px 9px 0; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+  table.metrics tr:last-child td { border-bottom: none; }
+
+  .sevpill { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11.5px; font-weight: 700; }
+  .sevpill.critical { background: rgba(179,38,30,0.13); color: var(--sev-critical); }
+  .sevpill.high { background: rgba(180,89,12,0.13); color: var(--sev-high); }
+  .sevpill.medium { background: rgba(146,114,10,0.13); color: var(--sev-medium); }
+  .sevpill.low { background: rgba(47,125,79,0.13); color: var(--sev-low); }
+
+  .footer-note {
+    max-width: 720px; margin: 80px 0 0; padding-top: 28px; border-top: 1px solid var(--border);
+    color: var(--ink-faint); font-size: 13px;
+  }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    .main { padding: 40px 22px 100px; }
+  }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Project navigation">
+    <div class="brand">
+      <span class="kicker">Case Files</span>
+      <span class="name">Cybersecurity Portfolio</span>
+    </div>
+    <ul class="navlist" id="navlist">
+      <li><a href="#overview" data-target="overview"><span class="num">·</span>Overview</a></li>
+      <li><a href="#p1" data-target="p1"><span class="num">01</span>Vulnerable-to-Secure Web App<span class="navdot verified"></span></a></li>
+      <li><a href="#p2" data-target="p2"><span class="num">02</span>SQL Injection Deep Dive<span class="navdot verified"></span></a></li>
+      <li><a href="#p3" data-target="p3"><span class="num">03</span>Network Anomaly Detector<span class="navdot verified"></span></a></li>
+      <li><a href="#p4" data-target="p4"><span class="num">04</span>Home SOC / SIEM Lab<span class="navdot mixed"></span></a></li>
+      <li><a href="#p5" data-target="p5"><span class="num">05</span>Security Automation Scripts<span class="navdot verified"></span></a></li>
+      <li><a href="#p6" data-target="p6"><span class="num">06</span>GRC Risk Assessment<span class="navdot verified"></span></a></li>
+      <li><a href="#p7" data-target="p7"><span class="num">07</span>CTF Write-Up Blog<span class="navdot mixed"></span></a></li>
+      <li><a href="#p8" data-target="p8"><span class="num">08</span>Capstone: Detection &amp; Response<span class="navdot mixed"></span></a></li>
+    </ul>
+    <div class="sidebar-legend">
+      <div class="row"><span class="navdot verified"></span> Fully executed, real output</div>
+      <div class="row"><span class="navdot mixed"></span> Partly simulated / documentation-only track</div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section class="intro" id="overview">
+      <span class="kicker">Technical Deep Dive</span>
+      <h1>What each project actually does, and why it works</h1>
+      <p>Eight projects, one rule: every exploit, detection, and statistical claim below was <strong>actually run</strong>, and the numbers you'll see are the real output, not a plausible guess at what the output should look like. This page exists so you can talk through the mechanics of any of these in an interview without having to re-derive them from the code on the spot.</p>
+      <p>Each entry covers what the project is, the mechanism that makes it work, the real evidence it produced, and the specific judgment calls worth being able to defend if someone pushes on them.</p>
+      <div class="legend-strip">
+        <span class="item"><span class="navdot verified"></span> Verified — executed in full, output captured</span>
+        <span class="item"><span class="navdot mixed"></span> Mixed — a verified core plus a simulated or documentation-only piece, explicitly labeled</span>
+      </div>
+    </section>
+
+    <table class="index-table" aria-label="Project index">
+      <thead><tr><th>Project</th><th>Lane</th><th>Core mechanism</th></tr></thead>
+      <tbody>
+        <tr><td class="pnum">01</td><td><a href="#p1"><span class="pname">Vulnerable-to-Secure Web App</span></a></td><td class="plane">AppSec</td></tr>
+        <tr><td></td><td colspan="2" class="plane">4 OWASP Top 10 vulns exploited live, then fixed — parameterized queries, bcrypt+JWT, sanitization, ownership checks</td></tr>
+        <tr><td class="pnum">02</td><td><a href="#p2"><span class="pname">SQL Injection Deep Dive</span></a></td><td class="plane">AppSec</td></tr>
+        <tr><td></td><td colspan="2" class="plane">Classic, UNION-based, and blind SQLi against live MySQL — all three fail identically post-fix</td></tr>
+        <tr><td class="pnum">03</td><td><a href="#p3"><span class="pname">Network Anomaly Detector</span></a></td><td class="plane">Data / Detection</td></tr>
+        <tr><td></td><td colspan="2" class="plane">Poisson/Normal baseline fitting + z-test hypothesis testing — 100% recall, 2.8% FPR, held out</td></tr>
+        <tr><td class="pnum">04</td><td><a href="#p4"><span class="pname">Home SOC / SIEM Lab</span></a></td><td class="plane">Blue Team</td></tr>
+        <tr><td></td><td colspan="2" class="plane">Log ingestion → sliding-window detection rules → live dashboard → incident report</td></tr>
+        <tr><td class="pnum">05</td><td><a href="#p5"><span class="pname">Security Automation Scripts</span></a></td><td class="plane">Tooling</td></tr>
+        <tr><td></td><td colspan="2" class="plane">Brute-force log detector + password/crack-time auditor, both unit tested</td></tr>
+        <tr><td class="pnum">06</td><td><a href="#p6"><span class="pname">GRC Risk Assessment</span></a></td><td class="plane">GRC</td></tr>
+        <tr><td></td><td colspan="2" class="plane">12-asset inventory, inherent-vs-residual risk register, NIST CSF policy mapping</td></tr>
+        <tr><td class="pnum">07</td><td><a href="#p7"><span class="pname">CTF Write-Up Blog</span></a></td><td class="plane">Documentation</td></tr>
+        <tr><td></td><td colspan="2" class="plane">Jekyll/GitHub Pages scaffold, honestly labeled as a template pending real write-ups</td></tr>
+        <tr><td class="pnum">08</td><td><a href="#p8"><span class="pname">Capstone: Detection &amp; Response</span></a></td><td class="plane">Blue Team</td></tr>
+        <tr><td></td><td colspan="2" class="plane">3-stage attack chain, MITRE ATT&amp;CK mapped, identity-correlated detection, full IR report</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ========================= PROJECT 1 ========================= -->
+    <article class="project" id="p1">
+      <div class="eyebrow-row"><span class="eyebrow-num">01</span><span class="eyebrow">AppSec · Flagship</span></div>
+      <h2>Vulnerable-to-Secure Web App</h2>
+      <div class="chiprow">
+        <span class="chip status"><span class="dot"></span>Fully verified</span>
+        <span class="chip">React (Vite)</span>
+        <span class="chip">Express</span>
+        <span class="chip">MySQL 5.7</span>
+        <span class="chip">bcrypt + JWT</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line</span>
+        <p>Built and exploited a full-stack React/Node/MySQL application demonstrating 4 OWASP Top 10 vulnerabilities, then remediated each with parameterized queries, output sanitization, bcrypt password hashing, and JWT-based authorization — documenting the full attack-and-fix lifecycle with live exploit scripts and screenshots.</p>
+      </blockquote>
+
+      <h3>What it is</h3>
+      <p>A movie-review app — the same React/Node/MySQL shape as prior coursework — built twice: a <strong>vulnerable</strong> branch (port 4000/5173) and a <strong>secure</strong> branch (port 4001/5174), so every exploit could be run against the first and then re-run, unmodified, against the second to prove it now fails. Four real vulnerabilities, not toy versions of them.</p>
+
+      <h3>How each vulnerability works</h3>
+      <p><strong>1 — SQL injection.</strong> The login query concatenated user input directly into SQL text: <code>`... WHERE username = '${username}' AND password = '${password}'`</code>. The payload <code>admin' -- </code> closes the string early and comments out the password check, so the database runs <code>WHERE username = 'admin'</code> with no password condition at all.</p>
+      <div class="term">
+        <div class="term-tab">$ curl -X POST :4000/api/login (real output)</div>
+        <pre><span class="t-dim">POST /api/login {"username":"admin' -- ","password":"anything"}</span>
+<span class="t-ok">{"success":true,"user":{"id":3,"username":"admin","role":"admin"}}</span></pre>
+      </div>
+      <p><strong>2 — Stored XSS.</strong> Review text was stored with zero sanitization and rendered with <code>dangerouslySetInnerHTML</code>. A posted <code>&lt;img src=x onerror="..."&gt;</code> payload fires the moment the page loads for <em>any</em> visitor — captured live, changing <code>document.title</code> to <code>XSS-EXECUTED</code> and injecting visible text into the DOM.</p>
+      <p><strong>3 — Broken authentication.</strong> Passwords were stored and compared in plaintext, with no session mechanism — the server just handed back a user object the client was trusted to keep honestly.</p>
+      <p><strong>4 — Broken access control.</strong> Two instances: <code>/api/admin/users</code> "checked" authorization by reading an <code>x-role</code> header the client set on itself, and <code>DELETE /api/reviews/:id</code> had no ownership check — any client could delete anyone's review by id (a classic IDOR).</p>
+
+      <h3>The fixes, and why they close the whole class</h3>
+      <ul>
+        <li><strong>Parameterized queries</strong> — the SQL text is sent to MySQL fully-formed with <code>?</code> placeholders, then values are sent separately as data. The database never re-parses them as SQL, so a quote, a comment marker, or a <code>UNION</code> keyword in the input just becomes an inert value to compare against — not a way to change the query's structure.</li>
+        <li><strong>bcrypt (cost 12) + a signed, 2-hour JWT</strong> — replaces plaintext comparison and the honor-system user object with a cryptographic session the server actually verifies.</li>
+        <li><strong>Two independent XSS layers</strong> — <code>sanitize-html</code> strips all tags server-side <em>and</em> the client renders review text as plain text (React escapes by default) instead of raw HTML — defense in depth, not one gate.</li>
+        <li><strong>A real <code>requireAuth</code> middleware</strong> — verifies the JWT signature and attaches the <em>verified</em> role/id to the request; delete now checks <code>review.author_id === req.user.id || req.user.role === 'admin'</code> from that verified identity, never from anything the client claims.</li>
+      </ul>
+
+      <h3>Real evidence — same payload, before and after</h3>
+      <div class="term">
+        <div class="term-tab">$ same admin' -- payload against the fixed server</div>
+        <pre><span class="t-dim">POST /api/login {"username":"admin' -- ","password":"anything"}</span>
+<span class="t-bad">HTTP 401 {"success":false,"message":"Invalid credentials"}</span>
+<span class="t-dim">GET /api/reviews/search?q=x' UNION SELECT ... --</span>
+<span class="t-bad">[]  (0 rows, no error)</span>
+<span class="t-dim">GET /api/admin/users -H "x-role: admin"  (no token)</span>
+<span class="t-bad">HTTP 401 {"error":"Missing token"}</span></pre>
+      </div>
+      <p class="muted">All 8 exploit/fix screenshots were captured with a scripted Playwright walkthrough (<code>exploits/capture_exploits.js</code> and <code>capture_fixes.js</code>) rather than taken by hand — the same script runs identically against both branches, which is itself part of the proof that the fix generalizes.</p>
+
+      <div class="callout">
+        <span class="callout-label">Talking point</span>
+        <p>If asked "why parameterized queries and not just escaping quotes" — escaping is a blocklist against known-dangerous characters, and blocklists are inherently incomplete (encoding tricks, alternate comment syntaxes, etc. keep finding gaps). Parameterization is an architectural fix: user input structurally can never become SQL syntax, because the database receives the query and the values through two separate channels. It closes the entire vulnerability class, not just the payloads you thought to block.</p>
+      </div>
+    </article>
+
+    <!-- ========================= PROJECT 2 ========================= -->
+    <article class="project" id="p2">
+      <div class="eyebrow-row"><span class="eyebrow-num">02</span><span class="eyebrow">AppSec · Focused Lab</span></div>
+      <h2>SQL Injection Deep Dive</h2>
+      <div class="chiprow">
+        <span class="chip status"><span class="dot"></span>Fully verified</span>
+        <span class="chip">Express</span>
+        <span class="chip">MySQL</span>
+        <span class="chip">Python requests</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line</span>
+        <p>Demonstrated and remediated classic, UNION-based, and blind SQL injection against a live MySQL-backed Node.js application using automated Python exploit scripts; root-caused the flaw to string-concatenated queries and secured it with parameterized queries, verifying all three attacks failed post-fix.</p>
+      </blockquote>
+
+      <h3>What it is</h3>
+      <p>A smaller, purpose-built companion to Project 1 — two endpoints (<code>/login</code>, <code>/search</code>), a seeded MySQL database with 10 users (passwords stored as SHA-256 hashes, not plaintext — a different, deliberate realism choice from Project 1) and 10 products, and three <em>different classes</em> of SQL injection run against it, each with a dedicated Python script.</p>
+
+      <h3>Three techniques, three different oracles</h3>
+      <p><strong>Classic (comment truncation).</strong> Same mechanism as Project 1's bypass — <code>admin' -- </code> strips the trailing <code>AND password_hash = '...'</code> clause entirely.</p>
+      <p><strong>UNION-based.</strong> Run as a real attacker would: first <em>discover the column count</em> by trying <code>UNION SELECT NULL</code>, then <code>NULL,NULL</code>, and so on until the database stops erroring — this alone reveals the target table has 5 columns without ever seeing the source. Then swap the <code>NULL</code>s for real columns pulled from an entirely different table (<code>users</code>), so its data rides back through a product-search response that was never meant to touch it.</p>
+      <div class="term">
+        <div class="term-tab">$ python3 02_union_based.py (real output, excerpt)</div>
+        <pre><span class="t-dim">[1] Discovering column count via UNION SELECT NULL,NULL,...</span>
+<span class="t-dim">    n=1..4 -> HTTP 500 (column count mismatch)</span>
+<span class="t-ok">    n=5  -> HTTP 200 (matches!)</span>
+<span class="t-dim">[2] Exfiltrating users table via UNION</span>
+<span class="t-ok">    admin   admin   87af2904434a87cc9c6954a3c84f4f286f141e12c338beb06d2ca01b8f9f3322</span></pre>
+      </div>
+      <p><strong>Blind (boolean + time-based).</strong> No error, no leaked rows this time — just one true/false bit per request. A boolean oracle (<code>... OR &lt;condition&gt; -- </code>, testing <code>count: 10</code> vs <code>count: 0</code>) recovers each hash character via <strong>binary search on its ASCII code</strong> rather than testing all 16 hex values linearly — roughly 6–7 requests per character instead of up to 16. A time-based oracle (<code>OR IF(condition, SLEEP(0.1), 0)</code>) confirms the same bits with a stopwatch instead of a response body, for when even the row count is hidden.</p>
+      <div class="term">
+        <div class="term-tab">$ python3 03_blind_injection.py (real output, excerpt)</div>
+        <pre><span class="t-dim">pos  char  requests
+1    '8'   7
+2    '7'   6
+...</span>
+<span class="t-ok">Extracted prefix: 87af2904434a87cc
+Total requests: 105  |  Elapsed: 0.13s</span>
+<span class="t-dim">pos=1 correct-guess -> </span><span class="t-warn">1.03s (SLOW=TRUE)</span><span class="t-dim">   wrong-guess -> 0.00s</span></pre>
+      </div>
+      <p>The blind-extracted prefix (<code>87af2904434a87cc</code>) matches the first 16 characters of the real hash exactly — recovered without that hash ever appearing directly in a response body, purely from true/false and fast/slow signals.</p>
+
+      <h3>Post-fix: all three fail identically</h3>
+      <p>The parameterized version returns the same shape of "no data" for all three techniques — 0 leaked rows on UNION, an empty extracted prefix on blind boolean, and zero timing signal on blind time-based — because the injected condition is now inert text with nothing left to inject it <em>into</em>.</p>
+
+      <div class="callout">
+        <span class="callout-label">Talking point</span>
+        <p>The blind technique is the one worth being able to explain slowly in an interview, because it's the least intuitive: you're recovering exact byte values from a system that never shows you any data at all, using nothing but a binary yes/no signal repeated enough times. Being able to walk through why binary search on the ASCII code beats linear character guessing (log₂(charset) vs. charset requests per position) is a good signal that you understand the technique rather than having copied a script.</p>
+      </div>
+    </article>
+
+    <!-- ========================= PROJECT 3 ========================= -->
+    <article class="project" id="p3">
+      <div class="eyebrow-row"><span class="eyebrow-num">03</span><span class="eyebrow">Data / Detection</span></div>
+      <h2>Network Traffic Anomaly Detector</h2>
+      <div class="chiprow">
+        <span class="chip status"><span class="dot"></span>Fully verified</span>
+        <span class="chip">Python</span>
+        <span class="chip">Scapy</span>
+        <span class="chip">scipy.stats</span>
+        <span class="chip">matplotlib</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line</span>
+        <p>Developed a Python-based network anomaly detector applying statistical hypothesis testing (z-score baseline deviation across Poisson- and Normal-fitted traffic features) to identify port-scan and data-exfiltration patterns, achieving 100% detection recall with a 2.8% false positive rate on a labeled synthetic dataset (500 one-second windows, held-out evaluation).</p>
+      </blockquote>
+
+      <h3>What it is</h3>
+      <p>The project explicitly built to prove a statistics background is a real security asset: fit a baseline distribution to "normal" traffic, then flag deviations with a formal hypothesis test — the same one-sample z-test framework used against a population parameter in intro stats, pointed at security telemetry instead of a survey sample.</p>
+
+      <h3>Why the traffic is simulated, stated plainly</h3>
+      <p>Live packet capture needs root (macOS BPF devices are root-only), which this environment doesn't have — confirmed directly, not assumed:</p>
+      <div class="term">
+        <div class="term-tab">$ verifying capture is unavailable</div>
+        <pre><span class="t-dim">&gt;&gt;&gt; scapy.all.sniff(timeout=5, count=20)</span>
+<span class="t-bad">Scapy_Exception: Permission denied: could not open /dev/bpf0.</span></pre>
+      </div>
+      <p>So <code>capture.py</code> uses Scapy to <em>construct</em> real packet objects (<code>IP()/TCP()/UDP()</code> layers) — byte sizes come from <code>len(bytes(pkt))</code> on genuine packet structures, not hand-picked constants — they're just never put on the wire. Baseline arrivals follow a Poisson process (the standard model for aggregate, memoryless network traffic); a simulated port scan sends ~400 small SYN packets across sequential ports in a 5-second burst, and a simulated exfiltration pushes a sustained 15-second burst of near-MTU outbound payloads.</p>
+
+      <h3>The statistical method</h3>
+      <p>The baseline is fit on the <strong>first 300 seconds only</strong> — pure normal traffic by construction — and everything from t=300s onward (both attacks, plus untouched normal windows) is held out and never used for fitting. Two distribution families, chosen per feature rather than applied blindly:</p>
+      <ul>
+        <li><code>packet_count</code> → <strong>Poisson</strong> (arrivals are Poisson by construction, so counts per fixed window are too); test statistic <code>z = (x − λ) / √λ</code>.</li>
+        <li><code>unique_dst_ports</code>, <code>mean_pkt_size</code> → <strong>Normal</strong>, fit via <code>scipy.stats.norm.fit</code> (MLE), justified by the CLT since these are aggregates over many packets per window.</li>
+      </ul>
+      <p>A window is flagged if <em>any</em> of the three |z| exceeds the two-tailed critical value at α = 0.01 (z<sub>crit</sub> = 2.576). Running three tests per window is a multiple-comparisons problem — under independence, the naive false-positive rate inflates to roughly 1 − 0.99³ ≈ 3%. That's stated as a deliberate trade-off (missing an attack is worse than an extra analyst review), not hidden as an oversight.</p>
+
+      <h3>Real results — held-out evaluation</h3>
+      <table class="metrics">
+        <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Attack windows (t ≥ 300s)</td><td>20</td></tr>
+          <tr><td>Normal windows (t ≥ 300s)</td><td>180</td></tr>
+          <tr><td>Detection rate (recall)</td><td>100.0%</td></tr>
+          <tr><td>False positive rate</td><td>2.8% <span class="muted">(theory predicted ≈3%)</span></td></tr>
+        </tbody>
+      </table>
+      <p>Both attacks were caught on their very first window — t=300s for the scan (z<sub>ports</sub> = +73.36), t=330s for the exfiltration (z<sub>pkts</sub> = +12.34) — with zero missed attack windows and the empirical false-positive rate landing almost exactly where the multiple-comparisons math predicted it would.</p>
+
+      <div class="callout limits">
+        <span class="callout-label">Honest limitation</span>
+        <p>The port scan and exfiltration patterns aren't evasive — no slow/low-and-slow scanning, no timing jitter, no size padding toward the baseline mean. A real attacker adapting to this exact detector could plausibly evade it. Feature correlation is also ignored (three independent tests instead of a joint/multivariate one), which is what actually drives the false-positive inflation — a Bonferroni correction or Hotelling's T² would trade recall for a lower FPR.</p>
+      </div>
+
+      <div class="callout">
+        <span class="callout-label">Talking point</span>
+        <p>"Why z-score and not chi-square" is a fair question and has a real answer: chi-square tests whether an entire empirical distribution matches an expected one — useful for comparing whole histograms. Here the question per window is simpler: "is this <em>one observation</em> implausibly far from a known/fitted population mean?" — that's a one-sample z-test, not a goodness-of-fit problem.</p>
+      </div>
+    </article>
+
+    <!-- ========================= PROJECT 4 ========================= -->
+    <article class="project" id="p4">
+      <div class="eyebrow-row"><span class="eyebrow-num">04</span><span class="eyebrow">Blue Team</span></div>
+      <h2>Home SOC / SIEM Lab</h2>
+      <div class="chiprow">
+        <span class="chip status mixed"><span class="dot"></span>Track A verified · Track B documented</span>
+        <span class="chip">Python</span>
+        <span class="chip">SQLite</span>
+        <span class="chip">Flask</span>
+        <span class="chip">ELK (spec only)</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line</span>
+        <p>Built a home SOC lab with a Python-based log ingestion pipeline and rule-based SIEM alerting engine (SQLite + sliding time-window detection); generated and detected simulated SSH brute-force and port-scan attacks end-to-end, verified via a live Flask dashboard, and produced a full incident report grounded in the actual pipeline output.</p>
+      </blockquote>
+
+      <h3>Two tracks, clearly separated</h3>
+      <p><strong>Track A</strong> — a Python + SQLite SIEM, actually run in this environment; every number below is real. <strong>Track B</strong> — a full ELK-stack <code>docker-compose.yml</code> for the production-equivalent path, written to spec but never started, because this environment has no <code>docker</code> binary. The README says exactly that rather than blurring the two.</p>
+
+      <h3>Pipeline</h3>
+      <p><code>log_generator.py</code> writes a syslog-style <code>auth.log</code> mixing normal SSH logins from 6 simulated accounts with two embedded attacks. <code>siem_ingest.py</code> regex-parses every line into a structured SQLite table (and reports, rather than silently drops, anything it can't parse). <code>detection_rules.py</code> applies two independent sliding-window rules: <strong>≥8 failed logins from one IP in 5 minutes</strong> (brute force) and <strong>≥8 distinct ports from one IP in 30 seconds</strong> (port scan). <code>dashboard.py</code> serves the result read-only over Flask.</p>
+
+      <h3>Real run output</h3>
+      <div class="term">
+        <div class="term-tab">$ python3 run_pipeline.py (real output, captured 2026-08-18)</div>
+        <pre><span class="t-dim">STEP 1: 170 lines generated — 55 brute-force attempts, 20 port-scan events</span>
+<span class="t-dim">STEP 2: Parsed 170/170 lines (0 unparsed)</span>
+<span class="t-warn">[ALERT-BRUTE_FORCE_SSH-001] severity=high src=203.0.113.77 count=55
+  window: 09:12:03 -> 09:14:50  (13 distinct usernames tried)</span>
+<span class="t-warn">[ALERT-PORT_SCAN-002] severity=medium src=198.51.100.23 count=20
+  window: 09:56:51 -> 09:57:02  (ports: 21,22,23,25,53,80,110,143,443,445,...)</span></pre>
+      </div>
+      <p>Both attacks were flagged with <strong>zero false positives</strong> among the 91 legitimate logins — including several innocuous single-retry-then-succeed cases baked into the baseline traffic specifically to test that. The dashboard was actually started and hit with real requests (<code>/healthz</code> → 200, <code>/api/alerts</code> returned both alerts as JSON, <code>/api/timeline</code> returned correct per-hour buckets) before being stopped — nothing was left running.</p>
+
+      <div class="callout limits">
+        <span class="callout-label">Honest limitation</span>
+        <p>Detection thresholds are justified against published tool behavior and common SIEM defaults, not calibrated against a real production traffic baseline — a real deployment would need that calibration to control its own false-positive rate. Track B has never been run, let alone tested, here.</p>
+      </div>
+
+      <div class="callout">
+        <span class="callout-label">Talking point</span>
+        <p>Project 5's brute-force detector uses the <em>identical</em> sliding-window algorithm as this SIEM's detection rule, just as a smaller standalone tool. Being able to point out that connection — same technique, two different scales, one imported into the capstone below rather than rewritten — is a good way to show the portfolio isn't 8 disconnected exercises.</p>
+      </div>
+    </article>
+
+    <!-- ========================= PROJECT 5 ========================= -->
+    <article class="project" id="p5">
+      <div class="eyebrow-row"><span class="eyebrow-num">05</span><span class="eyebrow">Tooling</span></div>
+      <h2>Security Automation Scripts</h2>
+      <div class="chiprow">
+        <span class="chip status"><span class="dot"></span>Fully verified</span>
+        <span class="chip">Python (stdlib only)</span>
+        <span class="chip">unittest</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line</span>
+        <p>Wrote Python security automation tools — an SSH auth-log brute-force detector using a sliding-window algorithm, and a password-policy auditor estimating offline crack time across three threat models (fast hash, bcrypt, rate-limited login) — with unit tests covering the core detection algorithms.</p>
+      </blockquote>
+
+      <h3>The brute-force detector</h3>
+      <p>A classic two-pointer sliding window <em>per source IP</em> — O(n) per IP, not a naive re-scan — over OpenSSH-style log lines. The point of the sliding window over a flat <code>grep -c | wc -l</code> count is that it can tell a <em>burst</em> from background noise: the sample log has three IPs failing logins, but only one clusters tightly enough in time to cross the threshold.</p>
+      <div class="term">
+        <div class="term-tab">$ python3 log_bruteforce_detector.py sample_data/auth.log (real output)</div>
+        <pre><span class="t-dim">Parsed 11 failed-login events. Window: 300s | Threshold: 5</span>
+<span class="t-warn">ALERT  203.0.113.9: 8 attempts in 300s window (22:30:01 -> 22:30:15)
+       usernames tried: admin, administrator, oracle, postgres, root, ubuntu</span></pre>
+      </div>
+
+      <h3>The password auditor</h3>
+      <p>Checks length, character-class diversity, common-password membership, sequential runs, and repeated-character runs, then converts estimated entropy into crack time under <strong>three different threat models</strong> — because what's attacking the hash matters as much as the password itself: an unsalted-MD5 offline crack (~10¹⁰ guesses/sec), a bcrypt cost-12 offline crack (~2×10³ guesses/sec), and a rate-limited login form (~10 guesses/sec).</p>
+      <table class="metrics">
+        <thead><tr><th>Password (masked)</th><th>Entropy</th><th>Fast hash</th><th>bcrypt</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">p******d</td><td>37.6 bits</td><td>10.4 seconds</td><td>1.7 years</td></tr>
+          <tr><td class="mono">c***********************e</td><td>117.5 bits <span class="muted">(fails policy)</span></td><td>3.75×10¹⁷ yrs</td><td>1.88×10²⁴ yrs</td></tr>
+          <tr><td class="mono">7*************************!</td><td>177.4 bits <span class="muted">(passes)</span></td><td>3.97×10³⁵ yrs</td><td>1.98×10⁴² yrs</td></tr>
+        </tbody>
+      </table>
+      <p>The middle row is <code>correcthorsebatterystaple</code> — the XKCD-936 password. It has more entropy than several passwords that <em>pass</em> the policy, but still fails, because it's all lowercase. That's included on purpose: NIST SP 800-63B's current guidance actually leans toward entropy/length over composition rules, and this is a genuine, defensible tension worth being able to discuss rather than a bug.</p>
+
+      <div class="callout">
+        <span class="callout-label">Talking point</span>
+        <p>Ten unit tests cover both scripts' core algorithms — including a test that a burst is flagged but the same total count spread across hours is not, which is really a test of the sliding-window logic itself, not just "does the script run."</p>
+      </div>
+    </article>
+
+    <!-- ========================= PROJECT 6 ========================= -->
+    <article class="project" id="p6">
+      <div class="eyebrow-row"><span class="eyebrow-num">06</span><span class="eyebrow">GRC</span></div>
+      <h2>GRC Risk Assessment (NIST CSF)</h2>
+      <div class="chiprow">
+        <span class="chip status"><span class="dot"></span>Fully verified</span>
+        <span class="chip">NIST CSF</span>
+        <span class="chip">docx (generated)</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line</span>
+        <p>Authored a NIST CSF-aligned cybersecurity risk assessment for a simulated mid-size organization: a 12-asset inventory, a 10-item risk register scoring both inherent and residual risk, and a full security policy framework mapped to all five NIST CSF functions, each control traced to a specific identified risk.</p>
+      </blockquote>
+
+      <h3>Why the fictional company isn't generic</h3>
+      <p>The assessment covers <strong>Meridian Environmental Logistics</strong>, built to be realistic for the logistics/environmental-services sector rather than a generic template company. That detail matters: an organization that reports waste-volume and disposal data to regulators has a risk category most templates don't surface — <em>data integrity tied directly to an operating license</em>, not just to money or uptime. Two of the ten risks in the register exist specifically because of that.</p>
+
+      <h3>The scoring model — inherent vs. residual</h3>
+      <p>Every risk is scored <strong>twice</strong>: once assuming no controls exist (inherent), and once accounting for what's actually in place today (residual). That distinction is what turns a risk register from a list of bad things that could happen into an actual prioritization tool:</p>
+      <table class="metrics">
+        <thead><tr><th>Risk</th><th>Inherent</th><th>Residual</th><th>Why the gap</th></tr></thead>
+        <tbody>
+          <tr><td>R-01 Ransomware on ERP/finance</td><td><span class="sevpill critical">20/25 Critical</span></td><td><span class="sevpill high">10/25 High</span></td><td>Backups + AV already partially mitigate it</td></tr>
+          <tr><td>R-02 BEC → fraudulent wire</td><td><span class="sevpill critical">15/25 High</span></td><td><span class="sevpill high">10/25 High</span></td><td>Manual callback verification, inconsistently followed</td></tr>
+        </tbody>
+      </table>
+      <p>That gap is the actual argument for the roadmap: R-01's <em>residual</em> risk is already lower than R-02's because backups exist — so the near-term roadmap prioritizes closing R-02 (dual-approval on wire transfers) and testing R-01's untested restores, rather than throwing more budget at something already partly mitigated.</p>
+
+      <h3>Every policy traces to a risk ID</h3>
+      <p>Section 5 doesn't list generic NIST CSF best practices — each bullet under Identify / Protect / Detect / Respond / Recover cites the specific risk(s) it addresses, e.g. <code>PR.AC: Enforce phishing-resistant MFA on ERP/finance... [R-01, R-02, R-09]</code>. It reads as a direct response to the assessment, not a copy-pasted checklist.</p>
+
+      <h3>How it was actually built</h3>
+      <p>Written programmatically with <code>docx</code> (Node) rather than by hand in Word, so the Word tables and the CSV exports derive from one shared data source and can't drift out of sync. Building it surfaced a real layout bug worth mentioning: the 12-column risk register table's widths summed to 13,830 DXA against a 9,360 DXA portrait content width — it silently would have overflowed the page. The fix was giving that one table its own landscape-oriented document section (12,960 DXA available) rather than cramming or truncating columns.</p>
+
+      <div class="callout">
+        <span class="callout-label">Talking point</span>
+        <p>This is the project that leans hardest on a Management Engineering background rather than pure technical skill — and it's worth framing that way directly: GRC roles are chronically short on people who can also read the technical risk correctly (e.g., why R-01's residual score is lower than its inherent score, in plain language) rather than just filling in a template.</p>
+      </div>
+    </article>
+
+    <!-- ========================= PROJECT 7 ========================= -->
+    <article class="project" id="p7">
+      <div class="eyebrow-row"><span class="eyebrow-num">07</span><span class="eyebrow">Documentation</span></div>
+      <h2>CTF Write-Up Blog</h2>
+      <div class="chiprow">
+        <span class="chip status mixed"><span class="dot"></span>Scaffold verified · content is a template</span>
+        <span class="chip">Jekyll</span>
+        <span class="chip">GitHub Pages</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line — once real write-ups exist</span>
+        <p>Maintain a public technical blog documenting methodology for completed TryHackMe, HackTheBox, and OverTheWire challenges — [N] write-ups published, covering [topics].</p>
+      </blockquote>
+
+      <h3>What it is</h3>
+      <p>A Jekyll blog GitHub Pages can build with zero local Ruby install or build step — push it, and GitHub builds and serves it automatically. The scaffold itself (config, layout, post format) is complete and verified.</p>
+
+      <h3>The one deliberate exception in this portfolio</h3>
+      <p>The single included post — an OverTheWire Bandit levels 0–2 write-up — is explicitly labeled a <strong>template</strong>, both in the post's own banner and in the project README, not presented as completed work. That's on purpose: this is the one project in the portfolio that isn't "verified real output," because there's no real output yet to show — the rooms haven't been done. Fabricating a CTF write-up is exactly the kind of thing a technical interviewer's very next question would catch, so the honest move is to ship the format and be explicit that the content is a placeholder.</p>
+
+      <h3>The format worth keeping once real posts replace it</h3>
+      <p>Room/context → approach (including dead ends, which is the actually useful part) → root cause / key technique → takeaways. Consistency across posts is itself a signal of someone who documents systematically — exactly the habit a SOC or IR role needs.</p>
+
+      <div class="callout limits">
+        <span class="callout-label">Honest note</span>
+        <p>Don't use the resume line above, and don't link this blog from a resume, until the template post is replaced with real, completed rooms written in your own words.</p>
+      </div>
+    </article>
+
+    <!-- ========================= PROJECT 8 ========================= -->
+    <article class="project" id="p8">
+      <div class="eyebrow-row"><span class="eyebrow-num">08</span><span class="eyebrow">Blue Team · Capstone</span></div>
+      <h2>Capstone: Detection &amp; Response</h2>
+      <div class="chiprow">
+        <span class="chip status mixed"><span class="dot"></span>Simulation verified · single deterministic run</span>
+        <span class="chip">Python</span>
+        <span class="chip">SQLite</span>
+        <span class="chip">MITRE ATT&amp;CK</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line</span>
+        <p>Simulated and detected a multi-stage attack chain (initial access → lateral movement → exfiltration) against a home-built SIEM pipeline, mapped to MITRE ATT&amp;CK (T1110, T1078, T1021.004, T1041) with correlation logic tying all three stages to one identity, producing a full incident response report with timeline, root cause, and remediation recommendations.</p>
+      </blockquote>
+
+      <h3>Built on Project 4 by import, not duplication</h3>
+      <p>This capstone <code>import</code>s Project 4's <code>log_generator</code>, <code>siem_ingest</code>, and <code>detection_rules</code> modules directly rather than copying their logic. It extends the ingestion schema with one new event type (<code>data_exfil</code>) and one new column (<code>bytes_transferred</code>) — backward-compatibly enough that <strong>Project 4's own pipeline was re-run after the change</strong> and produced identical results, confirming nothing broke.</p>
+
+      <h3>The attack narrative</h3>
+      <ol>
+        <li><strong>Initial access</strong> (T1110 Brute Force → T1078 Valid Accounts) — 22 password-guessing attempts against internet-facing <code>web01</code>, mixing default usernames with one real employee account (<code>rpatel</code>) obtained via simulated OSINT, ending in a successful login.</li>
+        <li><strong>Lateral movement</strong> (T1021.004 Remote Services: SSH) — using the now-valid <code>rpatel</code> credentials, the attacker pivots from <code>web01</code> to <code>app02</code> and <code>db01</code>.</li>
+        <li><strong>Exfiltration</strong> (T1041 Exfiltration Over C2 Channel) — a ~812 MB outbound transfer from <code>db01</code>, deliberately sent over port 443 to blend in with normal HTTPS egress.</li>
+      </ol>
+      <p>Total simulated dwell time: 13.1 minutes, end to end.</p>
+
+      <h3>Real detection run</h3>
+      <div class="term">
+        <div class="term-tab">$ python3 run_pipeline.py (real output, captured 2026-08-18)</div>
+        <pre><span class="t-dim">Parsed 99/99 lines (0 unparsed) — auth_failed:25 auth_success:73 data_exfil:1</span>
+<span class="t-warn">[ALERT-BRUTE_FORCE_SSH-001] src=203.0.113.50 count=22</span>
+<span class="t-ok">[CHAIN-001] Full attack chain detected for account 'rpatel':
+  brute force -> valid-account login on web01 -> lateral movement to
+  app02, db01 -> 1 exfiltration event totalling 812.3 MB.</span>
+<span class="t-dim">  T1110      Brute Force                   (Credential Access)
+  T1078      Valid Accounts                (Initial Access)
+  T1021.004  Remote Services: SSH           (Lateral Movement)
+  T1041      Exfiltration Over C2 Channel   (Exfiltration)</span></pre>
+      </div>
+
+      <div class="callout">
+        <span class="callout-label">Talking point — the part that shows detection-engineering judgment</span>
+        <p>The correlation rule doesn't fire on any single stage alone — it requires all three to tie back to the <em>same identity</em>, in causal order, before raising one chain-level alert instead of three independent noisy ones. That's a real, defensible design choice: it trades a small amount of detection latency (you wait for the full chain) for a much lower-noise alert an analyst can actually act on — the difference between a SIEM that cries wolf and one an analyst trusts.</p>
+      </div>
+
+      <div class="callout limits">
+        <span class="callout-label">Honest limitation</span>
+        <p>The lateral-movement rule is intentionally identity-scoped — it trusts that stage 1 already flagged <code>rpatel</code> as compromised, rather than being fully anomaly-based. A production version would also want a baseline of each account's normal host-access pattern, to flag first-time access to a new host even without a prior brute-force alert triggering first.</p>
+      </div>
+    </article>
+
+    <p class="footer-note">All eight write-ups above summarize the full technical detail in each project's own README — this page is the fast-recall version, not a replacement for reading the code before an interview that goes deep on one of them.</p>
+  </main>
+</div>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.navlist a'));
+    var sections = links.map(function (a) {
+      return document.getElementById(a.dataset.target);
+    }).filter(Boolean);
+
+    if (!('IntersectionObserver' in window) || sections.length === 0) return;
+
+    var current = null;
+    function setActive(id) {
+      if (id === current) return;
+      current = id;
+      links.forEach(function (a) {
+        a.classList.toggle('active', a.dataset.target === id);
+      });
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      var visible = entries.filter(function (e) { return e.isIntersecting; });
+      if (visible.length > 0) {
+        visible.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+        setActive(visible[0].target.id);
+      }
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+
+    sections.forEach(function (s) { observer.observe(s); });
+    setActive(sections[0].id);
+  })();
+</script>
