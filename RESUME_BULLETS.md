@@ -40,6 +40,9 @@ numbers/specifics only if you change the underlying project.
 > with a sub-20-second detection threshold on simulated SSH brute-force and port-scan
 > attacks; verified end-to-end via a live Flask dashboard, with a full incident report
 > grounded in the actual pipeline output.
+>
+> Live demo: cybersecurity-portfolio-siem-dashboard.onrender.com — this is the one worth
+> pasting a link to directly in an application, not just describing.
 
 ### Project 5 — Security Automation Scripts
 > Wrote Python security automation tools — an SSH auth-log brute-force detector using a
