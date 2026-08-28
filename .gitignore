@@ -17,6 +17,9 @@ build/output.docx
 # OS
 .DS_Store
 
+# Stray R history (not part of this portfolio's toolchain)
+.Rhistory
+
 # Playwright
 /01-vulnerable-web-app/exploits/test-results/
 

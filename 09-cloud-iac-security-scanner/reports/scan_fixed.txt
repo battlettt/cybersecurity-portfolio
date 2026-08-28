@@ -1,0 +1,3 @@
+Scanned 5 resource(s) in fixed/
+------------------------------------------------------------
+No findings. 0 misconfigurations detected.

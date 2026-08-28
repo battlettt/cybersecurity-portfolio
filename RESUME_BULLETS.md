@@ -1,11 +1,12 @@
 # Resume Bullets
 
 Ready-to-paste lines for each project. Pick 2-4 that fit the role you're applying to —
-don't dump all 8, that reads as unfocused. A good default split:
+don't dump all 9, that reads as unfocused. A good default split:
 
 - **Applying to a SOC/Blue Team-leaning role:** lead with #4, #8, #5, #3
 - **Applying to AppSec/Security Engineer:** lead with #1, #2, #5
-- **Applying to GRC/Risk-leaning role:** lead with #6, #1 (for technical credibility), #4
+- **Applying to Cloud Security/DevSecOps-leaning role:** lead with #9, #1, #5
+- **Applying to GRC/Risk-leaning role:** lead with #6, #1 (for technical credibility), #9
 - **General "cybersecurity" entry-level application:** #1, #4 or #8, #6 — one of each lane
 
 Each bullet below is written from real, verified project output — not aspirational. Adjust
@@ -63,6 +64,13 @@ numbers/specifics only if you change the underlying project.
 > T1021.004, T1041) with correlation logic tying all three stages to one identity, producing
 > a full incident response report with timeline, root cause, and remediation
 > recommendations — all verified against a real, reproducible pipeline run.
+
+### Project 9 — Cloud / IaC Misconfiguration Scanner
+> Built a Python static-analysis tool that parses Terraform IaC and flags AWS
+> misconfigurations (public S3 ACLs, world-open SSH/RDP security groups, wildcard IAM admin
+> policies, unencrypted RDS/EBS storage) across 5 rule checks; verified against a
+> deliberately vulnerable Terraform set (7/7 findings correctly flagged) and a remediated
+> set (0 false positives), with 9 passing unit tests covering the parser and rule logic.
 
 ---
 

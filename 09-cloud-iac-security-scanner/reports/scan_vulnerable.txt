@@ -1,0 +1,32 @@
+Scanned 5 resource(s) in vulnerable/
+------------------------------------------------------------
+[HIGH] CLOUD-IAM-WILDCARD-ADMIN — aws_iam_policy.deploy_bot
+  IAM policy grants full admin access ("*" on "*")
+  Statement allows Action "*" on Resource "*" — equivalent to AdministratorAccess. Scope to the specific actions and resource ARNs the role actually needs.
+
+[HIGH] CLOUD-S3-PUBLIC-ACL — aws_s3_bucket.reports
+  S3 bucket ACL grants public access
+  acl = "public-read" allows anyone on the internet to read this bucket. Use "private" and front any public content with signed URLs or CloudFront.
+
+[HIGH] CLOUD-SG-OPEN-ADMIN-PORT — aws_security_group.web
+  SSH port open to the entire internet
+  ingress allows SSH (port 22) from cidr_blocks = ["0.0.0.0/0"]. Restrict to a specific CIDR (VPN/bastion range) instead.
+
+[HIGH] CLOUD-SG-OPEN-ADMIN-PORT — aws_security_group.web
+  RDP port open to the entire internet
+  ingress allows RDP (port 3389) from cidr_blocks = ["0.0.0.0/0"]. Restrict to a specific CIDR (VPN/bastion range) instead.
+
+[MEDIUM] CLOUD-STORAGE-UNENCRYPTED — aws_db_instance.prod
+  RDS instance storage is not encrypted at rest
+  storage_encrypted = false. Set to true (requires a new instance if retrofitting).
+
+[MEDIUM] CLOUD-STORAGE-UNENCRYPTED — aws_ebs_volume.app_data
+  EBS volume is not encrypted at rest
+  encrypted = false. Set to true; existing volumes need a snapshot-and-recreate to retrofit.
+
+[LOW] CLOUD-S3-NO-VERSIONING — aws_s3_bucket.reports
+  S3 bucket versioning explicitly disabled
+  versioning.enabled = false — an overwrite or accidental delete is unrecoverable.
+
+------------------------------------------------------------
+7 finding(s): 4 HIGH, 2 MEDIUM, 1 LOW

@@ -1,0 +1,14 @@
+test_parses_flat_attrs (test_scanner.TestHclLiteParser.test_parses_flat_attrs) ... ok
+test_parses_heredoc_without_breaking_on_embedded_braces (test_scanner.TestHclLiteParser.test_parses_heredoc_without_breaking_on_embedded_braces) ... ok
+test_parses_repeated_nested_blocks_and_lists (test_scanner.TestHclLiteParser.test_parses_repeated_nested_blocks_and_lists) ... ok
+test_fixed_fixtures_produce_zero_findings (test_scanner.TestRulesAgainstFixtures.test_fixed_fixtures_produce_zero_findings) ... ok
+test_private_acl_is_not_flagged (test_scanner.TestRulesAgainstFixtures.test_private_acl_is_not_flagged) ... ok
+test_s3_public_read_write_is_also_flagged (test_scanner.TestRulesAgainstFixtures.test_s3_public_read_write_is_also_flagged) ... ok
+test_scoped_iam_policy_is_not_flagged (test_scanner.TestRulesAgainstFixtures.test_scoped_iam_policy_is_not_flagged) ... ok
+test_security_group_restricted_to_vpc_cidr_is_not_flagged (test_scanner.TestRulesAgainstFixtures.test_security_group_restricted_to_vpc_cidr_is_not_flagged) ... ok
+test_vulnerable_fixtures_each_trigger_a_finding (test_scanner.TestRulesAgainstFixtures.test_vulnerable_fixtures_each_trigger_a_finding) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.001s
+
+OK

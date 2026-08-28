@@ -312,6 +312,7 @@
       <li><a href="#p6" data-target="p6"><span class="num">06</span>GRC Risk Assessment<span class="navdot verified"></span></a></li>
       <li><a href="#p7" data-target="p7"><span class="num">07</span>CTF Write-Up Blog<span class="navdot mixed"></span></a></li>
       <li><a href="#p8" data-target="p8"><span class="num">08</span>Capstone: Detection &amp; Response<span class="navdot mixed"></span></a></li>
+      <li><a href="#p9" data-target="p9"><span class="num">09</span>Cloud / IaC Misconfig Scanner<span class="navdot verified"></span></a></li>
     </ul>
     <div class="sidebar-legend">
       <div class="row"><span class="navdot verified"></span> Fully executed, real output</div>
@@ -323,7 +324,7 @@
     <section class="intro" id="overview">
       <span class="kicker">Technical Deep Dive</span>
       <h1>What each project actually does, and why it works</h1>
-      <p>Eight projects, one rule: every exploit, detection, and statistical claim below was <strong>actually run</strong>, and the numbers you'll see are the real output, not a plausible guess at what the output should look like. This page exists so you can talk through the mechanics of any of these in an interview without having to re-derive them from the code on the spot.</p>
+      <p>Nine projects, one rule: every exploit, detection, and statistical claim below was <strong>actually run</strong>, and the numbers you'll see are the real output, not a plausible guess at what the output should look like. This page exists so you can talk through the mechanics of any of these in an interview without having to re-derive them from the code on the spot.</p>
       <p>Each entry covers what the project is, the mechanism that makes it work, the real evidence it produced, and the specific judgment calls worth being able to defend if someone pushes on them.</p>
       <div class="legend-strip">
         <span class="item"><span class="navdot verified"></span> Verified — executed in full, output captured</span>
@@ -350,6 +351,8 @@
         <tr><td></td><td colspan="2" class="plane">Jekyll/GitHub Pages scaffold, honestly labeled as a template pending real write-ups</td></tr>
         <tr><td class="pnum">08</td><td><a href="#p8"><span class="pname">Capstone: Detection &amp; Response</span></a></td><td class="plane">Blue Team</td></tr>
         <tr><td></td><td colspan="2" class="plane">3-stage attack chain, MITRE ATT&amp;CK mapped, identity-correlated detection, full IR report</td></tr>
+        <tr><td class="pnum">09</td><td><a href="#p9"><span class="pname">Cloud / IaC Misconfiguration Scanner</span></a></td><td class="plane">Cloud Security</td></tr>
+        <tr><td></td><td colspan="2" class="plane">Scoped Terraform parser + 5 misconfig rules — 7/7 flagged on vulnerable set, 0 false positives on fixed set</td></tr>
       </tbody>
     </table>
 
@@ -733,7 +736,59 @@ Total requests: 105  |  Elapsed: 0.13s</span>
       </div>
     </article>
 
-    <p class="footer-note">All eight write-ups above summarize the full technical detail in each project's own README — this page is the fast-recall version, not a replacement for reading the code before an interview that goes deep on one of them.</p>
+    <!-- ========================= PROJECT 9 ========================= -->
+    <article class="project" id="p9">
+      <div class="eyebrow-row"><span class="eyebrow-num">09</span><span class="eyebrow">Cloud Security · IaC</span></div>
+      <h2>Cloud / IaC Misconfiguration Scanner</h2>
+      <div class="chiprow">
+        <span class="chip status"><span class="dot"></span>Fully verified</span>
+        <span class="chip">Python (stdlib only)</span>
+        <span class="chip">Terraform</span>
+        <span class="chip">5 rules, 9 unit tests</span>
+      </div>
+
+      <blockquote class="resume">
+        <span class="label">Resume line</span>
+        <p>Built a Python static-analysis tool that parses Terraform IaC and flags AWS misconfigurations (public S3 ACLs, world-open SSH/RDP security groups, wildcard IAM admin policies, unencrypted RDS/EBS storage) across 5 rule checks; verified against a deliberately vulnerable Terraform set (7/7 findings correctly flagged) and a remediated set (0 false positives), with 9 passing unit tests covering the parser and rule logic.</p>
+      </blockquote>
+
+      <h3>Why this one exists</h3>
+      <p>Projects 1-8 are all on-prem: a web app, a database, a network, a host. None of them touch public cloud, which is where a large share of real-world misconfiguration incidents actually start — a permissive S3 ACL or a wildcard IAM policy shipped in Terraform, applied once, and left running. This project closes that gap with the same bar as everything else here: something real, run against real fixtures, with the output actually captured.</p>
+
+      <h3>How it works</h3>
+      <p>It's pure static analysis over local <code>.tf</code> text — no AWS account, no API calls, no cost, fully reproducible by anyone who clones the repo. A scoped parser (<code>hcl_lite.py</code>) walks Terraform source with brace-depth counting to pull out <code>resource</code> blocks, their flat attributes, one level of nested blocks (like repeated <code>ingress { }</code> blocks on a security group), and heredoc string bodies — handled specially so embedded JSON braces in an IAM policy don't break the outer brace count. Five rule functions then pattern-match against the parsed structure: public S3 ACLs, SSH/RDP open to <code>0.0.0.0/0</code>, IAM statements with <code>Action: "*"</code> + <code>Resource: "*"</code>, and unencrypted RDS/EBS resources.</p>
+
+      <h3>Real scan output</h3>
+      <div class="term">
+        <div class="term-tab">$ python3 run_scan.py vulnerable (real output)</div>
+        <pre><span class="t-warn">[HIGH] CLOUD-IAM-WILDCARD-ADMIN — aws_iam_policy.deploy_bot
+[HIGH] CLOUD-S3-PUBLIC-ACL — aws_s3_bucket.reports
+[HIGH] CLOUD-SG-OPEN-ADMIN-PORT — aws_security_group.web (SSH, port 22)
+[HIGH] CLOUD-SG-OPEN-ADMIN-PORT — aws_security_group.web (RDP, port 3389)</span>
+<span class="t-dim">[MEDIUM] CLOUD-STORAGE-UNENCRYPTED — aws_db_instance.prod
+[MEDIUM] CLOUD-STORAGE-UNENCRYPTED — aws_ebs_volume.app_data
+[LOW] CLOUD-S3-NO-VERSIONING — aws_s3_bucket.reports</span>
+<span class="t-ok">7 finding(s): 4 HIGH, 2 MEDIUM, 1 LOW</span></pre>
+      </div>
+      <div class="term">
+        <div class="term-tab">$ python3 run_scan.py fixed (real output — same 5 resources, remediated)</div>
+        <pre><span class="t-ok">Scanned 5 resource(s) in fixed/
+No findings. 0 misconfigurations detected.</span></pre>
+      </div>
+      <p>9 unit tests cover the parser (flat attributes, repeated nested blocks, heredoc-with-embedded-braces) and the rules (each vulnerable fixture flagged, the fixed set clean, plus edge cases like <code>public-read-write</code> and a correctly-scoped IAM policy that should <em>not</em> fire) — all passing.</p>
+
+      <div class="callout">
+        <span class="callout-label">Talking point — why a hand-rolled parser instead of a library</span>
+        <p>A real production scanner would use <code>python-hcl2</code> or a proper HCL grammar rather than brace-counting regex. Writing the scoped version by hand was the point here: it forces understanding of exactly what breaks a regex-based approach (embedded JSON braces inside a heredoc policy string being the sharpest example) rather than treating parsing as a solved problem a library hides.</p>
+      </div>
+
+      <div class="callout limits">
+        <span class="callout-label">Honest limitation</span>
+        <p><code>hcl_lite.py</code>'s own docstring states its scope directly: it handles <code>resource</code> blocks, flat attributes, one level of nested unlabeled blocks, and heredocs — not <code>for_each</code>, <code>dynamic</code> blocks, modules, or interpolation functions. That's sufficient for every fixture in this project, but pointing it at arbitrary production Terraform would need a real parser first. The 5 rules are also informally mapped to CIS AWS Foundations Benchmark and AWS Well-Architected themes, not claimed as certified/official control citations.</p>
+      </div>
+    </article>
+
+    <p class="footer-note">All nine write-ups above summarize the full technical detail in each project's own README — this page is the fast-recall version, not a replacement for reading the code before an interview that goes deep on one of them.</p>
   </main>
 </div>
 
