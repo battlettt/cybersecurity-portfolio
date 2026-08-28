@@ -147,14 +147,18 @@ to fit the baseline):
 ```
 Attack windows: 20   Normal windows: 180
 TP=20  FN=0  FP=5  TN=175
-Detection rate (recall): 100.0%
-False positive rate: 2.8%
+Recall:            100.0%   (20/20 attack windows caught)
+Precision:          80.0%   (20/25 flagged windows were real attacks)
+False positive rate: 2.8%   (5/180 normal windows wrongly flagged)
+F1 score:            0.889
 
 Flag rate by ground-truth traffic type:
 exfiltration    100.0%
 port_scan       100.0%
 normal          2.8%
 ```
+
+Precision (80%) is the honest complement to the recall/FPR headline above: 1 in 5 flagged windows is a false alarm, which is the direct, visible cost of the OR-across-3-features rule discussed in the multiple-comparisons note. That trade is defensible for a detector (missed attacks cost more than an extra analyst review) but it's also exactly the number a multivariate test (Bonferroni/Hotelling's T², both mentioned below) would improve at the cost of some recall.
 
 Both attack bursts were caught on the very first window (t=300s for the
 scan, t=330s for the exfiltration) with zero missed attack windows. The
@@ -203,4 +207,4 @@ sit on visibly sparse (low packet-count) baseline windows.
 
 ## Resume bullet
 
-Developed a Python-based network anomaly detector applying statistical hypothesis testing (z-score baseline deviation across Poisson- and Normal-fitted traffic features) to identify port-scan and data-exfiltration patterns in traffic feature data, achieving 100% detection recall with a 2.8% false positive rate on a labeled synthetic dataset (500 one-second windows, held-out evaluation).
+Developed a Python-based network anomaly detector applying statistical hypothesis testing (z-score baseline deviation across Poisson- and Normal-fitted traffic features) to identify port-scan and data-exfiltration patterns in traffic feature data, achieving 100% recall / 80% precision (2.8% false positive rate) on a labeled synthetic dataset (500 one-second windows, held-out evaluation).

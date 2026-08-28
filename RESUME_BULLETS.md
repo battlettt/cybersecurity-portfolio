@@ -30,15 +30,16 @@ numbers/specifics only if you change the underlying project.
 ### Project 3 — Network Traffic Anomaly Detector
 > Developed a Python-based network anomaly detector applying statistical hypothesis testing
 > (z-score baseline deviation across Poisson- and Normal-fitted traffic features) to
-> identify port-scan and data-exfiltration patterns, achieving 100% detection recall with a
-> 2.8% false positive rate on a labeled synthetic dataset (500 one-second windows, held-out
-> evaluation).
+> identify port-scan and data-exfiltration patterns, achieving 100% recall / 80% precision
+> (2.8% false positive rate, F1 = 0.889) on a labeled synthetic dataset (500 one-second
+> windows, held-out evaluation).
 
 ### Project 4 — Home SOC / SIEM Lab
 > Built a home SOC lab with a Python-based log ingestion pipeline and rule-based SIEM
-> alerting engine (SQLite + sliding time-window detection); generated and detected
-> simulated SSH brute-force and port-scan attacks end-to-end, verified via a live Flask
-> dashboard, and produced a full incident report grounded in the actual pipeline output.
+> alerting engine (SQLite + sliding time-window detection) processing 190K+ logs/sec
+> with a sub-20-second detection threshold on simulated SSH brute-force and port-scan
+> attacks; verified end-to-end via a live Flask dashboard, with a full incident report
+> grounded in the actual pipeline output.
 
 ### Project 5 — Security Automation Scripts
 > Wrote Python security automation tools — an SSH auth-log brute-force detector using a

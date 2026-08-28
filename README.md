@@ -16,14 +16,38 @@ root), that's stated explicitly in the relevant README rather than glossed over.
 mechanism actually works, the real captured evidence, and the specific judgment calls worth
 being able to defend in an interview, for all 9 projects on one page.
 
-## Projects
+## Start here — 3 strongest
+
+Nine projects is a lot to skim in a 30-second recruiter pass. These three are the deepest —
+real code, real testing, real security engineering rather than a single script — so start
+here if you're only looking at one thing:
+
+### 1 · [Vulnerable-to-Secure Web App](01-vulnerable-web-app/) — flagship, AppSec
+Found and fixed 4 OWASP Top 10 vulnerabilities in a live React/Node/MySQL app — SQL
+injection, stored XSS, broken authentication, broken access control — each exploited with a
+screenshot, then remediated (parameterized queries, bcrypt, JWT auth, sanitization) and
+re-exploited to prove the fix holds. The clearest "I can build it and break it" evidence in
+the portfolio.
+
+### 4 · [Home SOC / SIEM Lab](04-soc-siem-lab/) — blue team, live demo
+**🔴 [Live dashboard →](https://cybersecurity-portfolio-siem-dashboard.onrender.com)**
+(may take ~30s to wake up on a free-tier instance)
+Log ingestion, sliding-window detection, and a Flask dashboard you can actually click through
+— measured at **190K+ logs/sec** ingestion throughput and a **sub-20-second** detection
+threshold on simulated SSH brute-force and port-scan attacks, both benchmarked with committed,
+rerunnable scripts (`benchmark_throughput.py`, `benchmark_mtta.py`), not asserted numbers.
+
+### 3 · [Network Anomaly Detector](03-network-anomaly-detector/) — data-driven security
+Statistical hypothesis testing (z-score deviation from Poisson/Normal-fitted traffic
+baselines) applied to security telemetry: **100% recall, 80% precision** (2.8% false
+positive rate, F1 = 0.889) on a held-out synthetic dataset — the project that proves a
+stats background is a real security asset, not just a resume line.
+
+## Everything else (supporting work)
 
 | # | Project | What it demonstrates | Link |
 |---|---|---|---|
-| 1 | **Vulnerable-to-Secure Web App** (flagship) | Full-stack AppSec: found *and fixed* 4 OWASP Top 10 vulnerabilities in a live React/Node/MySQL app, with screenshot proof of each exploit and each fix | [`01-vulnerable-web-app/`](01-vulnerable-web-app/) |
 | 2 | **SQL Injection Deep Dive** | Classic, UNION-based, and blind SQLi against a live MySQL app, via automated Python exploit scripts | [`02-sql-injection-lab/`](02-sql-injection-lab/) |
-| 3 | **Network Anomaly Detector** | Statistics applied to security: Poisson/Normal baseline fitting + hypothesis testing to flag port scans and exfiltration, with measured recall/false-positive rate | [`03-network-anomaly-detector/`](03-network-anomaly-detector/) |
-| 4 | **Home SOC / SIEM Lab** | Blue team: log ingestion, sliding-window detection rules, a live alerting dashboard, and a real incident report | [`04-soc-siem-lab/`](04-soc-siem-lab/) |
 | 5 | **Security Automation Scripts** | Practical tooling: an auth-log brute-force detector and a password-policy/crack-time auditor, both unit tested | [`05-security-automation-scripts/`](05-security-automation-scripts/) |
 | 6 | **GRC Risk Assessment (NIST CSF)** | Business-facing security: a full risk register and policy framework for a fictional company, mapped to NIST CSF | [`06-grc-risk-assessment/`](06-grc-risk-assessment/) |
 | 7 | **CTF Write-Up Blog** | A GitHub Pages-ready scaffold for documenting hands-on room/machine methodology as it accumulates | [`07-ctf-writeup-blog/`](07-ctf-writeup-blog/) |
@@ -78,15 +102,11 @@ portfolio that survives a technical follow-up question and one that doesn't:
 
 Each project's own README has exact run commands.
 
-## Publishing this to GitHub
+## Links
 
-```bash
-cd cybersecurity-portfolio
-git add .
-git commit -m "Cybersecurity portfolio: 8 projects, AppSec through GRC"
-git remote add origin https://github.com/<you>/cybersecurity-portfolio.git
-git push -u origin main
-```
+- **Repo:** [github.com/battlettt/cybersecurity-portfolio](https://github.com/battlettt/cybersecurity-portfolio)
+- **Technical deep-dive:** [battlettt.github.io/cybersecurity-portfolio/deep-dive.html](https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html)
+- **Live SOC dashboard:** [cybersecurity-portfolio-siem-dashboard.onrender.com](https://cybersecurity-portfolio-siem-dashboard.onrender.com)
 
 See [`RESUME_BULLETS.md`](RESUME_BULLETS.md) for ready-to-paste resume lines, and each
 project's own README for the full write-up, real captured output, and screenshots.
