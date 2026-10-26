@@ -1,824 +1,1152 @@
+<!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Portfolio Case Files</title>
+<meta name="description" content="Eleven security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
+<link rel="canonical" href="https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Portfolio Case Files">
+<meta property="og:description" content="Eleven security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
+<meta property="og:url" content="https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Schibsted+Grotesk:wght@400;500;600&family=Ubuntu+Mono:wght@400;700&display=swap">
 <style>
+  /* Layout: a scan-report dossier. Sticky case rail on the left, each case opens
+     with its name beside a scan-report box of real numbers, then the write-up.
+     Same world as the Security chapter of battlettt.github.io: Space Mono for
+     display and data, Schibsted Grotesk for reading, phosphor green accent. */
   :root {
-    --bg: #F6F8F8;
-    --surface: #FFFFFF;
-    --surface-alt: #EAF0F0;
-    --border: #D7E0E0;
-    --ink: #12181A;
-    --ink-muted: #516266;
-    --ink-faint: #7C8B8E;
-    --accent: #1F6F78;
-    --accent-strong: #124249;
-    --accent-soft: #DFEBEA;
-    --accent-soft-border: #C4D9D8;
-    --code-bg: #101A1C;
-    --code-ink: #D9EDEA;
-    --code-muted: #7FA8A2;
-    --code-accent: #6FCF9E;
-    --code-border: #24393C;
-    --sev-critical: #B3261E;
-    --sev-high: #B4590C;
-    --sev-medium: #92720A;
-    --sev-low: #2F7D4F;
-    --focus: #1F6F78;
-    --shadow: 0 1px 2px rgba(18,24,26,0.06), 0 8px 24px rgba(18,24,26,0.06);
+    --bg: #eef3f0;
+    --surface: #f8fbf9;
+    --ink: #0f1a15;
+    --ink-2: #3b4b44;
+    --dim: #5f6f68;
+    --line: #cfdad4;
+    --line-2: #e0e8e3;
+    --g: #0d7444;
+    --g-soft: #d9ebe1;
+    --warn: #8a5d00;
+    --warn-soft: #f1e6cc;
+    --bad: #a8261d;
+    --term-bg: #0a0e0c;
+    --term-fg: #cfdbd3;
+    --term-dim: #80918a;
+    --term-line: #1d2723;
+    --term-g: #5fd894;
+    --term-warn: #e0c15b;
+    --term-bad: #e4837d;
+    --scan: transparent;
+    --display: "Space Mono", "Ubuntu Mono", ui-monospace, Menlo, monospace;
+    --body: "Schibsted Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --code: "Ubuntu Mono", ui-monospace, "SF Mono", Menlo, monospace;
   }
-
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0D1315;
-      --surface: #131C1F;
-      --surface-alt: #182325;
-      --border: #263335;
-      --ink: #E8EFEE;
-      --ink-muted: #9FB2B0;
-      --ink-faint: #6F8280;
-      --accent: #5FBFB6;
-      --accent-strong: #8FDCD3;
-      --accent-soft: #17282A;
-      --accent-soft-border: #274142;
-      --code-bg: #0A1213;
-      --code-ink: #D9EDEA;
-      --code-muted: #6F958F;
-      --code-accent: #7FDCA8;
-      --code-border: #1E2E30;
-      --sev-critical: #E0625B;
-      --sev-high: #E0995B;
-      --sev-medium: #D6B94E;
-      --sev-low: #5FC28A;
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+      --bg: #0a0e0c; --surface: #0f1512; --ink: #e6f1ea; --ink-2: #b9c8bf; --dim: #80918a;
+      --line: #22302a; --line-2: #18211d; --g: #5fd894; --g-soft: #12261b;
+      --warn: #e0c15b; --warn-soft: #2a2410; --bad: #e4837d;
+      --term-bg: #060908; --term-line: #1a241f;
+      --scan: rgba(0,0,0,.22);
+      color-scheme: dark;
     }
   }
-
   :root[data-theme="dark"] {
-    --bg: #0D1315;
-    --surface: #131C1F;
-    --surface-alt: #182325;
-    --border: #263335;
-    --ink: #E8EFEE;
-    --ink-muted: #9FB2B0;
-    --ink-faint: #6F8280;
-    --accent: #5FBFB6;
-    --accent-strong: #8FDCD3;
-    --accent-soft: #17282A;
-    --accent-soft-border: #274142;
-    --code-bg: #0A1213;
-    --code-ink: #D9EDEA;
-    --code-muted: #6F958F;
-    --code-accent: #7FDCA8;
-    --code-border: #1E2E30;
-    --sev-critical: #E0625B;
-    --sev-high: #E0995B;
-    --sev-medium: #D6B94E;
-    --sev-low: #5FC28A;
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    --bg: #0a0e0c; --surface: #0f1512; --ink: #e6f1ea; --ink-2: #b9c8bf; --dim: #80918a;
+    --line: #22302a; --line-2: #18211d; --g: #5fd894; --g-soft: #12261b;
+    --warn: #e0c15b; --warn-soft: #2a2410; --bad: #e4837d;
+    --term-bg: #060908; --term-line: #1a241f;
+    --scan: rgba(0,0,0,.22);
+    color-scheme: dark;
   }
 
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  }
-
+  html { scroll-padding-top: 1.5rem; }
+  /* Smooth scrolling switches on after load (see the script), so a link from
+     another page to one case lands exactly instead of animating past it. */
+  @media (prefers-reduced-motion: no-preference) { html.smooth { scroll-behavior: smooth; } }
   body {
     margin: 0;
-    background: var(--bg);
+    background: repeating-linear-gradient(to bottom, transparent 0 3px, var(--scan) 3px 4px), var(--bg);
     color: var(--ink);
-    font: 16px/1.6 -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font: 400 1rem/1.65 var(--body);
     -webkit-font-smoothing: antialiased;
   }
+  ::selection { background: var(--g); color: var(--bg); }
+  a { color: var(--g); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 2px solid var(--g); outline-offset: 3px; border-radius: 2px; }
+  code { font-family: var(--code); font-size: .95em; background: var(--g-soft); padding: .05em .3em; border-radius: 3px; overflow-wrap: anywhere; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+  ul, ol { margin: 0; padding: 0; }
 
-  a { color: var(--accent); text-decoration-color: var(--accent-soft-border); text-underline-offset: 2px; }
-  a:hover { text-decoration-color: var(--accent); }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
-
-  code, .mono { font-family: ui-monospace, "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace; }
-
-  h1, h2, h3, h4 { text-wrap: balance; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+  .skip { position: absolute; left: 1rem; top: -4rem; z-index: 3; background: var(--ink); color: var(--bg); padding: .5rem .9rem; border-radius: 4px; font-size: .875rem; }
+  .skip:focus { top: calc(env(safe-area-inset-top, 0px) + .75rem); }
 
   .shell {
-    display: grid;
-    grid-template-columns: 260px minmax(0, 1fr);
-    gap: 0;
-    max-width: 1180px;
-    margin: 0 auto;
-    align-items: start;
+    max-width: 82rem; margin: 0 auto;
+    display: grid; grid-template-columns: 16rem minmax(0, 1fr); align-items: start;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
   }
 
-  /* ---------------- Sidebar ---------------- */
-  .sidebar {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 28px 20px 40px;
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
+  /* ---------- case rail ---------- */
+  .rail {
+    position: sticky; top: env(safe-area-inset-top, 0px);
+    max-height: 100vh; overflow-y: auto; scrollbar-width: thin;
+    padding-block: 2.25rem 2.5rem; padding-right: 1.5rem;
+    border-right: 1px dashed var(--line);
+    display: flex; flex-direction: column; gap: 1.5rem;
+    font-family: var(--display); font-size: .8125rem;
   }
-  .brand { display: flex; flex-direction: column; gap: 4px; }
-  .brand .kicker {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--accent);
+  .rail-brand { display: flex; flex-direction: column; gap: .15rem; }
+  .rail-brand b { color: var(--g); font-weight: 400; }
+  .rail-brand span { color: var(--dim); }
+  .rail-group { display: flex; flex-direction: column; gap: .15rem; }
+  .rail-group p { margin: 0 0 .35rem; color: var(--dim); font-size: .75rem; }
+  .rail a {
+    display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto; align-items: baseline; gap: .4rem;
+    padding: .3rem .5rem; margin-inline: -.5rem; border-radius: 3px;
+    color: var(--ink-2); text-decoration: none; line-height: 1.35;
   }
-  .brand .name { font-size: 17px; font-weight: 700; }
+  .rail a:hover { background: var(--g-soft); color: var(--ink); }
+  .rail a[aria-current="true"] { background: var(--g-soft); color: var(--ink); }
+  .rail a[aria-current="true"] .n { color: var(--g); }
+  .rail .n { color: var(--dim); font-variant-numeric: tabular-nums; }
+  .rail .st { font-size: .6875rem; color: var(--g); }
+  .rail .st.part { color: var(--warn); }
+  .rail-key { border-top: 1px dashed var(--line); padding-top: 1rem; color: var(--dim); font-size: .75rem; display: flex; flex-direction: column; gap: .3rem; }
+  .rail-key b { font-weight: 400; color: var(--g); }
+  .rail-key b.part { color: var(--warn); }
 
-  .navlist { display: flex; flex-direction: column; gap: 2px; list-style: none; margin: 0; padding: 0; }
-  .navlist a {
-    display: flex; align-items: center; gap: 9px;
-    padding: 7px 10px; border-radius: 7px;
-    color: var(--ink-muted); text-decoration: none; font-size: 13.5px;
-    border: 1px solid transparent;
-  }
-  .navlist a:hover { background: var(--surface-alt); color: var(--ink); }
-  .navlist a.active { background: var(--accent-soft); border-color: var(--accent-soft-border); color: var(--accent-strong); font-weight: 600; }
-  .navlist .num { font-variant-numeric: tabular-nums; font-size: 11px; color: var(--ink-faint); width: 16px; flex-shrink: 0; }
-  .navlist a.active .num { color: var(--accent); }
-  .navdot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-left: auto; }
-  .navdot.verified { background: var(--sev-low); }
-  .navdot.mixed { background: var(--sev-medium); }
+  main { min-width: 0; padding-block: 3rem 6rem; padding-left: clamp(1.5rem, 4vw, 3.5rem); }
 
-  .sidebar-legend {
-    font-size: 12px; color: var(--ink-faint); border-top: 1px solid var(--border);
-    padding-top: 16px; display: flex; flex-direction: column; gap: 6px;
+  /* ---------- intro ---------- */
+  .intro { max-width: 52rem; padding-bottom: 3rem; border-bottom: 1px solid var(--ink); }
+  .prompt { margin: 0 0 1.1rem; font-family: var(--display); font-size: .8125rem; color: var(--dim); overflow-wrap: anywhere; }
+  .prompt b { color: var(--g); font-weight: 400; }
+  h1 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.75rem, 8vw, 5.25rem); line-height: 1; letter-spacing: -.045em;
   }
-  .sidebar-legend .row { display: flex; align-items: center; gap: 7px; }
-
-  /* ---------------- Main content ---------------- */
-  .main { padding: 56px 48px 120px; min-width: 0; }
-  .intro { max-width: 680px; margin-bottom: 56px; }
-  .intro .kicker {
-    font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
-    margin-bottom: 12px; display: block;
+  h1::after {
+    content: ""; display: inline-block; width: .48em; height: .8em; margin-left: .1em;
+    background: var(--g); vertical-align: -.04em; animation: blink 1.1s step-end infinite;
   }
-  .intro h1 { font-size: clamp(28px, 4vw, 38px); line-height: 1.15; margin-bottom: 18px; }
-  .intro p { color: var(--ink-muted); font-size: 16px; max-width: 62ch; margin: 0 0 14px; }
-  .intro p:last-child { margin-bottom: 0; }
-
-  .legend-strip {
-    display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 28px; padding: 16px 18px;
-    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow);
+  @keyframes blink { 50% { opacity: 0; } }
+  .lede { margin: 1.4rem 0 0; max-width: 60ch; font-size: 1.1875rem; line-height: 1.55; color: var(--ink-2); }
+  .lede + p { margin: .9rem 0 0; max-width: 62ch; color: var(--dim); }
+  .ledger {
+    margin: 2.25rem 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line);
   }
-  .legend-strip .item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-muted); }
+  .ledger div { padding: 1rem 1rem 1.1rem 0; display: flex; flex-direction: column; gap: .35rem; }
+  .ledger div + div { padding-left: 1rem; border-left: 1px dashed var(--line); }
+  .ledger dt { order: 2; font-size: .8125rem; color: var(--dim); line-height: 1.35; }
+  .ledger dd { order: 1; margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(1.75rem, 3.6vw, 2.5rem); line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .sync { margin: 1.1rem 0 0; font-family: var(--display); font-size: .75rem; color: var(--dim); display: flex; flex-wrap: wrap; gap: .25rem .6rem; }
+  .sync b { color: var(--g); font-weight: 400; }
 
-  /* index table */
-  .index-table { width: 100%; border-collapse: collapse; margin: 40px 0 64px; font-size: 14px; }
-  .index-table th {
-    text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--ink-faint); font-weight: 700; padding: 0 14px 10px; border-bottom: 1px solid var(--border);
+  /* ---------- index ---------- */
+  .index { padding-block: 3rem; max-width: 60rem; }
+  .index h2 { font-family: var(--display); font-size: 1.375rem; letter-spacing: -.03em; margin-bottom: 1.5rem; }
+  .ix-group + .ix-group { margin-top: 2rem; }
+  .ix-group > p { margin: 0 0 .5rem; font-family: var(--display); font-size: .75rem; color: var(--dim); }
+  .ix-row {
+    display: grid; grid-template-columns: 2.25rem minmax(0, 1fr) 7.5rem; gap: .25rem 1rem; align-items: baseline;
+    padding: .85rem .75rem; margin-inline: -.75rem; border-top: 1px dashed var(--line);
+    color: inherit; text-decoration: none; border-radius: 3px;
   }
-  .index-table td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  .index-table tr:last-child td { border-bottom: none; }
-  .index-table tr:hover td { background: var(--surface-alt); }
-  .index-table .pnum { font-variant-numeric: tabular-nums; color: var(--ink-faint); }
-  .index-table .pname { font-weight: 600; }
-  .index-table .plane { color: var(--ink-muted); font-size: 13px; }
-  .index-table a { text-decoration: none; color: var(--ink); }
-  .index-table a:hover .pname { color: var(--accent); }
+  .ix-row:hover { background: var(--surface); }
+  .ix-row .n { font-family: var(--display); font-size: .8125rem; color: var(--dim); font-variant-numeric: tabular-nums; }
+  .ix-row .t { font-weight: 600; }
+  .ix-row:hover .t { color: var(--g); }
+  .ix-row .m { grid-column: 2; color: var(--ink-2); font-size: .9375rem; line-height: 1.45; }
+  .ix-row .l { grid-column: 3; grid-row: 1; font-family: var(--display); font-size: .75rem; color: var(--dim); text-align: right; }
 
-  /* ---------------- Project sections ---------------- */
-  .project {
-    max-width: 720px;
-    padding-top: 64px;
-    border-top: 1px solid var(--border);
-    margin-top: 8px;
-    scroll-margin-top: 24px;
+  /* ---------- cases ---------- */
+  .part-head { padding-block: 3.5rem 0; display: flex; flex-direction: column; gap: .35rem; }
+  .part-head h2 { font-family: var(--display); font-size: clamp(1.5rem, 3.4vw, 2.125rem); letter-spacing: -.035em; }
+  .part-head p { margin: 0; color: var(--dim); max-width: 62ch; }
+  .case { padding-block: 3rem; border-top: 1px dashed var(--line); scroll-margin-top: 1rem; }
+  .part-head + .case { margin-top: 2rem; }
+  .case-head { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 1.5rem 2.5rem; align-items: start; max-width: 64rem; }
+  .case-id { min-width: 0; display: flex; flex-direction: column; gap: .5rem; }
+  .path { margin: 0; font-family: var(--display); font-size: .8125rem; color: var(--dim); overflow-wrap: anywhere; }
+  .path a { color: var(--dim); text-decoration: none; }
+  .path a:hover { color: var(--g); }
+  .path b { color: var(--g); font-weight: 400; }
+  .case h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.625rem, 3.6vw, 2.375rem); line-height: 1.12; letter-spacing: -.04em; }
+  .lane { margin: 0; color: var(--ink-2); font-size: .9375rem; }
+  .meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin-top: .25rem; }
+  .status {
+    font-family: var(--display); font-size: .75rem; padding: .2rem .55rem; border-radius: 3px;
+    background: var(--g-soft); color: var(--g);
   }
-  .project:first-of-type { border-top: none; }
+  .status.part { background: var(--warn-soft); color: var(--warn); }
+  .tags { list-style: none; display: flex; flex-wrap: wrap; gap: .2rem .8rem; font-family: var(--display); font-size: .75rem; color: var(--dim); }
+  .tags li::before { content: "#"; color: var(--g); }
 
-  .eyebrow-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .eyebrow {
-    font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+  .report { min-width: 0; border: 1px solid var(--line); background: var(--surface); padding: 1rem 1.15rem 1.1rem; font-family: var(--display); font-size: .8125rem; }
+  .report-h { margin: 0 0 .6rem; color: var(--dim); font-size: .75rem; }
+  .report ul { list-style: none; }
+  .report li { display: flex; align-items: baseline; gap: .5rem; padding: .28rem 0; }
+  .report li::before { content: ">"; color: var(--g); flex: none; }
+  .report .k { color: var(--ink-2); }
+  .report .lead { flex: 1; min-width: .75rem; border-bottom: 1px dotted var(--line); transform: translateY(-.25em); }
+  .report .v { color: var(--ink); font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .go { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; margin-top: .8rem !important; padding-top: .7rem !important; border-top: 1px dashed var(--line); }
+  .go a { text-decoration: none; }
+  .go a::after { content: "\2197"; margin-left: .25em; font-size: .85em; }
+  .go a:hover { text-decoration: underline; }
+
+  .resume {
+    margin: 2rem 0 0; max-width: 46rem; padding: 1rem 1.15rem; border: 1px dashed var(--line);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .4rem 1rem; align-items: start;
   }
-  .eyebrow-num { font-variant-numeric: tabular-nums; color: var(--ink-faint); font-size: 12px; }
-
-  .project h2 { font-size: 27px; margin-bottom: 12px; }
-
-  .chiprow { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-  .chip {
-    font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border);
-    color: var(--ink-muted); background: var(--surface); display: inline-flex; align-items: center; gap: 5px;
+  .resume figcaption { grid-column: 1; font-family: var(--display); font-size: .75rem; color: var(--dim); }
+  .resume p { grid-column: 1; margin: 0; color: var(--ink); font-size: .9688rem; line-height: 1.6; }
+  .copy {
+    grid-column: 2; grid-row: 1 / span 2;
+    font: 400 .75rem var(--display); color: var(--g); background: transparent;
+    border: 1px solid var(--line); border-radius: 3px; padding: .35rem .65rem; cursor: pointer;
+    transition: background .2s, transform .1s;
   }
-  .chip.status { border-color: var(--accent-soft-border); background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
-  .chip.status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sev-low); }
-  .chip.status.mixed .dot { background: var(--sev-medium); }
+  .copy:hover { background: var(--g-soft); }
+  .copy:active { transform: translateY(1px); }
 
-  blockquote.resume {
-    margin: 0 0 30px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border);
-    border-left: 3px solid var(--accent); border-radius: 4px; font-size: 14.5px; color: var(--ink-muted);
-    line-height: 1.65;
-  }
-  blockquote.resume .label { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
-  blockquote.resume p { margin: 0; color: var(--ink); }
+  .prose { max-width: 44rem; margin-top: 2rem; }
+  .prose h3 { font-family: var(--display); font-size: .9375rem; font-weight: 700; letter-spacing: -.01em; color: var(--ink); margin: 2.1rem 0 .7rem; }
+  .prose h3::before { content: "## "; color: var(--g); font-weight: 400; }
+  .prose h3:first-child { margin-top: 0; }
+  .prose p { margin: 0 0 1rem; }
+  .prose p.dim { color: var(--dim); font-size: .9375rem; }
+  .prose ul, .prose ol { margin: 0 0 1.1rem; padding-left: 1.25rem; display: flex; flex-direction: column; gap: .45rem; }
+  .prose li::marker { color: var(--g); }
+  .prose strong { font-weight: 600; }
 
-  .project h3 {
-    font-size: 12px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-faint);
-    margin: 34px 0 14px; font-weight: 700;
-  }
-  .project h3:first-of-type { margin-top: 0; }
-  .project p { color: var(--ink); margin: 0 0 14px; max-width: 66ch; }
-  .project p.muted { color: var(--ink-muted); }
-  .project ul, .project ol { margin: 0 0 16px; padding-left: 22px; color: var(--ink); }
-  .project li { margin-bottom: 7px; max-width: 64ch; }
-  .project li::marker { color: var(--ink-faint); }
-  .project strong { font-weight: 650; }
+  .term { margin: 0 0 1.25rem; background: var(--term-bg); color: var(--term-fg); border: 1px solid var(--term-line); border-radius: 4px; overflow: hidden; }
+  .term-tab { padding: .5rem .9rem; border-bottom: 1px solid var(--term-line); font-family: var(--display); font-size: .6875rem; color: var(--term-dim); overflow-wrap: anywhere; }
+  .term pre { margin: 0; padding: .9rem; overflow-x: auto; font-family: var(--code); font-size: .875rem; line-height: 1.6; white-space: pre; }
+  .t-ok { color: var(--term-g); } .t-dim { color: var(--term-dim); } .t-bad { color: var(--term-bad); } .t-warn { color: var(--term-warn); }
 
-  .code-block {
-    background: var(--surface-alt); border: 1px solid var(--border); border-radius: 8px;
-    padding: 14px 16px; margin: 0 0 18px; overflow-x: auto; font-size: 13px; line-height: 1.6;
-  }
-  .code-block pre { margin: 0; font-family: inherit; white-space: pre; }
-  .code-block .c-good { color: var(--sev-low); }
-  .code-block .c-bad { color: var(--sev-critical); }
-  .code-block .c-dim { color: var(--ink-faint); }
+  .tablewrap { overflow-x: auto; margin: 0 0 1.25rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .9063rem; min-width: 26rem; }
+  th { text-align: left; font-family: var(--display); font-weight: 400; font-size: .6875rem; color: var(--dim); padding: 0 .9rem .5rem 0; border-bottom: 1px solid var(--line); }
+  td { padding: .55rem .9rem .55rem 0; border-bottom: 1px dashed var(--line-2); vertical-align: top; font-variant-numeric: tabular-nums; }
+  td.mono { font-family: var(--code); }
+  .sev { font-family: var(--display); font-size: .6875rem; padding: .1rem .4rem; border-radius: 3px; white-space: nowrap; }
+  .sev.high, .sev.critical { color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+  .sev.medium { color: var(--warn); background: var(--warn-soft); }
+  .sev.low { color: var(--g); background: var(--g-soft); }
 
-  .term {
-    background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--code-border);
-    border-radius: 8px; margin: 0 0 20px; overflow: hidden;
-  }
-  .term .term-tab {
-    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
-    font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--code-muted);
-    padding: 9px 14px; border-bottom: 1px solid var(--code-border); background: rgba(255,255,255,0.02);
-  }
-  .term pre {
-    margin: 0; padding: 14px 16px; overflow-x: auto; font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
-    font-size: 12.5px; line-height: 1.65; white-space: pre;
-  }
-  .term .t-ok { color: var(--code-accent); }
-  .term .t-dim { color: var(--code-muted); }
-  .term .t-bad { color: #E4837D; }
-  .term .t-warn { color: #E0C15B; }
+  .note { margin: .5rem 0 1.25rem; padding: .85rem 1rem; border-left: 2px solid var(--g); background: var(--surface); }
+  .note.limit { border-left-color: var(--warn); }
+  .note b.lbl { display: block; font-family: var(--display); font-weight: 400; font-size: .75rem; color: var(--g); margin-bottom: .35rem; }
+  .note.limit b.lbl { color: var(--warn); }
+  .note p { margin: 0; font-size: .9688rem; }
+  .note p + p { margin-top: .6rem; }
 
-  .callout {
-    background: var(--accent-soft); border: 1px solid var(--accent-soft-border); border-radius: 10px;
-    padding: 18px 20px; margin: 8px 0 22px;
+  footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--ink); max-width: 52rem; color: var(--dim); font-size: .875rem; display: flex; flex-direction: column; gap: .6rem; }
+  footer p { margin: 0; }
+
+  @media (max-width: 62rem) {
+    .shell { grid-template-columns: minmax(0, 1fr); }
+    .rail {
+      max-height: none; flex-direction: row; align-items: center; gap: .75rem;
+      overflow-x: auto; overflow-y: hidden; white-space: nowrap;
+      padding-block: .6rem; padding-right: 0; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      border-right: 0; border-bottom: 1px dashed var(--line);
+      background: var(--bg); z-index: 1;
+    }
+    body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+    .rail-brand, .rail-key, .rail-group p { display: none; }
+    .rail-group { flex-direction: row; gap: .25rem; }
+    .rail a { display: inline-flex; gap: .35rem; margin: 0; }
+    main { padding-left: 0; padding-top: 2rem; }
+    .case-head { grid-template-columns: minmax(0, 1fr); }
   }
-  .callout .callout-label {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-strong);
-    margin-bottom: 8px; display: block;
+  @media (max-width: 40rem) {
+    .ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ledger div:nth-child(3) { padding-left: 0; border-left: 0; }
+    .ledger div:nth-child(n+3) { border-top: 1px dashed var(--line); }
+    .ix-row { grid-template-columns: 2rem minmax(0, 1fr); }
+    .ix-row .l { grid-column: 2; grid-row: auto; text-align: left; }
+    .resume { grid-template-columns: minmax(0, 1fr); }
+    .copy { grid-column: 1; grid-row: auto; justify-self: start; }
   }
-  .callout p { margin: 0 0 10px; }
-  .callout p:last-child { margin-bottom: 0; }
-  .callout ul { margin-bottom: 0; }
-
-  .callout.limits {
-    background: var(--surface); border-color: var(--border);
-  }
-  .callout.limits .callout-label { color: var(--ink-faint); }
-
-  table.metrics { width: 100%; border-collapse: collapse; margin: 0 0 20px; font-size: 13.5px; }
-  table.metrics th { text-align: left; font-weight: 700; color: var(--ink-faint); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.06em; padding: 0 12px 8px 0; border-bottom: 1px solid var(--border); }
-  table.metrics td { padding: 9px 12px 9px 0; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
-  table.metrics tr:last-child td { border-bottom: none; }
-
-  .sevpill { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11.5px; font-weight: 700; }
-  .sevpill.critical { background: rgba(179,38,30,0.13); color: var(--sev-critical); }
-  .sevpill.high { background: rgba(180,89,12,0.13); color: var(--sev-high); }
-  .sevpill.medium { background: rgba(146,114,10,0.13); color: var(--sev-medium); }
-  .sevpill.low { background: rgba(47,125,79,0.13); color: var(--sev-low); }
-
-  .footer-note {
-    max-width: 720px; margin: 80px 0 0; padding-top: 28px; border-top: 1px solid var(--border);
-    color: var(--ink-faint); font-size: 13px;
-  }
-
-  @media (max-width: 900px) {
-    .shell { grid-template-columns: 1fr; }
-    .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
-    .main { padding: 40px 22px 100px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    h1::after { animation: none; }
+    * { transition-duration: .01ms !important; }
   }
 </style>
+</head>
+<body>
+<a class="skip" href="#cases">Skip to the cases</a>
 
 <div class="shell">
-  <nav class="sidebar" aria-label="Project navigation">
-    <div class="brand">
-      <span class="kicker">Case Files</span>
-      <span class="name">Cybersecurity Portfolio</span>
+  <nav class="rail" aria-label="Cases">
+    <div class="rail-brand"><b>battlettt@portfolio</b><span>~/security/case-files</span></div>
+    <div class="rail-group">
+      <p>standalone tools</p>
+      <a href="#sentinelscan" data-target="sentinelscan"><span class="n">ss</span><span>SentinelScan</span><span class="st part">part</span></a>
+      <a href="#porthawk" data-target="porthawk"><span class="n">ph</span><span>Porthawk</span><span class="st">ok</span></a>
     </div>
-    <ul class="navlist" id="navlist">
-      <li><a href="#overview" data-target="overview"><span class="num">·</span>Overview</a></li>
-      <li><a href="#p1" data-target="p1"><span class="num">01</span>Vulnerable-to-Secure Web App<span class="navdot verified"></span></a></li>
-      <li><a href="#p2" data-target="p2"><span class="num">02</span>SQL Injection Deep Dive<span class="navdot verified"></span></a></li>
-      <li><a href="#p3" data-target="p3"><span class="num">03</span>Network Anomaly Detector<span class="navdot verified"></span></a></li>
-      <li><a href="#p4" data-target="p4"><span class="num">04</span>Home SOC / SIEM Lab<span class="navdot mixed"></span></a></li>
-      <li><a href="#p5" data-target="p5"><span class="num">05</span>Security Automation Scripts<span class="navdot verified"></span></a></li>
-      <li><a href="#p6" data-target="p6"><span class="num">06</span>GRC Risk Assessment<span class="navdot verified"></span></a></li>
-      <li><a href="#p7" data-target="p7"><span class="num">07</span>CTF Write-Up Blog<span class="navdot mixed"></span></a></li>
-      <li><a href="#p8" data-target="p8"><span class="num">08</span>Capstone: Detection &amp; Response<span class="navdot mixed"></span></a></li>
-      <li><a href="#p9" data-target="p9"><span class="num">09</span>Cloud / IaC Misconfig Scanner<span class="navdot verified"></span></a></li>
-    </ul>
-    <div class="sidebar-legend">
-      <div class="row"><span class="navdot verified"></span> Fully executed, real output</div>
-      <div class="row"><span class="navdot mixed"></span> Partly simulated / documentation-only track</div>
+    <div class="rail-group">
+      <p>cybersecurity-portfolio</p>
+      <a href="#p1" data-target="p1"><span class="n">01</span><span>Vulnerable-to-Secure App</span><span class="st">ok</span></a>
+      <a href="#p2" data-target="p2"><span class="n">02</span><span>SQL Injection Lab</span><span class="st">ok</span></a>
+      <a href="#p3" data-target="p3"><span class="n">03</span><span>Anomaly Detector</span><span class="st">ok</span></a>
+      <a href="#p4" data-target="p4"><span class="n">04</span><span>SOC / SIEM Lab</span><span class="st part">part</span></a>
+      <a href="#p5" data-target="p5"><span class="n">05</span><span>Automation Scripts</span><span class="st">ok</span></a>
+      <a href="#p6" data-target="p6"><span class="n">06</span><span>GRC Assessment</span><span class="st">ok</span></a>
+      <a href="#p7" data-target="p7"><span class="n">07</span><span>CTF Write-Up Blog</span><span class="st part">part</span></a>
+      <a href="#p8" data-target="p8"><span class="n">08</span><span>Capstone: D&amp;R</span><span class="st part">part</span></a>
+      <a href="#p9" data-target="p9"><span class="n">09</span><span>Cloud / IaC Scanner</span><span class="st">ok</span></a>
+    </div>
+    <div class="rail-key">
+      <span><b>ok</b> run in full, output captured</span>
+      <span><b class="part">part</b> verified core, one piece simulated, pending or template</span>
     </div>
   </nav>
 
-  <main class="main">
-    <section class="intro" id="overview">
-      <span class="kicker">Technical Deep Dive</span>
-      <h1>What each project actually does, and why it works</h1>
-      <p>Nine projects, one rule: every exploit, detection, and statistical claim below was <strong>actually run</strong>, and the numbers you'll see are the real output, not a plausible guess at what the output should look like. This page exists so you can talk through the mechanics of any of these in an interview without having to re-derive them from the code on the spot.</p>
-      <p>Each entry covers what the project is, the mechanism that makes it work, the real evidence it produced, and the specific judgment calls worth being able to defend if someone pushes on them.</p>
-      <div class="legend-strip">
-        <span class="item"><span class="navdot verified"></span> Verified — executed in full, output captured</span>
-        <span class="item"><span class="navdot mixed"></span> Mixed — a verified core plus a simulated or documentation-only piece, explicitly labeled</span>
+  <main>
+    <header class="intro" id="overview">
+      <p class="prompt" aria-hidden="true"><b>battlettt@portfolio</b>:~$ cat ./security/case-files --all</p>
+      <h1 id="title">Case Files</h1>
+      <p class="lede">Eleven security projects and the mechanism behind each one. Every detection, fix and benchmark below was run, and the output shown is what it printed.</p>
+      <p>Each case covers what the project is, how it works, the evidence it produced, and the judgment calls to be ready to defend in an interview.</p>
+      <dl class="ledger">
+        <div><dt>cases across 3 repos</dt><dd>11</dd></div>
+        <div><dt>run in full, output captured</dt><dd>7</dd></div>
+        <div><dt>unit tests passing in 4 tools</dt><dd>108</dd></div>
+        <div><dt>live SIEM dashboard</dt><dd>1</dd></div>
+      </dl>
+      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>3 of 3 entries</span><span>checked 2026-10-25</span></p>
+    </header>
+
+    <section class="index" aria-labelledby="ix-h">
+      <h2 id="ix-h">Case index</h2>
+      <div class="ix-group">
+        <p>standalone tools: own repos, shipped releases</p>
+        <a class="ix-row" href="#sentinelscan"><span class="n">ss</span><span class="t">SentinelScan</span><span class="l">AppSec</span><span class="m">Header, secrets, SRI and drift checks inside the browser, mapped to MITRE ATT&amp;CK</span></a>
+        <a class="ix-row" href="#porthawk"><span class="n">ph</span><span class="t">Porthawk</span><span class="l">Network</span><span class="m">Concurrent TCP scanner for your own network with banners, TLS probing and scan diffs</span></a>
+      </div>
+      <div class="ix-group">
+        <p>cybersecurity-portfolio: nine projects, one repo</p>
+        <a class="ix-row" href="#p1"><span class="n">01</span><span class="t">Vulnerable-to-Secure Web App</span><span class="l">AppSec</span><span class="m">4 OWASP Top 10 flaws found in a live app, fixed, then retested to prove the fix holds</span></a>
+        <a class="ix-row" href="#p2"><span class="n">02</span><span class="t">SQL Injection Lab</span><span class="l">AppSec</span><span class="m">Three classes of SQL injection on a lab app, all closed by parameterized queries</span></a>
+        <a class="ix-row" href="#p3"><span class="n">03</span><span class="t">Network Anomaly Detector</span><span class="l">Detection</span><span class="m">Poisson and Normal baselines with z-tests: 100% recall, 80% precision, held out</span></a>
+        <a class="ix-row" href="#p4"><span class="n">04</span><span class="t">Home SOC / SIEM Lab</span><span class="l">Blue team</span><span class="m">Log ingestion, sliding-window rules and a live dashboard, benchmarked at 191K logs/sec</span></a>
+        <a class="ix-row" href="#p5"><span class="n">05</span><span class="t">Security Automation Scripts</span><span class="l">Tooling</span><span class="m">Brute-force log detector and password crack-time auditor, 10 unit tests</span></a>
+        <a class="ix-row" href="#p6"><span class="n">06</span><span class="t">GRC Risk Assessment</span><span class="l">GRC</span><span class="m">12-asset inventory, inherent vs residual risk register, NIST CSF policy map</span></a>
+        <a class="ix-row" href="#p7"><span class="n">07</span><span class="t">CTF Write-Up Blog</span><span class="l">Docs</span><span class="m">Jekyll scaffold, labeled as a template until real write-ups replace it</span></a>
+        <a class="ix-row" href="#p8"><span class="n">08</span><span class="t">Capstone: Detection &amp; Response</span><span class="l">Blue team</span><span class="m">3-stage simulated intrusion mapped to ATT&amp;CK and correlated to one identity</span></a>
+        <a class="ix-row" href="#p9"><span class="n">09</span><span class="t">Cloud / IaC Misconfiguration Scanner</span><span class="l">Cloud</span><span class="m">Terraform static analysis: 5 rules, 7 of 7 findings caught, 0 false positives</span></a>
       </div>
     </section>
 
-    <table class="index-table" aria-label="Project index">
-      <thead><tr><th>Project</th><th>Lane</th><th>Core mechanism</th></tr></thead>
-      <tbody>
-        <tr><td class="pnum">01</td><td><a href="#p1"><span class="pname">Vulnerable-to-Secure Web App</span></a></td><td class="plane">AppSec</td></tr>
-        <tr><td></td><td colspan="2" class="plane">4 OWASP Top 10 vulns exploited live, then fixed — parameterized queries, bcrypt+JWT, sanitization, ownership checks</td></tr>
-        <tr><td class="pnum">02</td><td><a href="#p2"><span class="pname">SQL Injection Deep Dive</span></a></td><td class="plane">AppSec</td></tr>
-        <tr><td></td><td colspan="2" class="plane">Classic, UNION-based, and blind SQLi against live MySQL — all three fail identically post-fix</td></tr>
-        <tr><td class="pnum">03</td><td><a href="#p3"><span class="pname">Network Anomaly Detector</span></a></td><td class="plane">Data / Detection</td></tr>
-        <tr><td></td><td colspan="2" class="plane">Poisson/Normal baseline fitting + z-test hypothesis testing — 100% recall, 2.8% FPR, held out</td></tr>
-        <tr><td class="pnum">04</td><td><a href="#p4"><span class="pname">Home SOC / SIEM Lab</span></a></td><td class="plane">Blue Team</td></tr>
-        <tr><td></td><td colspan="2" class="plane">Log ingestion → sliding-window detection rules → live dashboard → incident report</td></tr>
-        <tr><td class="pnum">05</td><td><a href="#p5"><span class="pname">Security Automation Scripts</span></a></td><td class="plane">Tooling</td></tr>
-        <tr><td></td><td colspan="2" class="plane">Brute-force log detector + password/crack-time auditor, both unit tested</td></tr>
-        <tr><td class="pnum">06</td><td><a href="#p6"><span class="pname">GRC Risk Assessment</span></a></td><td class="plane">GRC</td></tr>
-        <tr><td></td><td colspan="2" class="plane">12-asset inventory, inherent-vs-residual risk register, NIST CSF policy mapping</td></tr>
-        <tr><td class="pnum">07</td><td><a href="#p7"><span class="pname">CTF Write-Up Blog</span></a></td><td class="plane">Documentation</td></tr>
-        <tr><td></td><td colspan="2" class="plane">Jekyll/GitHub Pages scaffold, honestly labeled as a template pending real write-ups</td></tr>
-        <tr><td class="pnum">08</td><td><a href="#p8"><span class="pname">Capstone: Detection &amp; Response</span></a></td><td class="plane">Blue Team</td></tr>
-        <tr><td></td><td colspan="2" class="plane">3-stage attack chain, MITRE ATT&amp;CK mapped, identity-correlated detection, full IR report</td></tr>
-        <tr><td class="pnum">09</td><td><a href="#p9"><span class="pname">Cloud / IaC Misconfiguration Scanner</span></a></td><td class="plane">Cloud Security</td></tr>
-        <tr><td></td><td colspan="2" class="plane">Scoped Terraform parser + 5 misconfig rules — 7/7 flagged on vulnerable set, 0 false positives on fixed set</td></tr>
-      </tbody>
-    </table>
-
-    <!-- ========================= PROJECT 1 ========================= -->
-    <article class="project" id="p1">
-      <div class="eyebrow-row"><span class="eyebrow-num">01</span><span class="eyebrow">AppSec · Flagship</span></div>
-      <h2>Vulnerable-to-Secure Web App</h2>
-      <div class="chiprow">
-        <span class="chip status"><span class="dot"></span>Fully verified</span>
-        <span class="chip">React (Vite)</span>
-        <span class="chip">Express</span>
-        <span class="chip">MySQL 5.7</span>
-        <span class="chip">bcrypt + JWT</span>
+    <div id="cases">
+      <div class="part-head">
+        <h2>Standalone tools</h2>
+        <p>Built after the portfolio repo, each in its own repository with releases, CI or a test suite of its own.</p>
       </div>
 
-      <blockquote class="resume">
-        <span class="label">Resume line</span>
-        <p>Built and exploited a full-stack React/Node/MySQL application demonstrating 4 OWASP Top 10 vulnerabilities, then remediated each with parameterized queries, output sanitization, bcrypt password hashing, and JWT-based authorization — documenting the full attack-and-fix lifecycle with live exploit scripts and screenshots.</p>
-      </blockquote>
+      <!-- ===================== SENTINELSCAN ===================== -->
+      <article class="case" id="sentinelscan">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/sentinelscan"><b>battlettt</b>/sentinelscan</a></p>
+            <h2>SentinelScan</h2>
+            <p class="lane">AppSec. Chrome extension, Manifest V3, v1.1.</p>
+            <div class="meta-row">
+              <span class="status part">[part] tests verified, live scan pending</span>
+              <ul class="tags"><li>TypeScript</li><li>React</li><li>MV3</li><li>Vitest</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for SentinelScan">
+            <p class="report-h">scan report: sentinelscan</p>
+            <ul>
+              <li><span class="k">unit tests passing</span><span class="lead"></span><span class="v">42</span></li>
+              <li><span class="k">secret formats matched</span><span class="lead"></span><span class="v">9 + entropy</span></li>
+              <li><span class="k">data sent off-device</span><span class="lead"></span><span class="v">0 bytes</span></li>
+            </ul>
+            <ul class="go">
+              <li><a href="https://github.com/battlettt/sentinelscan">source</a></li>
+              <li><a href="https://github.com/battlettt/sentinelscan/blob/main/docs/superpowers/specs/2026-09-02-sentinelscan-design.md">design spec</a></li>
+              <li><a href="https://github.com/battlettt/sentinelscan/blob/main/PRIVACY.md">privacy</a></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Built SentinelScan, a Manifest V3 Chrome extension that grades a website's security posture on demand: header and CSP analysis, a JS-source secrets scanner (9 key formats plus Shannon-entropy detection), Subresource Integrity checks and local drift detection between visits, with every finding mapped to MITRE ATT&amp;CK and covered by 42 unit tests. Nothing leaves the browser.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>A Chrome extension that gives the site in your current tab a security report card when you click it. It runs entirely client-side: no server, no analytics. The only permission that touches pages is <code>activeTab</code>, so it reads a site only when you deliberately scan it, and never in the background.</p>
 
-      <h3>What it is</h3>
-      <p>A movie-review app — the same React/Node/MySQL shape as prior coursework — built twice: a <strong>vulnerable</strong> branch (port 4000/5173) and a <strong>secure</strong> branch (port 4001/5174), so every exploit could be run against the first and then re-run, unmodified, against the second to prove it now fails. Four real vulnerabilities, not toy versions of them.</p>
+          <h3>The five checks</h3>
+          <ul>
+            <li><strong>Headers and config.</strong> CSP quality rather than mere presence, HSTS, frame protection, <code>X-Content-Type-Options</code>, referrer and permissions policy, mixed content, and cookie <code>Secure</code>/<code>SameSite</code> flags. Each finding ships with a paste-ready Express and Nginx fix.</li>
+            <li><strong>Secrets in served JavaScript.</strong> Nine known key formats (AWS, Stripe, Slack tokens and webhooks, Google, GitHub, JWTs, private-key headers), plus Shannon entropy over quoted strings 20 to 80 characters long. A string at 4.0 bits per character or more is reported as secret-shaped.</li>
+            <li><strong>Supply chain.</strong> Cross-origin scripts loaded without an <code>integrity</code> hash, the gap behind Magecart-style skimming such as the 2018 British Airways breach.</li>
+            <li><strong>Drift.</strong> Each scan is stored locally and compared with the previous scan of the same domain. Lost headers, new secrets, new SRI gaps and a lower grade each raise their own finding.</li>
+            <li><strong>ATT&amp;CK mapping.</strong> Missing CSP maps to T1189 Drive-by Compromise, missing HSTS or mixed content to T1557 Adversary-in-the-Middle, missing frame protection or <code>SameSite</code> to T1185 Browser Session Hijacking, and missing SRI to T1195 Supply Chain Compromise.</li>
+          </ul>
 
-      <h3>How each vulnerability works</h3>
-      <p><strong>1 — SQL injection.</strong> The login query concatenated user input directly into SQL text: <code>`... WHERE username = '${username}' AND password = '${password}'`</code>. The payload <code>admin' -- </code> closes the string early and comments out the password check, so the database runs <code>WHERE username = 'admin'</code> with no password condition at all.</p>
-      <div class="term">
-        <div class="term-tab">$ curl -X POST :4000/api/login (real output)</div>
-        <pre><span class="t-dim">POST /api/login {"username":"admin' -- ","password":"anything"}</span>
-<span class="t-ok">{"success":true,"user":{"id":3,"username":"admin","role":"admin"}}</span></pre>
+          <h3>How the grade is computed</h3>
+          <p>One shared scale, so the popup, the toolbar badge and drift detection can never disagree about what a grade means:</p>
+          <div class="term">
+            <div class="term-tab">src/detectors/headerAnalyzer.ts (excerpt)</div>
+            <pre><span class="t-dim">weights:</span> high 25  medium 12  low 5  info 2
+<span class="t-dim">score  = max(0, 100 - sum of weights)</span>
+<span class="t-ok">A+ &gt;= 95   A &gt;= 85   B+ &gt;= 75   B &gt;= 65</span>
+<span class="t-ok">B- &gt;= 55   C &gt;= 45   D  &gt;= 30   else F</span></pre>
+          </div>
+
+          <h3>The bug the unit tests could not see</h3>
+          <p>Live testing in Chrome found problems that 42 passing tests never exercised. The first two were a background-fetch permission issue and unhandled <code>chrome://</code> pages. The third was a scan that never finished on real sites. Two fixes addressed genuine problems (sequential script fetches with no timeout, then a timeout that stopped at the response headers and left the body read unguarded) but neither changed the symptom.</p>
+          <p>Instead of a third guess, the extension's Errors panel gave the answer:</p>
+          <div class="term">
+            <div class="term-tab">chrome://extensions, SentinelScan, Errors</div>
+            <pre><span class="t-bad">Service worker registration failed. Status code: 15</span>
+<span class="t-bad">Uncaught SyntaxError: Cannot use import statement outside a module</span></pre>
+          </div>
+          <p>Vite had split a shared module into its own chunk, so <code>background.js</code> started with an <code>import</code>. Chrome rejects that unless the manifest declares the worker as a module, so the background script had never run at all. The fix was one line: <code>"type": "module"</code> on <code>background.service_worker</code>. The earlier timeout work stayed in: parallel fetches, a 6-second abort covering request and body, and a 25-script cap.</p>
+
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>This is the debugging story to tell. Two reasonable fixes in a row did nothing, which was the signal to stop patching and collect evidence. The patched code had never executed. Passing unit tests and a working extension are separate claims, and a packaging problem like a manifest field is invisible to Vitest.</p>
+          </div>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>The build log does not yet record a clean end-to-end scan of a real site after the manifest fix, and the extension is not on the Chrome Web Store yet (it needs a developer account). The 4.0-bit entropy rule also catches some ids and hashes, which is why those findings are medium severity and worded as a prompt for a manual look.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===================== PORTHAWK ===================== -->
+      <article class="case" id="porthawk">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/porthawk"><b>battlettt</b>/porthawk</a></p>
+            <h2>Porthawk</h2>
+            <p class="lane">Network scanning. Go command-line tool, v1.3.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>Go</li><li>stdlib only</li><li>TLS</li><li>fuzzing</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for Porthawk">
+            <p class="report-h">scan report: porthawk</p>
+            <ul>
+              <li><span class="k">unit tests passing</span><span class="lead"></span><span class="v">47</span></li>
+              <li><span class="k">fuzz targets in CI</span><span class="lead"></span><span class="v">3</span></li>
+              <li><span class="k">external dependencies</span><span class="lead"></span><span class="v">0</span></li>
+            </ul>
+            <ul class="go">
+              <li><a href="https://github.com/battlettt/porthawk">source</a></li>
+              <li><a href="https://github.com/battlettt/porthawk/blob/main/tls.go">tls probing</a></li>
+              <li><a href="https://battlettt.github.io/examples/porthawk-report.html">example report</a></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Wrote Porthawk, a concurrent TCP port scanner in Go with zero dependencies: a bounded worker pool with an optional rate cap, banner-based service and version detection, TLS probing that records protocol, cipher and certificate health, and JSON scan diffing that flags new or changed services; 47 unit tests and 3 fuzz targets run in CI with the race detector.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>An attack-surface inventory for networks you own. Give it hosts, CIDR blocks or ranges and it lists every listening service, names it from the banner it sends, and can compare this week's scan with last week's. Its use cases are defensive: finding a forgotten service, checking that firewall rules block what they should, and spotting expired certificates.</p>
+
+          <h3>How a scan runs</h3>
+          <ul>
+            <li><strong>Bounded concurrency.</strong> Host and port pairs go onto a jobs channel served by a fixed pool of workers (100 by default). <code>-rate</code> adds a ticker so at most N connection attempts go out per second, for fragile devices like printers and cameras.</li>
+            <li><strong>Probe and identify.</strong> A TCP connect with a dial timeout (2s by default) records the handshake latency, then reads a short banner. The banner names the service (SSH, HTTP, SMTP, FTP, MySQL, Redis, VNC and others) and, where it says so, the software version.</li>
+            <li><strong>TLS ports.</strong> On 443, 465, 636, 853, 990, 993, 995, 6697 and 8443 it completes a handshake first and records the protocol version, cipher, certificate subject and issuer, validity dates, and whether the certificate is expired, self-signed or mismatched to the host.</li>
+            <li><strong>Change detection.</strong> <code>-diff</code> reads an earlier JSON scan, matches results by host and port, and reports what opened, closed or changed. Ports an interrupted scan never reached are reported as closed with a warning, so a partial run cannot pass as a clean one.</li>
+            <li><strong>Guard rails.</strong> Banners are reduced to one printable line with all control characters removed before display, and a single scan is capped at 65,536 hosts to prevent accidents.</li>
+          </ul>
+
+          <h3>Sample output (from the README)</h3>
+          <div class="term">
+            <div class="term-tab">$ ./porthawk -t 127.0.0.1,localhost -p 2222,8080,8443,9</div>
+            <pre><span class="t-dim">porthawk: scanning 2 host(s) x 4 port(s) with 100 workers</span>
+HOST       PORT  SERVICE                               TLS   LATENCY
+127.0.0.1  2222  ssh (OpenSSH_9.6p1 Ubuntu-3ubuntu13)  -     1.07ms
+127.0.0.1  8080  http (SimpleHTTP/0.6)                 -     0.30ms
+127.0.0.1  8443  https                                 <span class="t-warn">1.2!</span>  0.80ms
+<span class="t-ok">porthawk: 3 open port(s) found in 6ms</span></pre>
+          </div>
+          <p class="dim">The <code>!</code> after the TLS version marks an expired certificate. A week later, the same command with <code>-diff scan.json</code> reports one service opened, one closed and two upgraded, listing each changed field with its old and new value.</p>
+
+          <h3>Testing</h3>
+          <p>CI runs <code>go vet</code>, the full test suite, the suite again under <code>-race</code>, and three fuzz targets (<code>FuzzParsePorts</code>, <code>FuzzParseTargets</code>, <code>FuzzCleanBanner</code>). The suite passed again on 2026-10-25 for this page.</p>
+
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>Fuzz the parsers, not the network code. Port lists, target specs and banners are the three places where untrusted or user-typed text enters the program, so those are the fuzz targets. The rest is covered by unit tests against local listeners, which keeps the suite fast and deterministic.</p>
+          </div>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>TCP connect scans only. SYN and UDP scanning need raw sockets and root. A service that sends nothing on connect is named by its port number alone, or listed as unknown.</p>
+          </div>
+        </div>
+      </article>
+
+      <div class="part-head">
+        <h2>Cybersecurity Portfolio</h2>
+        <p>Nine projects in <a href="https://github.com/battlettt/cybersecurity-portfolio">one repo</a>, numbered as they are there, from application security through detection, cloud and GRC.</p>
       </div>
-      <p><strong>2 — Stored XSS.</strong> Review text was stored with zero sanitization and rendered with <code>dangerouslySetInnerHTML</code>. A posted <code>&lt;img src=x onerror="..."&gt;</code> payload fires the moment the page loads for <em>any</em> visitor — captured live, changing <code>document.title</code> to <code>XSS-EXECUTED</code> and injecting visible text into the DOM.</p>
-      <p><strong>3 — Broken authentication.</strong> Passwords were stored and compared in plaintext, with no session mechanism — the server just handed back a user object the client was trusted to keep honestly.</p>
-      <p><strong>4 — Broken access control.</strong> Two instances: <code>/api/admin/users</code> "checked" authorization by reading an <code>x-role</code> header the client set on itself, and <code>DELETE /api/reviews/:id</code> had no ownership check — any client could delete anyone's review by id (a classic IDOR).</p>
 
-      <h3>The fixes, and why they close the whole class</h3>
-      <ul>
-        <li><strong>Parameterized queries</strong> — the SQL text is sent to MySQL fully-formed with <code>?</code> placeholders, then values are sent separately as data. The database never re-parses them as SQL, so a quote, a comment marker, or a <code>UNION</code> keyword in the input just becomes an inert value to compare against — not a way to change the query's structure.</li>
-        <li><strong>bcrypt (cost 12) + a signed, 2-hour JWT</strong> — replaces plaintext comparison and the honor-system user object with a cryptographic session the server actually verifies.</li>
-        <li><strong>Two independent XSS layers</strong> — <code>sanitize-html</code> strips all tags server-side <em>and</em> the client renders review text as plain text (React escapes by default) instead of raw HTML — defense in depth, not one gate.</li>
-        <li><strong>A real <code>requireAuth</code> middleware</strong> — verifies the JWT signature and attaches the <em>verified</em> role/id to the request; delete now checks <code>review.author_id === req.user.id || req.user.role === 'admin'</code> from that verified identity, never from anything the client claims.</li>
-      </ul>
+      <!-- ===================== 01 ===================== -->
+      <article class="case" id="p1">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/01-vulnerable-web-app"><b>01</b> 01-vulnerable-web-app</a></p>
+            <h2>Vulnerable-to-Secure Web App</h2>
+            <p class="lane">AppSec. Flagship.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>React</li><li>Express</li><li>MySQL 5.7</li><li>bcrypt + JWT</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 01">
+            <p class="report-h">scan report: 01-vulnerable-web-app</p>
+            <ul>
+              <li><span class="k">OWASP Top 10 classes</span><span class="lead"></span><span class="v">4</span></li>
+              <li><span class="k">scripted screenshots</span><span class="lead"></span><span class="v">8</span></li>
+              <li><span class="k">flaws open after fix</span><span class="lead"></span><span class="v">0</span></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Built and exploited a full-stack React/Node/MySQL application demonstrating 4 OWASP Top 10 vulnerabilities, then remediated each with parameterized queries, output sanitization, bcrypt password hashing, and JWT-based authorization, documenting the full attack-and-fix lifecycle with live exploit scripts and screenshots.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>A movie-review app built twice: a vulnerable branch (ports 4000/5173) and a secure branch (4001/5174). Every test is run against the first, then rerun unchanged against the second to prove it now fails.</p>
 
-      <h3>Real evidence — same payload, before and after</h3>
-      <div class="term">
-        <div class="term-tab">$ same admin' -- payload against the fixed server</div>
-        <pre><span class="t-dim">POST /api/login {"username":"admin' -- ","password":"anything"}</span>
+          <h3>The four flaws and their root causes</h3>
+          <ul>
+            <li><strong>SQL injection.</strong> The login query was built by concatenating user input into SQL text, so input could change the query's structure and skip the password check.</li>
+            <li><strong>Stored XSS.</strong> Review text was saved unsanitized and rendered with <code>dangerouslySetInnerHTML</code>, so markup in a review ran for every visitor.</li>
+            <li><strong>Broken authentication.</strong> Passwords were stored and compared in plaintext, and the server returned a user object the client was trusted to keep.</li>
+            <li><strong>Broken access control.</strong> The admin endpoint trusted an <code>x-role</code> header the client set itself, and review deletion had no ownership check (an IDOR).</li>
+          </ul>
+
+          <h3>The fixes, and why each closes the whole class</h3>
+          <ul>
+            <li><strong>Parameterized queries.</strong> SQL text goes to MySQL with <code>?</code> placeholders and values travel separately as data, so input can never become syntax.</li>
+            <li><strong>bcrypt (cost 12) and a signed 2-hour JWT</strong> replace plaintext comparison and the honor-system user object.</li>
+            <li><strong>Two XSS layers.</strong> <code>sanitize-html</code> strips tags on the server, and the client renders review text as plain text, which React escapes by default.</li>
+            <li><strong>A real <code>requireAuth</code> middleware</strong> verifies the JWT and attaches the verified identity. Delete now checks <code>review.author_id === req.user.id || req.user.role === 'admin'</code> from that identity, never from anything the client claims.</li>
+          </ul>
+
+          <h3>Evidence after the fix</h3>
+          <div class="term">
+            <div class="term-tab">same test requests against the secure branch</div>
+            <pre><span class="t-dim">POST /api/login        (injection test)</span>
 <span class="t-bad">HTTP 401 {"success":false,"message":"Invalid credentials"}</span>
-<span class="t-dim">GET /api/reviews/search?q=x' UNION SELECT ... --</span>
+<span class="t-dim">GET  /api/reviews/search  (injection test)</span>
 <span class="t-bad">[]  (0 rows, no error)</span>
-<span class="t-dim">GET /api/admin/users -H "x-role: admin"  (no token)</span>
+<span class="t-dim">GET  /api/admin/users  -H "x-role: admin"  (no token)</span>
 <span class="t-bad">HTTP 401 {"error":"Missing token"}</span></pre>
-      </div>
-      <p class="muted">All 8 exploit/fix screenshots were captured with a scripted Playwright walkthrough (<code>exploits/capture_exploits.js</code> and <code>capture_fixes.js</code>) rather than taken by hand — the same script runs identically against both branches, which is itself part of the proof that the fix generalizes.</p>
+          </div>
+          <p class="dim">All 8 before-and-after screenshots come from one scripted Playwright walkthrough (<code>capture_exploits.js</code> and <code>capture_fixes.js</code>). The same script runs on both branches, which is part of the proof that the fixes hold.</p>
 
-      <div class="callout">
-        <span class="callout-label">Talking point</span>
-        <p>If asked "why parameterized queries and not just escaping quotes" — escaping is a blocklist against known-dangerous characters, and blocklists are inherently incomplete (encoding tricks, alternate comment syntaxes, etc. keep finding gaps). Parameterization is an architectural fix: user input structurally can never become SQL syntax, because the database receives the query and the values through two separate channels. It closes the entire vulnerability class, not just the payloads you thought to block.</p>
-      </div>
-    </article>
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>"Why parameterized queries and not escaping?" Escaping is a blocklist of dangerous characters, and blocklists keep missing cases. Parameterization is structural: the database receives the query and the values through separate channels, so it closes the vulnerability class rather than the inputs you thought to block.</p>
+          </div>
+        </div>
+      </article>
 
-    <!-- ========================= PROJECT 2 ========================= -->
-    <article class="project" id="p2">
-      <div class="eyebrow-row"><span class="eyebrow-num">02</span><span class="eyebrow">AppSec · Focused Lab</span></div>
-      <h2>SQL Injection Deep Dive</h2>
-      <div class="chiprow">
-        <span class="chip status"><span class="dot"></span>Fully verified</span>
-        <span class="chip">Express</span>
-        <span class="chip">MySQL</span>
-        <span class="chip">Python requests</span>
-      </div>
+      <!-- ===================== 02 ===================== -->
+      <article class="case" id="p2">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/02-sql-injection-lab"><b>02</b> 02-sql-injection-lab</a></p>
+            <h2>SQL Injection Lab</h2>
+            <p class="lane">AppSec. Focused lab.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>Express</li><li>MySQL</li><li>Python</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 02">
+            <p class="report-h">scan report: 02-sql-injection-lab</p>
+            <ul>
+              <li><span class="k">injection classes tested</span><span class="lead"></span><span class="v">3</span></li>
+              <li><span class="k">seeded users / products</span><span class="lead"></span><span class="v">10 / 10</span></li>
+              <li><span class="k">data leaked after fix</span><span class="lead"></span><span class="v">0 rows</span></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Demonstrated and remediated classic, UNION-based, and blind SQL injection against a live MySQL-backed Node.js application using automated Python exploit scripts; root-caused the flaw to string-concatenated queries and secured it with parameterized queries, verifying all three attacks failed post-fix.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>A small companion to Project 1, built only for this: two endpoints (<code>/login</code> and <code>/search</code>), a seeded MySQL database with 10 users and 10 products, and one Python script per injection class. Passwords are stored as SHA-256 hashes here, a deliberate realism choice that differs from Project 1.</p>
 
-      <blockquote class="resume">
-        <span class="label">Resume line</span>
-        <p>Demonstrated and remediated classic, UNION-based, and blind SQL injection against a live MySQL-backed Node.js application using automated Python exploit scripts; root-caused the flaw to string-concatenated queries and secured it with parameterized queries, verifying all three attacks failed post-fix.</p>
-      </blockquote>
+          <h3>Three classes, three different signals</h3>
+          <ul>
+            <li><strong>Classic.</strong> Input that ends the string early removes the password condition from the login query. Same root cause as Project 1.</li>
+            <li><strong>UNION-based.</strong> A product search can be made to return rows from the <code>users</code> table, data the endpoint was never meant to touch.</li>
+            <li><strong>Blind.</strong> No rows or errors come back, only a true/false difference in the response (or its timing). The script recovered the first 16 characters of the admin hash this way, matching the real value exactly. Binary search on each character's code took 105 requests in total.</li>
+          </ul>
 
-      <h3>What it is</h3>
-      <p>A smaller, purpose-built companion to Project 1 — two endpoints (<code>/login</code>, <code>/search</code>), a seeded MySQL database with 10 users (passwords stored as SHA-256 hashes, not plaintext — a different, deliberate realism choice from Project 1) and 10 products, and three <em>different classes</em> of SQL injection run against it, each with a dedicated Python script.</p>
+          <h3>After the fix</h3>
+          <p>With parameterized queries all three return the same empty result: 0 rows on the UNION test, an empty prefix on the blind test and no timing difference. The input is inert data with no query structure left to change.</p>
 
-      <h3>Three techniques, three different oracles</h3>
-      <p><strong>Classic (comment truncation).</strong> Same mechanism as Project 1's bypass — <code>admin' -- </code> strips the trailing <code>AND password_hash = '...'</code> clause entirely.</p>
-      <p><strong>UNION-based.</strong> Run as a real attacker would: first <em>discover the column count</em> by trying <code>UNION SELECT NULL</code>, then <code>NULL,NULL</code>, and so on until the database stops erroring — this alone reveals the target table has 5 columns without ever seeing the source. Then swap the <code>NULL</code>s for real columns pulled from an entirely different table (<code>users</code>), so its data rides back through a product-search response that was never meant to touch it.</p>
-      <div class="term">
-        <div class="term-tab">$ python3 02_union_based.py (real output, excerpt)</div>
-        <pre><span class="t-dim">[1] Discovering column count via UNION SELECT NULL,NULL,...</span>
-<span class="t-dim">    n=1..4 -> HTTP 500 (column count mismatch)</span>
-<span class="t-ok">    n=5  -> HTTP 200 (matches!)</span>
-<span class="t-dim">[2] Exfiltrating users table via UNION</span>
-<span class="t-ok">    admin   admin   87af2904434a87cc9c6954a3c84f4f286f141e12c338beb06d2ca01b8f9f3322</span></pre>
-      </div>
-      <p><strong>Blind (boolean + time-based).</strong> No error, no leaked rows this time — just one true/false bit per request. A boolean oracle (<code>... OR &lt;condition&gt; -- </code>, testing <code>count: 10</code> vs <code>count: 0</code>) recovers each hash character via <strong>binary search on its ASCII code</strong> rather than testing all 16 hex values linearly — roughly 6–7 requests per character instead of up to 16. A time-based oracle (<code>OR IF(condition, SLEEP(0.1), 0)</code>) confirms the same bits with a stopwatch instead of a response body, for when even the row count is hidden.</p>
-      <div class="term">
-        <div class="term-tab">$ python3 03_blind_injection.py (real output, excerpt)</div>
-        <pre><span class="t-dim">pos  char  requests
-1    '8'   7
-2    '7'   6
-...</span>
-<span class="t-ok">Extracted prefix: 87af2904434a87cc
-Total requests: 105  |  Elapsed: 0.13s</span>
-<span class="t-dim">pos=1 correct-guess -> </span><span class="t-warn">1.03s (SLOW=TRUE)</span><span class="t-dim">   wrong-guess -> 0.00s</span></pre>
-      </div>
-      <p>The blind-extracted prefix (<code>87af2904434a87cc</code>) matches the first 16 characters of the real hash exactly — recovered without that hash ever appearing directly in a response body, purely from true/false and fast/slow signals.</p>
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>Blind injection is the one to explain slowly. It shows why "we never display database errors" is not a defense: a single yes/no signal, asked enough times, still leaks exact values. Binary search needs about log2(charset) requests per character instead of one per possible character, which is why it took 105 requests for 16 characters. The only real fix is the structural one.</p>
+          </div>
+        </div>
+      </article>
 
-      <h3>Post-fix: all three fail identically</h3>
-      <p>The parameterized version returns the same shape of "no data" for all three techniques — 0 leaked rows on UNION, an empty extracted prefix on blind boolean, and zero timing signal on blind time-based — because the injected condition is now inert text with nothing left to inject it <em>into</em>.</p>
+      <!-- ===================== 03 ===================== -->
+      <article class="case" id="p3">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/03-network-anomaly-detector"><b>03</b> 03-network-anomaly-detector</a></p>
+            <h2>Network Traffic Anomaly Detector</h2>
+            <p class="lane">Detection. Statistics applied to security telemetry.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>Python</li><li>Scapy</li><li>scipy.stats</li><li>matplotlib</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 03">
+            <p class="report-h">scan report: 03-network-anomaly-detector</p>
+            <ul>
+              <li><span class="k">recall, held out</span><span class="lead"></span><span class="v">100%</span></li>
+              <li><span class="k">precision</span><span class="lead"></span><span class="v">80%</span></li>
+              <li><span class="k">false positive rate</span><span class="lead"></span><span class="v">2.8%</span></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Developed a Python-based network anomaly detector applying statistical hypothesis testing (z-score baseline deviation across Poisson- and Normal-fitted traffic features) to identify port-scan and data-exfiltration patterns, achieving 100% recall / 80% precision (2.8% false positive rate, F1 = 0.889) on a labeled synthetic dataset (500 one-second windows, held-out evaluation).</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>Fit a baseline distribution to normal traffic, then flag deviations with a formal hypothesis test: the one-sample z-test from intro stats, pointed at security telemetry instead of a survey sample.</p>
 
-      <div class="callout">
-        <span class="callout-label">Talking point</span>
-        <p>The blind technique is the one worth being able to explain slowly in an interview, because it's the least intuitive: you're recovering exact byte values from a system that never shows you any data at all, using nothing but a binary yes/no signal repeated enough times. Being able to walk through why binary search on the ASCII code beats linear character guessing (log₂(charset) vs. charset requests per position) is a good signal that you understand the technique rather than having copied a script.</p>
-      </div>
-    </article>
-
-    <!-- ========================= PROJECT 3 ========================= -->
-    <article class="project" id="p3">
-      <div class="eyebrow-row"><span class="eyebrow-num">03</span><span class="eyebrow">Data / Detection</span></div>
-      <h2>Network Traffic Anomaly Detector</h2>
-      <div class="chiprow">
-        <span class="chip status"><span class="dot"></span>Fully verified</span>
-        <span class="chip">Python</span>
-        <span class="chip">Scapy</span>
-        <span class="chip">scipy.stats</span>
-        <span class="chip">matplotlib</span>
-      </div>
-
-      <blockquote class="resume">
-        <span class="label">Resume line</span>
-        <p>Developed a Python-based network anomaly detector applying statistical hypothesis testing (z-score baseline deviation across Poisson- and Normal-fitted traffic features) to identify port-scan and data-exfiltration patterns, achieving 100% detection recall with a 2.8% false positive rate on a labeled synthetic dataset (500 one-second windows, held-out evaluation).</p>
-      </blockquote>
-
-      <h3>What it is</h3>
-      <p>The project explicitly built to prove a statistics background is a real security asset: fit a baseline distribution to "normal" traffic, then flag deviations with a formal hypothesis test — the same one-sample z-test framework used against a population parameter in intro stats, pointed at security telemetry instead of a survey sample.</p>
-
-      <h3>Why the traffic is simulated, stated plainly</h3>
-      <p>Live packet capture needs root (macOS BPF devices are root-only), which this environment doesn't have — confirmed directly, not assumed:</p>
-      <div class="term">
-        <div class="term-tab">$ verifying capture is unavailable</div>
-        <pre><span class="t-dim">&gt;&gt;&gt; scapy.all.sniff(timeout=5, count=20)</span>
+          <h3>Why the traffic is simulated</h3>
+          <p>Live capture needs root (macOS BPF devices are root-only), which the build environment did not have:</p>
+          <div class="term">
+            <div class="term-tab">$ checking live capture</div>
+            <pre><span class="t-dim">&gt;&gt;&gt; scapy.all.sniff(timeout=5, count=20)</span>
 <span class="t-bad">Scapy_Exception: Permission denied: could not open /dev/bpf0.</span></pre>
-      </div>
-      <p>So <code>capture.py</code> uses Scapy to <em>construct</em> real packet objects (<code>IP()/TCP()/UDP()</code> layers) — byte sizes come from <code>len(bytes(pkt))</code> on genuine packet structures, not hand-picked constants — they're just never put on the wire. Baseline arrivals follow a Poisson process (the standard model for aggregate, memoryless network traffic); a simulated port scan sends ~400 small SYN packets across sequential ports in a 5-second burst, and a simulated exfiltration pushes a sustained 15-second burst of near-MTU outbound payloads.</p>
+          </div>
+          <p>So <code>capture.py</code> builds real Scapy packet objects (sizes come from <code>len(bytes(pkt))</code>, not constants) without putting them on the wire. Baseline arrivals follow a Poisson process. The simulated scan is a 5-second burst of about 400 small SYN packets, and the simulated exfiltration is a 15-second run of near-MTU outbound payloads.</p>
 
-      <h3>The statistical method</h3>
-      <p>The baseline is fit on the <strong>first 300 seconds only</strong> — pure normal traffic by construction — and everything from t=300s onward (both attacks, plus untouched normal windows) is held out and never used for fitting. Two distribution families, chosen per feature rather than applied blindly:</p>
-      <ul>
-        <li><code>packet_count</code> → <strong>Poisson</strong> (arrivals are Poisson by construction, so counts per fixed window are too); test statistic <code>z = (x − λ) / √λ</code>.</li>
-        <li><code>unique_dst_ports</code>, <code>mean_pkt_size</code> → <strong>Normal</strong>, fit via <code>scipy.stats.norm.fit</code> (MLE), justified by the CLT since these are aggregates over many packets per window.</li>
-      </ul>
-      <p>A window is flagged if <em>any</em> of the three |z| exceeds the two-tailed critical value at α = 0.01 (z<sub>crit</sub> = 2.576). Running three tests per window is a multiple-comparisons problem — under independence, the naive false-positive rate inflates to roughly 1 − 0.99³ ≈ 3%. That's stated as a deliberate trade-off (missing an attack is worse than an extra analyst review), not hidden as an oversight.</p>
+          <h3>The method</h3>
+          <p>The baseline is fit on the first 300 seconds only, which are normal by construction. Everything from t=300s on is held out. Each feature gets its own distribution:</p>
+          <ul>
+            <li><code>packet_count</code> is <strong>Poisson</strong>, tested with <code>z = (x - λ) / √λ</code>.</li>
+            <li><code>unique_dst_ports</code> and <code>mean_pkt_size</code> are <strong>Normal</strong>, fit by MLE with <code>scipy.stats.norm.fit</code> and justified by the CLT.</li>
+          </ul>
+          <p>A window is flagged if any |z| exceeds 2.576 (two-tailed, α = 0.01). Three tests per window inflate the false-positive rate to about 1 - 0.99³ ≈ 3%, accepted on purpose because a missed attack costs more than an extra review.</p>
 
-      <h3>Real results — held-out evaluation</h3>
-      <table class="metrics">
-        <thead><tr><th>Metric</th><th>Value</th></tr></thead>
-        <tbody>
-          <tr><td>Attack windows (t ≥ 300s)</td><td>20</td></tr>
-          <tr><td>Normal windows (t ≥ 300s)</td><td>180</td></tr>
-          <tr><td>Detection rate (recall)</td><td>100.0%</td></tr>
-          <tr><td>False positive rate</td><td>2.8% <span class="muted">(theory predicted ≈3%)</span></td></tr>
-        </tbody>
-      </table>
-      <p>Both attacks were caught on their very first window — t=300s for the scan (z<sub>ports</sub> = +73.36), t=330s for the exfiltration (z<sub>pkts</sub> = +12.34) — with zero missed attack windows and the empirical false-positive rate landing almost exactly where the multiple-comparisons math predicted it would.</p>
+          <h3>Held-out results</h3>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>metric</th><th>value</th><th>from</th></tr></thead>
+              <tbody>
+                <tr><td>Recall</td><td>100.0%</td><td>20 of 20 attack windows caught</td></tr>
+                <tr><td>Precision</td><td>80.0%</td><td>20 of 25 flagged windows were attacks</td></tr>
+                <tr><td>False positive rate</td><td>2.8%</td><td>5 of 180 normal windows; theory predicted about 3%</td></tr>
+                <tr><td>F1 score</td><td>0.889</td><td>TP=20, FN=0, FP=5, TN=175</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Both attacks were caught on their first window: t=300s for the scan (z<sub>ports</sub> = +73.36) and t=330s for the exfiltration (z<sub>pkts</sub> = +12.34). Precision is the complement to the recall headline: 1 in 5 alerts is a false alarm, the visible cost of OR-ing three tests.</p>
 
-      <div class="callout limits">
-        <span class="callout-label">Honest limitation</span>
-        <p>The port scan and exfiltration patterns aren't evasive — no slow/low-and-slow scanning, no timing jitter, no size padding toward the baseline mean. A real attacker adapting to this exact detector could plausibly evade it. Feature correlation is also ignored (three independent tests instead of a joint/multivariate one), which is what actually drives the false-positive inflation — a Bonferroni correction or Hotelling's T² would trade recall for a lower FPR.</p>
-      </div>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>The simulated attacks make no attempt to blend in (no slow scanning, no timing jitter, no size padding), so an adaptive attacker could likely evade this exact detector. The three tests also ignore feature correlation. A Bonferroni correction or Hotelling's T² would raise precision at some cost in recall.</p>
+          </div>
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>"Why a z-test and not chi-square?" Chi-square compares a whole distribution with an expected one. The question here is narrower: is this one window implausibly far from a fitted mean? That is a one-sample z-test.</p>
+          </div>
+        </div>
+      </article>
 
-      <div class="callout">
-        <span class="callout-label">Talking point</span>
-        <p>"Why z-score and not chi-square" is a fair question and has a real answer: chi-square tests whether an entire empirical distribution matches an expected one — useful for comparing whole histograms. Here the question per window is simpler: "is this <em>one observation</em> implausibly far from a known/fitted population mean?" — that's a one-sample z-test, not a goodness-of-fit problem.</p>
-      </div>
-    </article>
+      <!-- ===================== 04 ===================== -->
+      <article class="case" id="p4">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/04-soc-siem-lab"><b>04</b> 04-soc-siem-lab</a></p>
+            <h2>Home SOC / SIEM Lab</h2>
+            <p class="lane">Blue team. Live demo.</p>
+            <div class="meta-row">
+              <span class="status part">[part] track A run, track B spec only</span>
+              <ul class="tags"><li>Python</li><li>SQLite</li><li>Flask</li><li>ELK spec</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 04">
+            <p class="report-h">scan report: 04-soc-siem-lab</p>
+            <ul>
+              <li><span class="k">ingestion throughput</span><span class="lead"></span><span class="v">191,586/s</span></li>
+              <li><span class="k">mean time to threshold</span><span class="lead"></span><span class="v">11.8s</span></li>
+              <li><span class="k">false positives in 91 logins</span><span class="lead"></span><span class="v">0</span></li>
+            </ul>
+            <ul class="go">
+              <li><a href="https://cybersecurity-portfolio-siem-dashboard.onrender.com" title="Free-tier instance, may take about 30 seconds to wake">live dashboard</a></li>
+              <li><a href="https://github.com/battlettt/cybersecurity-portfolio/blob/main/04-soc-siem-lab/incident_report.md">incident report</a></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Built a home SOC lab with a Python-based log ingestion pipeline and rule-based SIEM alerting engine (SQLite + sliding time-window detection) processing 190K+ logs/sec with a sub-20-second detection threshold on simulated SSH brute-force and port-scan attacks; verified end-to-end via a live Flask dashboard, with a full incident report grounded in the actual pipeline output.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>Two tracks, kept separate</h3>
+          <p><strong>Track A</strong> is a Python and SQLite SIEM that was run for real; every number here comes from it. <strong>Track B</strong> is a full ELK <code>docker-compose.yml</code> for the production path, written to spec but never started because the build machine had no Docker. The README says so plainly.</p>
 
-    <!-- ========================= PROJECT 4 ========================= -->
-    <article class="project" id="p4">
-      <div class="eyebrow-row"><span class="eyebrow-num">04</span><span class="eyebrow">Blue Team</span></div>
-      <h2>Home SOC / SIEM Lab</h2>
-      <div class="chiprow">
-        <span class="chip status mixed"><span class="dot"></span>Track A verified · Track B documented</span>
-        <span class="chip">Python</span>
-        <span class="chip">SQLite</span>
-        <span class="chip">Flask</span>
-        <span class="chip">ELK (spec only)</span>
-      </div>
-
-      <blockquote class="resume">
-        <span class="label">Resume line</span>
-        <p>Built a home SOC lab with a Python-based log ingestion pipeline and rule-based SIEM alerting engine (SQLite + sliding time-window detection); generated and detected simulated SSH brute-force and port-scan attacks end-to-end, verified via a live Flask dashboard, and produced a full incident report grounded in the actual pipeline output.</p>
-      </blockquote>
-
-      <h3>Two tracks, clearly separated</h3>
-      <p><strong>Track A</strong> — a Python + SQLite SIEM, actually run in this environment; every number below is real. <strong>Track B</strong> — a full ELK-stack <code>docker-compose.yml</code> for the production-equivalent path, written to spec but never started, because this environment has no <code>docker</code> binary. The README says exactly that rather than blurring the two.</p>
-
-      <h3>Pipeline</h3>
-      <p><code>log_generator.py</code> writes a syslog-style <code>auth.log</code> mixing normal SSH logins from 6 simulated accounts with two embedded attacks. <code>siem_ingest.py</code> regex-parses every line into a structured SQLite table (and reports, rather than silently drops, anything it can't parse). <code>detection_rules.py</code> applies two independent sliding-window rules: <strong>≥8 failed logins from one IP in 5 minutes</strong> (brute force) and <strong>≥8 distinct ports from one IP in 30 seconds</strong> (port scan). <code>dashboard.py</code> serves the result read-only over Flask.</p>
-
-      <h3>Real run output</h3>
-      <div class="term">
-        <div class="term-tab">$ python3 run_pipeline.py (real output, captured 2026-08-18)</div>
-        <pre><span class="t-dim">STEP 1: 170 lines generated — 55 brute-force attempts, 20 port-scan events</span>
+          <h3>Pipeline</h3>
+          <p><code>log_generator.py</code> writes a syslog-style <code>auth.log</code> mixing normal SSH logins from 6 accounts with two embedded attacks. <code>siem_ingest.py</code> parses each line into SQLite and reports anything it cannot parse instead of dropping it. <code>detection_rules.py</code> applies two sliding-window rules: 8 or more failed logins from one IP in 5 minutes, and 8 or more distinct ports from one IP in 30 seconds. <code>dashboard.py</code> serves the results read-only over Flask.</p>
+          <div class="term">
+            <div class="term-tab">$ python3 run_pipeline.py (captured 2026-08-18)</div>
+            <pre><span class="t-dim">STEP 1: 170 lines generated, 55 brute-force attempts, 20 port-scan events</span>
 <span class="t-dim">STEP 2: Parsed 170/170 lines (0 unparsed)</span>
-<span class="t-warn">[ALERT-BRUTE_FORCE_SSH-001] severity=high src=203.0.113.77 count=55
-  window: 09:12:03 -> 09:14:50  (13 distinct usernames tried)</span>
-<span class="t-warn">[ALERT-PORT_SCAN-002] severity=medium src=198.51.100.23 count=20
-  window: 09:56:51 -> 09:57:02  (ports: 21,22,23,25,53,80,110,143,443,445,...)</span></pre>
-      </div>
-      <p>Both attacks were flagged with <strong>zero false positives</strong> among the 91 legitimate logins — including several innocuous single-retry-then-succeed cases baked into the baseline traffic specifically to test that. The dashboard was actually started and hit with real requests (<code>/healthz</code> → 200, <code>/api/alerts</code> returned both alerts as JSON, <code>/api/timeline</code> returned correct per-hour buckets) before being stopped — nothing was left running.</p>
+<span class="t-warn">[ALERT-BRUTE_FORCE_SSH-001] severity=high src=203.0.113.77 count=55</span>
+<span class="t-warn">[ALERT-PORT_SCAN-002] severity=medium src=198.51.100.23 count=20</span></pre>
+          </div>
+          <p>Both attacks were flagged with no false positives among the 91 legitimate logins, including several retry-then-succeed cases planted in the baseline to test exactly that. The dashboard was started and checked with real requests (<code>/healthz</code>, <code>/api/alerts</code>, <code>/api/timeline</code>) and now runs as a public demo.</p>
 
-      <div class="callout limits">
-        <span class="callout-label">Honest limitation</span>
-        <p>Detection thresholds are justified against published tool behavior and common SIEM defaults, not calibrated against a real production traffic baseline — a real deployment would need that calibration to control its own false-positive rate. Track B has never been run, let alone tested, here.</p>
-      </div>
+          <h3>Performance, benchmarked</h3>
+          <div class="term">
+            <div class="term-tab">$ python3 benchmark_throughput.py &amp;&amp; python3 benchmark_mtta.py</div>
+            <pre><span class="t-dim">Wrote data/bench_auth.log (51.0 MB, 500,000 lines)</span>
+<span class="t-dim">Parsed 500000/500000 lines (0 unparsed)  Elapsed: 2.61s</span>
+<span class="t-ok">Throughput: 191,586 logs/sec</span>
+<span class="t-dim">Brute force: threshold crossed (count=8) after 19.8s</span>
+<span class="t-dim">Port scan:   threshold crossed (count=8) after 3.9s</span>
+<span class="t-ok">Mean time-to-threshold across both real alerts: 11.8s</span></pre>
+          </div>
+          <p>Throughput is single-threaded regex parsing plus SQLite inserts on a laptop, using the real log formatters. Time-to-threshold is computed from event timestamps: the rules run in batch over a finished log, so 11.8s is how fast a streaming version would fire, not a measured live alerting SLA.</p>
 
-      <div class="callout">
-        <span class="callout-label">Talking point</span>
-        <p>Project 5's brute-force detector uses the <em>identical</em> sliding-window algorithm as this SIEM's detection rule, just as a smaller standalone tool. Being able to point out that connection — same technique, two different scales, one imported into the capstone below rather than rewritten — is a good way to show the portfolio isn't 8 disconnected exercises.</p>
-      </div>
-    </article>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>Thresholds follow published tool behavior and common SIEM defaults, not a calibrated production baseline. Track B has never been run.</p>
+          </div>
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>Project 5's brute-force detector uses the same sliding-window algorithm at a smaller scale, and Project 8 imports this pipeline instead of rewriting it. Pointing out those links shows the portfolio is one system, not disconnected exercises.</p>
+          </div>
+        </div>
+      </article>
 
-    <!-- ========================= PROJECT 5 ========================= -->
-    <article class="project" id="p5">
-      <div class="eyebrow-row"><span class="eyebrow-num">05</span><span class="eyebrow">Tooling</span></div>
-      <h2>Security Automation Scripts</h2>
-      <div class="chiprow">
-        <span class="chip status"><span class="dot"></span>Fully verified</span>
-        <span class="chip">Python (stdlib only)</span>
-        <span class="chip">unittest</span>
-      </div>
+      <!-- ===================== 05 ===================== -->
+      <article class="case" id="p5">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/05-security-automation-scripts"><b>05</b> 05-security-automation-scripts</a></p>
+            <h2>Security Automation Scripts</h2>
+            <p class="lane">Tooling.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>Python stdlib</li><li>unittest</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 05">
+            <p class="report-h">scan report: 05-security-automation-scripts</p>
+            <ul>
+              <li><span class="k">unit tests passing</span><span class="lead"></span><span class="v">10</span></li>
+              <li><span class="k">crack-time threat models</span><span class="lead"></span><span class="v">3</span></li>
+              <li><span class="k">bursting IPs flagged</span><span class="lead"></span><span class="v">1 of 3</span></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Wrote Python security automation tools: an SSH auth-log brute-force detector using a sliding-window algorithm, and a password-policy auditor estimating offline crack time across three threat models (fast hash, bcrypt, rate-limited login), with unit tests covering the core detection algorithms.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>The brute-force detector</h3>
+          <p>A two-pointer sliding window per source IP, O(n) per IP, over OpenSSH-style log lines. A flat count cannot tell a burst from background noise: the sample log has three IPs failing logins, and only one clusters tightly enough to cross the threshold.</p>
+          <div class="term">
+            <div class="term-tab">$ python3 log_bruteforce_detector.py sample_data/auth.log</div>
+            <pre><span class="t-dim">Parsed 11 failed-login events. Window: 300s | Threshold: 5</span>
+<span class="t-warn">ALERT  203.0.113.9: 8 attempts in 300s window (22:30:01 -&gt; 22:30:15)</span></pre>
+          </div>
 
-      <blockquote class="resume">
-        <span class="label">Resume line</span>
-        <p>Wrote Python security automation tools — an SSH auth-log brute-force detector using a sliding-window algorithm, and a password-policy auditor estimating offline crack time across three threat models (fast hash, bcrypt, rate-limited login) — with unit tests covering the core detection algorithms.</p>
-      </blockquote>
+          <h3>The password auditor</h3>
+          <p>Checks length, character classes, common-password membership, sequential runs and repeats, then turns estimated entropy into crack time under three threat models, because what attacks the hash matters as much as the password: unsalted MD5 offline (about 10¹⁰ guesses/s), bcrypt cost 12 offline (about 2×10³/s), and a rate-limited login form (about 10/s).</p>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>password (masked)</th><th>entropy</th><th>fast hash</th><th>bcrypt</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">p******d</td><td>37.6 bits</td><td>10.4 seconds</td><td>1.7 years</td></tr>
+                <tr><td class="mono">c***********************e</td><td>117.5 bits, fails policy</td><td>3.75×10¹⁷ yrs</td><td>1.88×10²⁴ yrs</td></tr>
+                <tr><td class="mono">7*************************!</td><td>177.4 bits, passes</td><td>3.97×10³⁵ yrs</td><td>1.98×10⁴² yrs</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The middle row is <code>correcthorsebatterystaple</code> from XKCD 936. It has more entropy than several passwords that pass, yet fails because it is all lowercase. That is deliberate: NIST SP 800-63B now favors length over composition rules, and the tension is a good discussion point.</p>
 
-      <h3>The brute-force detector</h3>
-      <p>A classic two-pointer sliding window <em>per source IP</em> — O(n) per IP, not a naive re-scan — over OpenSSH-style log lines. The point of the sliding window over a flat <code>grep -c | wc -l</code> count is that it can tell a <em>burst</em> from background noise: the sample log has three IPs failing logins, but only one clusters tightly enough in time to cross the threshold.</p>
-      <div class="term">
-        <div class="term-tab">$ python3 log_bruteforce_detector.py sample_data/auth.log (real output)</div>
-        <pre><span class="t-dim">Parsed 11 failed-login events. Window: 300s | Threshold: 5</span>
-<span class="t-warn">ALERT  203.0.113.9: 8 attempts in 300s window (22:30:01 -> 22:30:15)
-       usernames tried: admin, administrator, oracle, postgres, root, ubuntu</span></pre>
-      </div>
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>Ten unit tests cover both scripts. One checks that a burst is flagged while the same count spread over hours is not, which tests the sliding-window logic itself rather than whether the script runs.</p>
+          </div>
+        </div>
+      </article>
 
-      <h3>The password auditor</h3>
-      <p>Checks length, character-class diversity, common-password membership, sequential runs, and repeated-character runs, then converts estimated entropy into crack time under <strong>three different threat models</strong> — because what's attacking the hash matters as much as the password itself: an unsalted-MD5 offline crack (~10¹⁰ guesses/sec), a bcrypt cost-12 offline crack (~2×10³ guesses/sec), and a rate-limited login form (~10 guesses/sec).</p>
-      <table class="metrics">
-        <thead><tr><th>Password (masked)</th><th>Entropy</th><th>Fast hash</th><th>bcrypt</th></tr></thead>
-        <tbody>
-          <tr><td class="mono">p******d</td><td>37.6 bits</td><td>10.4 seconds</td><td>1.7 years</td></tr>
-          <tr><td class="mono">c***********************e</td><td>117.5 bits <span class="muted">(fails policy)</span></td><td>3.75×10¹⁷ yrs</td><td>1.88×10²⁴ yrs</td></tr>
-          <tr><td class="mono">7*************************!</td><td>177.4 bits <span class="muted">(passes)</span></td><td>3.97×10³⁵ yrs</td><td>1.98×10⁴² yrs</td></tr>
-        </tbody>
-      </table>
-      <p>The middle row is <code>correcthorsebatterystaple</code> — the XKCD-936 password. It has more entropy than several passwords that <em>pass</em> the policy, but still fails, because it's all lowercase. That's included on purpose: NIST SP 800-63B's current guidance actually leans toward entropy/length over composition rules, and this is a genuine, defensible tension worth being able to discuss rather than a bug.</p>
+      <!-- ===================== 06 ===================== -->
+      <article class="case" id="p6">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/06-grc-risk-assessment"><b>06</b> 06-grc-risk-assessment</a></p>
+            <h2>GRC Risk Assessment (NIST CSF)</h2>
+            <p class="lane">GRC.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>NIST CSF</li><li>docx, generated</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 06">
+            <p class="report-h">scan report: 06-grc-risk-assessment</p>
+            <ul>
+              <li><span class="k">assets inventoried</span><span class="lead"></span><span class="v">12</span></li>
+              <li><span class="k">risks, scored twice</span><span class="lead"></span><span class="v">10</span></li>
+              <li><span class="k">NIST CSF functions mapped</span><span class="lead"></span><span class="v">5 of 5</span></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Authored a NIST CSF-aligned cybersecurity risk assessment for a simulated mid-size organization: a 12-asset inventory, a 10-item risk register scoring both inherent and residual risk, and a full security policy framework mapped to all five NIST CSF functions, each control traced to a specific identified risk.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>A company built for its sector</h3>
+          <p>The assessment covers <strong>Meridian Environmental Logistics</strong>, built to be realistic for logistics and environmental services rather than a generic template. A company that reports waste and disposal data to regulators has a risk most templates miss: data integrity tied to its operating license, not just to money or uptime. Two of the ten risks exist because of that.</p>
 
-      <div class="callout">
-        <span class="callout-label">Talking point</span>
-        <p>Ten unit tests cover both scripts' core algorithms — including a test that a burst is flagged but the same total count spread across hours is not, which is really a test of the sliding-window logic itself, not just "does the script run."</p>
-      </div>
-    </article>
+          <h3>Inherent vs residual</h3>
+          <p>Every risk is scored twice: assuming no controls (inherent) and with today's controls (residual). That turns a list of bad things into a prioritization tool.</p>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>risk</th><th>inherent</th><th>residual</th><th>why the gap</th></tr></thead>
+              <tbody>
+                <tr><td>R-01 Ransomware on ERP/finance</td><td><span class="sev critical">20/25 critical</span></td><td><span class="sev high">10/25 high</span></td><td>Backups and AV already partly mitigate it</td></tr>
+                <tr><td>R-02 BEC leading to a fraudulent wire</td><td><span class="sev high">15/25 high</span></td><td><span class="sev high">10/25 high</span></td><td>Manual callback checks, inconsistently followed</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>That gap drives the roadmap: close R-02 first with dual approval on wires, and test R-01's untested restores, instead of spending more on a risk that is already partly covered.</p>
 
-    <!-- ========================= PROJECT 6 ========================= -->
-    <article class="project" id="p6">
-      <div class="eyebrow-row"><span class="eyebrow-num">06</span><span class="eyebrow">GRC</span></div>
-      <h2>GRC Risk Assessment (NIST CSF)</h2>
-      <div class="chiprow">
-        <span class="chip status"><span class="dot"></span>Fully verified</span>
-        <span class="chip">NIST CSF</span>
-        <span class="chip">docx (generated)</span>
-      </div>
+          <h3>Every policy cites a risk</h3>
+          <p>Each control under Identify, Protect, Detect, Respond and Recover names the risks it answers, for example <code>PR.AC: Enforce phishing-resistant MFA on ERP/finance [R-01, R-02, R-09]</code>.</p>
 
-      <blockquote class="resume">
-        <span class="label">Resume line</span>
-        <p>Authored a NIST CSF-aligned cybersecurity risk assessment for a simulated mid-size organization: a 12-asset inventory, a 10-item risk register scoring both inherent and residual risk, and a full security policy framework mapped to all five NIST CSF functions, each control traced to a specific identified risk.</p>
-      </blockquote>
+          <h3>How it was built</h3>
+          <p>Generated with <code>docx</code> in Node, so the Word tables and the CSV exports come from one data source and cannot drift apart. That surfaced a layout bug: the 12-column register needed 13,830 DXA against a 9,360 DXA portrait page. The fix gave that table its own landscape section (12,960 DXA) instead of cramming columns.</p>
 
-      <h3>Why the fictional company isn't generic</h3>
-      <p>The assessment covers <strong>Meridian Environmental Logistics</strong>, built to be realistic for the logistics/environmental-services sector rather than a generic template company. That detail matters: an organization that reports waste-volume and disposal data to regulators has a risk category most templates don't surface — <em>data integrity tied directly to an operating license</em>, not just to money or uptime. Two of the ten risks in the register exist specifically because of that.</p>
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>This project leans on the Management Engineering background. GRC teams need people who can read the technical risk correctly, such as why R-01's residual score sits below its inherent score, and explain it in plain language.</p>
+          </div>
+        </div>
+      </article>
 
-      <h3>The scoring model — inherent vs. residual</h3>
-      <p>Every risk is scored <strong>twice</strong>: once assuming no controls exist (inherent), and once accounting for what's actually in place today (residual). That distinction is what turns a risk register from a list of bad things that could happen into an actual prioritization tool:</p>
-      <table class="metrics">
-        <thead><tr><th>Risk</th><th>Inherent</th><th>Residual</th><th>Why the gap</th></tr></thead>
-        <tbody>
-          <tr><td>R-01 Ransomware on ERP/finance</td><td><span class="sevpill critical">20/25 Critical</span></td><td><span class="sevpill high">10/25 High</span></td><td>Backups + AV already partially mitigate it</td></tr>
-          <tr><td>R-02 BEC → fraudulent wire</td><td><span class="sevpill critical">15/25 High</span></td><td><span class="sevpill high">10/25 High</span></td><td>Manual callback verification, inconsistently followed</td></tr>
-        </tbody>
-      </table>
-      <p>That gap is the actual argument for the roadmap: R-01's <em>residual</em> risk is already lower than R-02's because backups exist — so the near-term roadmap prioritizes closing R-02 (dual-approval on wire transfers) and testing R-01's untested restores, rather than throwing more budget at something already partly mitigated.</p>
+      <!-- ===================== 07 ===================== -->
+      <article class="case" id="p7">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/07-ctf-writeup-blog"><b>07</b> 07-ctf-writeup-blog</a></p>
+            <h2>CTF Write-Up Blog</h2>
+            <p class="lane">Documentation.</p>
+            <div class="meta-row">
+              <span class="status part">[part] scaffold verified, content is a template</span>
+              <ul class="tags"><li>Jekyll</li><li>GitHub Pages</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 07">
+            <p class="report-h">scan report: 07-ctf-writeup-blog</p>
+            <ul>
+              <li><span class="k">local build steps</span><span class="lead"></span><span class="v">0</span></li>
+              <li><span class="k">template posts</span><span class="lead"></span><span class="v">1</span></li>
+              <li><span class="k">real write-ups yet</span><span class="lead"></span><span class="v">0</span></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line, once real write-ups exist</figcaption>
+          <p>Maintain a public technical blog documenting methodology for completed TryHackMe, HackTheBox, and OverTheWire challenges: [N] write-ups published, covering [topics].</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>A Jekyll blog that GitHub Pages builds with no local Ruby install: push and it is served. The config, layout and post format are complete.</p>
 
-      <h3>Every policy traces to a risk ID</h3>
-      <p>Section 5 doesn't list generic NIST CSF best practices — each bullet under Identify / Protect / Detect / Respond / Recover cites the specific risk(s) it addresses, e.g. <code>PR.AC: Enforce phishing-resistant MFA on ERP/finance... [R-01, R-02, R-09]</code>. It reads as a direct response to the assessment, not a copy-pasted checklist.</p>
+          <h3>The one deliberate exception</h3>
+          <p>The single post, an OverTheWire Bandit levels 0 to 2 write-up, is labeled a template in its own banner and in the README. The rooms have not been done yet, and a fabricated write-up is exactly what an interviewer's next question would expose.</p>
 
-      <h3>How it was actually built</h3>
-      <p>Written programmatically with <code>docx</code> (Node) rather than by hand in Word, so the Word tables and the CSV exports derive from one shared data source and can't drift out of sync. Building it surfaced a real layout bug worth mentioning: the 12-column risk register table's widths summed to 13,830 DXA against a 9,360 DXA portrait content width — it silently would have overflowed the page. The fix was giving that one table its own landscape-oriented document section (12,960 DXA available) rather than cramming or truncating columns.</p>
+          <h3>The format to keep</h3>
+          <p>Room and context, then approach (dead ends included, the most useful part), then root cause or key technique, then takeaways. Consistent posts show the documentation habit a SOC or IR role needs.</p>
 
-      <div class="callout">
-        <span class="callout-label">Talking point</span>
-        <p>This is the project that leans hardest on a Management Engineering background rather than pure technical skill — and it's worth framing that way directly: GRC roles are chronically short on people who can also read the technical risk correctly (e.g., why R-01's residual score is lower than its inherent score, in plain language) rather than just filling in a template.</p>
-      </div>
-    </article>
+          <div class="note limit">
+            <b class="lbl">! before you use it</b>
+            <p>Leave the resume line out, and do not link the blog, until real rooms written in your own words replace the template.</p>
+          </div>
+        </div>
+      </article>
 
-    <!-- ========================= PROJECT 7 ========================= -->
-    <article class="project" id="p7">
-      <div class="eyebrow-row"><span class="eyebrow-num">07</span><span class="eyebrow">Documentation</span></div>
-      <h2>CTF Write-Up Blog</h2>
-      <div class="chiprow">
-        <span class="chip status mixed"><span class="dot"></span>Scaffold verified · content is a template</span>
-        <span class="chip">Jekyll</span>
-        <span class="chip">GitHub Pages</span>
-      </div>
+      <!-- ===================== 08 ===================== -->
+      <article class="case" id="p8">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/08-capstone-detection-response"><b>08</b> 08-capstone-detection-response</a></p>
+            <h2>Capstone: Detection &amp; Response</h2>
+            <p class="lane">Blue team. Capstone.</p>
+            <div class="meta-row">
+              <span class="status part">[part] simulation verified, one deterministic run</span>
+              <ul class="tags"><li>Python</li><li>SQLite</li><li>MITRE ATT&amp;CK</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 08">
+            <p class="report-h">scan report: 08-capstone-detection-response</p>
+            <ul>
+              <li><span class="k">ATT&amp;CK techniques mapped</span><span class="lead"></span><span class="v">4</span></li>
+              <li><span class="k">log lines parsed</span><span class="lead"></span><span class="v">99/99</span></li>
+              <li><span class="k">simulated dwell time</span><span class="lead"></span><span class="v">13.1 min</span></li>
+            </ul>
+            <ul class="go">
+              <li><a href="https://github.com/battlettt/cybersecurity-portfolio/blob/main/08-capstone-detection-response/incident_response_report.md">IR report</a></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Simulated and detected a multi-stage attack chain (initial access, lateral movement, exfiltration) against a home-built SIEM pipeline, mapped to MITRE ATT&amp;CK (T1110, T1078, T1021.004, T1041) with correlation logic tying all three stages to one identity, producing a full incident response report with timeline, root cause, and remediation recommendations.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>Built on Project 4 by import</h3>
+          <p>The capstone imports Project 4's <code>log_generator</code>, <code>siem_ingest</code> and <code>detection_rules</code> modules instead of copying them. It adds one event type (<code>data_exfil</code>) and one column (<code>bytes_transferred</code>), and Project 4's own pipeline was rerun afterwards with identical results.</p>
 
-      <blockquote class="resume">
-        <span class="label">Resume line — once real write-ups exist</span>
-        <p>Maintain a public technical blog documenting methodology for completed TryHackMe, HackTheBox, and OverTheWire challenges — [N] write-ups published, covering [topics].</p>
-      </blockquote>
+          <h3>The simulated intrusion</h3>
+          <ol>
+            <li><strong>Initial access</strong> (T1110, T1078): 22 password guesses against internet-facing <code>web01</code>, ending in a valid login as employee <code>rpatel</code>.</li>
+            <li><strong>Lateral movement</strong> (T1021.004): the same account moves from <code>web01</code> to <code>app02</code> and <code>db01</code> over SSH.</li>
+            <li><strong>Exfiltration</strong> (T1041): about 812 MB leaves <code>db01</code> over port 443, where it blends with normal HTTPS egress.</li>
+          </ol>
 
-      <h3>What it is</h3>
-      <p>A Jekyll blog GitHub Pages can build with zero local Ruby install or build step — push it, and GitHub builds and serves it automatically. The scaffold itself (config, layout, post format) is complete and verified.</p>
-
-      <h3>The one deliberate exception in this portfolio</h3>
-      <p>The single included post — an OverTheWire Bandit levels 0–2 write-up — is explicitly labeled a <strong>template</strong>, both in the post's own banner and in the project README, not presented as completed work. That's on purpose: this is the one project in the portfolio that isn't "verified real output," because there's no real output yet to show — the rooms haven't been done. Fabricating a CTF write-up is exactly the kind of thing a technical interviewer's very next question would catch, so the honest move is to ship the format and be explicit that the content is a placeholder.</p>
-
-      <h3>The format worth keeping once real posts replace it</h3>
-      <p>Room/context → approach (including dead ends, which is the actually useful part) → root cause / key technique → takeaways. Consistency across posts is itself a signal of someone who documents systematically — exactly the habit a SOC or IR role needs.</p>
-
-      <div class="callout limits">
-        <span class="callout-label">Honest note</span>
-        <p>Don't use the resume line above, and don't link this blog from a resume, until the template post is replaced with real, completed rooms written in your own words.</p>
-      </div>
-    </article>
-
-    <!-- ========================= PROJECT 8 ========================= -->
-    <article class="project" id="p8">
-      <div class="eyebrow-row"><span class="eyebrow-num">08</span><span class="eyebrow">Blue Team · Capstone</span></div>
-      <h2>Capstone: Detection &amp; Response</h2>
-      <div class="chiprow">
-        <span class="chip status mixed"><span class="dot"></span>Simulation verified · single deterministic run</span>
-        <span class="chip">Python</span>
-        <span class="chip">SQLite</span>
-        <span class="chip">MITRE ATT&amp;CK</span>
-      </div>
-
-      <blockquote class="resume">
-        <span class="label">Resume line</span>
-        <p>Simulated and detected a multi-stage attack chain (initial access → lateral movement → exfiltration) against a home-built SIEM pipeline, mapped to MITRE ATT&amp;CK (T1110, T1078, T1021.004, T1041) with correlation logic tying all three stages to one identity, producing a full incident response report with timeline, root cause, and remediation recommendations.</p>
-      </blockquote>
-
-      <h3>Built on Project 4 by import, not duplication</h3>
-      <p>This capstone <code>import</code>s Project 4's <code>log_generator</code>, <code>siem_ingest</code>, and <code>detection_rules</code> modules directly rather than copying their logic. It extends the ingestion schema with one new event type (<code>data_exfil</code>) and one new column (<code>bytes_transferred</code>) — backward-compatibly enough that <strong>Project 4's own pipeline was re-run after the change</strong> and produced identical results, confirming nothing broke.</p>
-
-      <h3>The attack narrative</h3>
-      <ol>
-        <li><strong>Initial access</strong> (T1110 Brute Force → T1078 Valid Accounts) — 22 password-guessing attempts against internet-facing <code>web01</code>, mixing default usernames with one real employee account (<code>rpatel</code>) obtained via simulated OSINT, ending in a successful login.</li>
-        <li><strong>Lateral movement</strong> (T1021.004 Remote Services: SSH) — using the now-valid <code>rpatel</code> credentials, the attacker pivots from <code>web01</code> to <code>app02</code> and <code>db01</code>.</li>
-        <li><strong>Exfiltration</strong> (T1041 Exfiltration Over C2 Channel) — a ~812 MB outbound transfer from <code>db01</code>, deliberately sent over port 443 to blend in with normal HTTPS egress.</li>
-      </ol>
-      <p>Total simulated dwell time: 13.1 minutes, end to end.</p>
-
-      <h3>Real detection run</h3>
-      <div class="term">
-        <div class="term-tab">$ python3 run_pipeline.py (real output, captured 2026-08-18)</div>
-        <pre><span class="t-dim">Parsed 99/99 lines (0 unparsed) — auth_failed:25 auth_success:73 data_exfil:1</span>
+          <h3>Detection run</h3>
+          <div class="term">
+            <div class="term-tab">$ python3 run_pipeline.py (captured 2026-08-18)</div>
+            <pre><span class="t-dim">Parsed 99/99 lines (0 unparsed): auth_failed:25 auth_success:73 data_exfil:1</span>
 <span class="t-warn">[ALERT-BRUTE_FORCE_SSH-001] src=203.0.113.50 count=22</span>
 <span class="t-ok">[CHAIN-001] Full attack chain detected for account 'rpatel':
-  brute force -> valid-account login on web01 -> lateral movement to
-  app02, db01 -> 1 exfiltration event totalling 812.3 MB.</span>
-<span class="t-dim">  T1110      Brute Force                   (Credential Access)
-  T1078      Valid Accounts                (Initial Access)
-  T1021.004  Remote Services: SSH           (Lateral Movement)
-  T1041      Exfiltration Over C2 Channel   (Exfiltration)</span></pre>
-      </div>
+  brute force -&gt; valid-account login on web01 -&gt; lateral movement to
+  app02, db01 -&gt; 1 exfiltration event totalling 812.3 MB.</span></pre>
+          </div>
 
-      <div class="callout">
-        <span class="callout-label">Talking point — the part that shows detection-engineering judgment</span>
-        <p>The correlation rule doesn't fire on any single stage alone — it requires all three to tie back to the <em>same identity</em>, in causal order, before raising one chain-level alert instead of three independent noisy ones. That's a real, defensible design choice: it trades a small amount of detection latency (you wait for the full chain) for a much lower-noise alert an analyst can actually act on — the difference between a SIEM that cries wolf and one an analyst trusts.</p>
-      </div>
+          <div class="note">
+            <b class="lbl">&gt; talking point: detection-engineering judgment</b>
+            <p>The correlation rule fires only when all three stages tie back to the same identity in causal order, then raises one chain alert instead of three noisy ones. It trades a little latency for an alert an analyst can act on, which is the difference between a SIEM that cries wolf and one people trust.</p>
+          </div>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>The lateral-movement rule is identity-scoped: it relies on stage 1 having flagged <code>rpatel</code>. A production version would also baseline each account's normal hosts, so first-time access to a new host is flagged even without an earlier brute-force alert.</p>
+          </div>
+        </div>
+      </article>
 
-      <div class="callout limits">
-        <span class="callout-label">Honest limitation</span>
-        <p>The lateral-movement rule is intentionally identity-scoped — it trusts that stage 1 already flagged <code>rpatel</code> as compromised, rather than being fully anomaly-based. A production version would also want a baseline of each account's normal host-access pattern, to flag first-time access to a new host even without a prior brute-force alert triggering first.</p>
-      </div>
-    </article>
+      <!-- ===================== 09 ===================== -->
+      <article class="case" id="p9">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/cybersecurity-portfolio/tree/main/09-cloud-iac-security-scanner"><b>09</b> 09-cloud-iac-security-scanner</a></p>
+            <h2>Cloud / IaC Misconfiguration Scanner</h2>
+            <p class="lane">Cloud security. Static analysis.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>Python stdlib</li><li>Terraform</li><li>unittest</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for project 09">
+            <p class="report-h">scan report: 09-cloud-iac-security-scanner</p>
+            <ul>
+              <li><span class="k">findings on vulnerable set</span><span class="lead"></span><span class="v">7 of 7</span></li>
+              <li><span class="k">false positives, fixed set</span><span class="lead"></span><span class="v">0</span></li>
+              <li><span class="k">unit tests passing</span><span class="lead"></span><span class="v">9</span></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Built a Python static-analysis tool that parses Terraform IaC and flags AWS misconfigurations (public S3 ACLs, world-open SSH/RDP security groups, wildcard IAM admin policies, unencrypted RDS/EBS storage) across 5 rule checks; verified against a deliberately vulnerable Terraform set (7/7 findings correctly flagged) and a remediated set (0 false positives), with 9 passing unit tests covering the parser and rule logic.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>A scanner that reads Terraform <code>.tf</code> files and flags common AWS misconfigurations before the infrastructure is ever applied. It never calls the AWS API and needs no account, so every result is reproducible at no cost. It follows the same before-and-after pattern as Project 1: a deliberately vulnerable Terraform set and a fixed one.</p>
 
-    <!-- ========================= PROJECT 9 ========================= -->
-    <article class="project" id="p9">
-      <div class="eyebrow-row"><span class="eyebrow-num">09</span><span class="eyebrow">Cloud Security · IaC</span></div>
-      <h2>Cloud / IaC Misconfiguration Scanner</h2>
-      <div class="chiprow">
-        <span class="chip status"><span class="dot"></span>Fully verified</span>
-        <span class="chip">Python (stdlib only)</span>
-        <span class="chip">Terraform</span>
-        <span class="chip">5 rules, 9 unit tests</span>
-      </div>
+          <h3>Five rules</h3>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>rule</th><th>severity</th><th>checks</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">CLOUD-S3-PUBLIC-ACL</td><td><span class="sev high">high</span></td><td>Bucket ACL is <code>public-read</code> or <code>public-read-write</code></td></tr>
+                <tr><td class="mono">CLOUD-SG-OPEN-ADMIN-PORT</td><td><span class="sev high">high</span></td><td>SSH (22) or RDP (3389) open to <code>0.0.0.0/0</code></td></tr>
+                <tr><td class="mono">CLOUD-IAM-WILDCARD-ADMIN</td><td><span class="sev high">high</span></td><td>Policy allows <code>Action: "*"</code> on <code>Resource: "*"</code></td></tr>
+                <tr><td class="mono">CLOUD-STORAGE-UNENCRYPTED</td><td><span class="sev medium">medium</span></td><td>RDS instance or EBS volume with encryption off</td></tr>
+                <tr><td class="mono">CLOUD-S3-NO-VERSIONING</td><td><span class="sev low">low</span></td><td>No versioning block, or versioning disabled</td></tr>
+              </tbody>
+            </table>
+          </div>
 
-      <blockquote class="resume">
-        <span class="label">Resume line</span>
-        <p>Built a Python static-analysis tool that parses Terraform IaC and flags AWS misconfigurations (public S3 ACLs, world-open SSH/RDP security groups, wildcard IAM admin policies, unencrypted RDS/EBS storage) across 5 rule checks; verified against a deliberately vulnerable Terraform set (7/7 findings correctly flagged) and a remediated set (0 false positives), with 9 passing unit tests covering the parser and rule logic.</p>
-      </blockquote>
+          <h3>Captured output</h3>
+          <div class="term">
+            <div class="term-tab">$ python3 run_scan.py vulnerable ; python3 run_scan.py fixed</div>
+            <pre><span class="t-dim">Scanned 5 resource(s) in vulnerable/</span>
+<span class="t-bad">[HIGH] CLOUD-IAM-WILDCARD-ADMIN  aws_iam_policy.deploy_bot</span>
+<span class="t-bad">[HIGH] CLOUD-S3-PUBLIC-ACL  aws_s3_bucket.reports</span>
+<span class="t-bad">[HIGH] CLOUD-SG-OPEN-ADMIN-PORT  aws_security_group.web (SSH)</span>
+<span class="t-bad">[HIGH] CLOUD-SG-OPEN-ADMIN-PORT  aws_security_group.web (RDP)</span>
+<span class="t-warn">[MEDIUM] CLOUD-STORAGE-UNENCRYPTED  aws_db_instance.prod</span>
+<span class="t-warn">[MEDIUM] CLOUD-STORAGE-UNENCRYPTED  aws_ebs_volume.app_data</span>
+<span class="t-dim">[LOW] CLOUD-S3-NO-VERSIONING  aws_s3_bucket.reports</span>
+<span class="t-dim">7 finding(s): 4 HIGH, 2 MEDIUM, 1 LOW</span>
 
-      <h3>Why this one exists</h3>
-      <p>Projects 1-8 are all on-prem: a web app, a database, a network, a host. None of them touch public cloud, which is where a large share of real-world misconfiguration incidents actually start — a permissive S3 ACL or a wildcard IAM policy shipped in Terraform, applied once, and left running. This project closes that gap with the same bar as everything else here: something real, run against real fixtures, with the output actually captured.</p>
+<span class="t-dim">Scanned 5 resource(s) in fixed/</span>
+<span class="t-ok">No findings. 0 misconfigurations detected.</span></pre>
+          </div>
+          <p>The exit code is 1 when findings exist and 0 on a clean scan, so it can gate a CI pipeline as-is.</p>
 
-      <h3>How it works</h3>
-      <p>It's pure static analysis over local <code>.tf</code> text — no AWS account, no API calls, no cost, fully reproducible by anyone who clones the repo. A scoped parser (<code>hcl_lite.py</code>) walks Terraform source with brace-depth counting to pull out <code>resource</code> blocks, their flat attributes, one level of nested blocks (like repeated <code>ingress { }</code> blocks on a security group), and heredoc string bodies — handled specially so embedded JSON braces in an IAM policy don't break the outer brace count. Five rule functions then pattern-match against the parsed structure: public S3 ACLs, SSH/RDP open to <code>0.0.0.0/0</code>, IAM statements with <code>Action: "*"</code> + <code>Resource: "*"</code>, and unencrypted RDS/EBS resources.</p>
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>Each of these misconfigurations is one line of Terraform and easy to miss in review. A check that runs on every change and fails the build turns a reviewer's memory into a gate. It also fills the portfolio's cloud gap: everything else is on-prem.</p>
+          </div>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>The parser (<code>scanner/hcl_lite.py</code>) is scoped on purpose: resource blocks, flat attributes, one level of nested blocks and heredocs, but no <code>for_each</code>, <code>dynamic</code> blocks, modules or interpolation functions. Production Terraform would need a real parser such as <code>python-hcl2</code>. The rules echo CIS AWS Foundations themes but are not certified CIS mappings.</p>
+          </div>
+        </div>
+      </article>
+    </div>
 
-      <h3>Real scan output</h3>
-      <div class="term">
-        <div class="term-tab">$ python3 run_scan.py vulnerable (real output)</div>
-        <pre><span class="t-warn">[HIGH] CLOUD-IAM-WILDCARD-ADMIN — aws_iam_policy.deploy_bot
-[HIGH] CLOUD-S3-PUBLIC-ACL — aws_s3_bucket.reports
-[HIGH] CLOUD-SG-OPEN-ADMIN-PORT — aws_security_group.web (SSH, port 22)
-[HIGH] CLOUD-SG-OPEN-ADMIN-PORT — aws_security_group.web (RDP, port 3389)</span>
-<span class="t-dim">[MEDIUM] CLOUD-STORAGE-UNENCRYPTED — aws_db_instance.prod
-[MEDIUM] CLOUD-STORAGE-UNENCRYPTED — aws_ebs_volume.app_data
-[LOW] CLOUD-S3-NO-VERSIONING — aws_s3_bucket.reports</span>
-<span class="t-ok">7 finding(s): 4 HIGH, 2 MEDIUM, 1 LOW</span></pre>
-      </div>
-      <div class="term">
-        <div class="term-tab">$ python3 run_scan.py fixed (real output — same 5 resources, remediated)</div>
-        <pre><span class="t-ok">Scanned 5 resource(s) in fixed/
-No findings. 0 misconfigurations detected.</span></pre>
-      </div>
-      <p>9 unit tests cover the parser (flat attributes, repeated nested blocks, heredoc-with-embedded-braces) and the rules (each vulnerable fixture flagged, the fixed set clean, plus edge cases like <code>public-read-write</code> and a correctly-scoped IAM policy that should <em>not</em> fire) — all passing.</p>
-
-      <div class="callout">
-        <span class="callout-label">Talking point — why a hand-rolled parser instead of a library</span>
-        <p>A real production scanner would use <code>python-hcl2</code> or a proper HCL grammar rather than brace-counting regex. Writing the scoped version by hand was the point here: it forces understanding of exactly what breaks a regex-based approach (embedded JSON braces inside a heredoc policy string being the sharpest example) rather than treating parsing as a solved problem a library hides.</p>
-      </div>
-
-      <div class="callout limits">
-        <span class="callout-label">Honest limitation</span>
-        <p><code>hcl_lite.py</code>'s own docstring states its scope directly: it handles <code>resource</code> blocks, flat attributes, one level of nested unlabeled blocks, and heredocs — not <code>for_each</code>, <code>dynamic</code> blocks, modules, or interpolation functions. That's sufficient for every fixture in this project, but pointing it at arbitrary production Terraform would need a real parser first. The 5 rules are also informally mapped to CIS AWS Foundations Benchmark and AWS Well-Architected themes, not claimed as certified/official control citations.</p>
-      </div>
-    </article>
-
-    <p class="footer-note">All nine write-ups above summarize the full technical detail in each project's own README — this page is the fast-recall version, not a replacement for reading the code before an interview that goes deep on one of them.</p>
+    <footer>
+      <p>Each case condenses its project README. Read the code before an interview that goes deep on one of them.</p>
+      <p>Sources: <a href="https://github.com/battlettt/cybersecurity-portfolio">cybersecurity-portfolio</a>, <a href="https://github.com/battlettt/sentinelscan">sentinelscan</a>, <a href="https://github.com/battlettt/porthawk">porthawk</a>, and the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a>.</p>
+    </footer>
   </main>
 </div>
 
 <script>
   (function () {
-    var links = Array.prototype.slice.call(document.querySelectorAll('.navlist a'));
-    var sections = links.map(function (a) {
-      return document.getElementById(a.dataset.target);
-    }).filter(Boolean);
-
-    if (!('IntersectionObserver' in window) || sections.length === 0) return;
-
-    var current = null;
-    function setActive(id) {
-      if (id === current) return;
-      current = id;
-      links.forEach(function (a) {
-        a.classList.toggle('active', a.dataset.target === id);
+    // Copy buttons: copy the resume line beside them; fall back to selecting it.
+    document.querySelectorAll('.resume .copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var p = btn.parentElement.querySelector('p');
+        var text = p.textContent.trim();
+        function done(label) { btn.textContent = label; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); }
+        function select() {
+          var r = document.createRange(); r.selectNodeContents(p);
+          var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+          done('Selected');
+        }
+        try {
+          navigator.clipboard.writeText(text).then(function () { done('Copied'); }, select);
+        } catch (e) { select(); }
       });
+    });
+
+    // Rail: mark the case in view.
+    var links = Array.prototype.slice.call(document.querySelectorAll('.rail a[data-target]'));
+    var cases = links.map(function (a) { return document.getElementById(a.dataset.target); }).filter(Boolean);
+    if ('IntersectionObserver' in window && cases.length) {
+      var current = null;
+      var io = new IntersectionObserver(function (entries) {
+        var vis = entries.filter(function (e) { return e.isIntersecting; });
+        if (!vis.length) return;
+        vis.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+        var id = vis[0].target.id;
+        if (id === current) return;
+        current = id;
+        links.forEach(function (a) {
+          var on = a.dataset.target === id;
+          if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
+          if (on && window.matchMedia('(max-width: 62rem)').matches) {
+            var rail = a.closest('.rail');
+            rail.scrollTo({ left: a.offsetLeft - 16, behavior: 'smooth' });
+          }
+        });
+      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+      cases.forEach(function (c) { io.observe(c); });
     }
 
-    var observer = new IntersectionObserver(function (entries) {
-      var visible = entries.filter(function (e) { return e.isIntersecting; });
-      if (visible.length > 0) {
-        visible.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
-        setActive(visible[0].target.id);
-      }
-    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
-
-    sections.forEach(function (s) { observer.observe(s); });
-    setActive(sections[0].id);
+    // Title decodes once on load, like the site's Security headings.
+    // The real text is in the markup, so the page reads correctly without this.
+    var h = document.getElementById('title');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (h && !reduce) {
+      var final = h.textContent, glyphs = '#$%&*+<>/=?01', frame = 0, total = 18;
+      var tick = function () {
+        frame++;
+        var out = '';
+        for (var i = 0; i < final.length; i++) {
+          if (final[i] === ' ' || i < (frame / total) * final.length) { out += final[i]; }
+          else { out += glyphs[(i * 7 + frame) % glyphs.length]; }
+        }
+        h.textContent = out;
+        if (frame < total) { setTimeout(tick, 40); } else { h.textContent = final; }
+      };
+      setTimeout(tick, 120);
+    }
+    // A link straight to one case (say #p6) jumps before the web fonts load.
+    // The text above then reflows taller and pushes the case down the page,
+    // so jump again once the fonts are in, unless the reader has already
+    // scrolled, tapped or pressed a key. Smooth scrolling for in-page links
+    // is turned on only after that, so it cannot animate the first jump.
+    var root = document.documentElement;
+    var smoothOn = function () { root.classList.add('smooth'); };
+    if (location.hash && document.fonts) {
+      var touched = false, t0 = Date.now();
+      var mark = function () { touched = true; };
+      ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
+        window.addEventListener(ev, mark, { once: true, passive: true });
+      });
+      var jump = function () {
+        document.fonts.ready.then(function () {
+          var target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+          if (target && !touched && Date.now() - t0 < 8000) {
+            target.scrollIntoView({ behavior: 'instant', block: 'start' });
+          }
+          smoothOn();
+        });
+      };
+      // Wait for the font stylesheet itself (the load event) before asking
+      // whether the fonts are ready; earlier, there are no fonts to wait for.
+      if (document.readyState === 'complete') { jump(); } else { window.addEventListener('load', jump); }
+    } else {
+      smoothOn();
+    }
   })();
 </script>
+</body>
+</html>
