@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Portfolio Case Files</title>
-<meta name="description" content="Eleven security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
+<meta name="description" content="Twelve security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
 <link rel="canonical" href="https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Portfolio Case Files">
-<meta property="og:description" content="Eleven security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
+<meta property="og:description" content="Twelve security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
 <meta property="og:url" content="https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
@@ -297,6 +297,7 @@
       <p>standalone tools</p>
       <a href="#sentinelscan" data-target="sentinelscan"><span class="n">ss</span><span>SentinelScan</span><span class="st part">part</span></a>
       <a href="#porthawk" data-target="porthawk"><span class="n">ph</span><span>Porthawk</span><span class="st">ok</span></a>
+      <a href="#authlog" data-target="authlog"><span class="n">al</span><span>AuthLog Sentinel</span><span class="st">ok</span></a>
     </div>
     <div class="rail-group">
       <p>cybersecurity-portfolio</p>
@@ -320,15 +321,15 @@
     <header class="intro" id="overview">
       <p class="prompt" aria-hidden="true"><b>battlettt@portfolio</b>:~$ cat ./security/case-files --all</p>
       <h1 id="title">Case Files</h1>
-      <p class="lede">Eleven security projects and the mechanism behind each one. Every detection, fix and benchmark below was run, and the output shown is what it printed.</p>
+      <p class="lede">Twelve security projects and the mechanism behind each one. Every detection, fix and benchmark below was run, and the output shown is what it printed.</p>
       <p>Each case covers what the project is, how it works, the evidence it produced, and the judgment calls to be ready to defend in an interview.</p>
       <dl class="ledger">
-        <div><dt>cases across 3 repos</dt><dd>11</dd></div>
-        <div><dt>run in full, output captured</dt><dd>7</dd></div>
-        <div><dt>unit tests passing in 4 tools</dt><dd>108</dd></div>
+        <div><dt>cases across 4 repos</dt><dd>12</dd></div>
+        <div><dt>run in full, output captured</dt><dd>8</dd></div>
+        <div><dt>unit tests passing in 5 tools</dt><dd>154</dd></div>
         <div><dt>live SIEM dashboard</dt><dd>1</dd></div>
       </dl>
-      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>3 of 3 entries</span><span>checked 2026-10-25</span></p>
+      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>4 of 4 entries</span><span>checked 2026-11-01</span></p>
     </header>
 
     <section class="index" aria-labelledby="ix-h">
@@ -337,6 +338,7 @@
         <p>standalone tools: own repos, shipped releases</p>
         <a class="ix-row" href="#sentinelscan"><span class="n">ss</span><span class="t">SentinelScan</span><span class="l">AppSec</span><span class="m">Header, secrets, SRI and drift checks inside the browser, mapped to MITRE ATT&amp;CK</span></a>
         <a class="ix-row" href="#porthawk"><span class="n">ph</span><span class="t">Porthawk</span><span class="l">Network</span><span class="m">Concurrent TCP scanner for your own network with banners, TLS probing and scan diffs</span></a>
+        <a class="ix-row" href="#authlog"><span class="n">al</span><span class="t">AuthLog Sentinel</span><span class="l">Detection</span><span class="m">SSH auth-log analyzer that ranks brute-force and credential-stuffing IPs, read-only by design</span></a>
       </div>
       <div class="ix-group">
         <p>cybersecurity-portfolio: nine projects, one repo</p>
@@ -499,6 +501,83 @@ HOST       PORT  SERVICE                               TLS   LATENCY
           <div class="note limit">
             <b class="lbl">! limitation</b>
             <p>TCP connect scans only. SYN and UDP scanning need raw sockets and root. A service that sends nothing on connect is named by its port number alone, or listed as unknown.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===================== AUTHLOG SENTINEL ===================== -->
+      <article class="case" id="authlog">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/authlog-sentinel"><b>battlettt</b>/authlog-sentinel</a></p>
+            <h2>AuthLog Sentinel</h2>
+            <p class="lane">Detection. Go command-line tool, v1.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>Go</li><li>stdlib only</li><li>SSH</li><li>JSON</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for AuthLog Sentinel">
+            <p class="report-h">scan report: authlog-sentinel</p>
+            <ul>
+              <li><span class="k">unit tests passing</span><span class="lead"></span><span class="v">46</span></li>
+              <li><span class="k">external dependencies</span><span class="lead"></span><span class="v">0</span></li>
+              <li><span class="k">usernames tried by top offender</span><span class="lead"></span><span class="v">12</span></li>
+            </ul>
+            <ul class="go">
+              <li><a href="https://github.com/battlettt/authlog-sentinel">source</a></li>
+              <li><a href="https://github.com/battlettt/authlog-sentinel/blob/main/README.md">README</a></li>
+              <li><a href="https://github.com/battlettt/authlog-sentinel/blob/main/examples/sample-auth.log">sample log</a></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Built AuthLog Sentinel, a zero-dependency Go CLI that parses Linux SSH auth logs and ranks likely brute-force and credential-stuffing sources: per-IP sliding-window analysis, a hand-checkable score (failures + 3 &times; distinct usernames), duplicate-line handling for sshd's double logging, text and JSON reports, and commented-out iptables/nftables suggestions that never auto-apply, covered by 46 unit and CLI tests.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>A read-only analyzer for <code>/var/log/auth.log</code>, <code>/var/log/secure</code> or <code>journalctl</code> output in syslog format. It groups SSH login failures by source IP, ranks the IPs by a score you can check by hand, and calls out any flagged IP that also logged in successfully. It never touches the firewall, never writes to a system file and makes no network calls.</p>
+
+          <h3>How detection works</h3>
+          <ul>
+            <li><strong>Parsing.</strong> Five <code>sshd</code> line shapes are recognized. Failed password, failed publickey and invalid-user lines count as failures. Preauth disconnects and accepted logins are kept as context columns. Timestamps can be traditional syslog or RFC 3339. Syslog has no year, so a date more than two days in the future is moved back a year, which handles December logs read in January.</li>
+            <li><strong>One attempt, counted once.</strong> sshd often writes both an "Invalid user" line and a "Failed password for invalid user" line for a single attempt. The two are merged when they share an IP and source port within 10 minutes, so stuffing runs are not double-counted.</li>
+            <li><strong>Sliding window.</strong> Each IP's failures are sorted by time and a window (60 minutes by default) slides over them. The report shows each IP's worst window, while the TOTAL, PREAUTH and ACCEPTED columns cover the whole input.</li>
+            <li><strong>Score and flag rule.</strong> Score is failures + 3 &times; distinct usernames. An IP is flagged when one window reaches 10 failures, 5 distinct usernames or a score of 25, and the REASONS column names which rule tripped.</li>
+            <li><strong>Hostile input.</strong> Usernames are chosen by the attacker, so the text report escapes non-printable characters and quotes names containing spaces or commas. Malformed lines are counted and skipped, never fatal.</li>
+          </ul>
+
+          <h3>Captured output</h3>
+          <div class="term">
+            <div class="term-tab">$ ./authlog-sentinel examples/sample-auth.log (run 2026-11-01, columns cut at USERS)</div>
+            <pre><span class="t-dim">Lines:      150 read, 137 sshd auth events, 9 ignored, 4 malformed (skipped)</span>
+<span class="t-dim">Flag rule:  failures &gt;= 10 OR distinct users &gt;= 5 OR score &gt;= 25</span>
+
+FLAGGED IPs (3), worst first
+RANK  IP                     SCORE  FAILS  USERS
+<span class="t-bad">1     203.0.113.77           48     12     12</span>
+<span class="t-bad">2     198.51.100.23          28     25     1</span>
+<span class="t-bad">3     2001:db8:dead:beef::7  14     11     1</span>
+
+<span class="t-warn">WARNING: flagged IP 198.51.100.23 also has 1 accepted login(s); investigate for possible compromise.</span></pre>
+          </div>
+          <p>The username weight is why the stuffing run ranks first: 12 attempts across 12 usernames scores 48, while 25 guesses at <code>root</code> scores 28. The sample also hides a slow brute force, <code>198.51.100.200</code>, guessing once every 7 minutes. It never reaches 10 failures in any 60-minute window (44 over the whole log), and rerunning with <code>--window 2h</code> flags it with 18 failures and a score of 21.</p>
+
+          <h3>Read-only by design</h3>
+          <p><code>--blocklist</code> prints the flagged addresses and example iptables and nftables rules, every rule commented out. A flagged IP can be a shared NAT or VPN exit, your own monitoring host, or a colleague with a stale saved password, so applying a block stays a human decision. The README points to the durable fixes instead: disable password authentication and root login, and use keys or MFA.</p>
+
+          <h3>Testing</h3>
+          <p>46 tests (33 top-level, 13 subtests) cover the parser, analyzer, reports, blocklist and end-to-end CLI runs. <code>go vet</code> is clean, and the suite passed again on 2026-11-01 for this page. The sample log is synthetic and uses only documentation IP ranges (RFC 5737 and RFC 3849).</p>
+
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>This is the production-shaped successor to Project 5's Python detector: the same per-IP sliding window, plus a username dimension, duplicate-line handling, IPv6, JSON output and a worst-window report. The ACCEPTED column is the signal to lead with. A flagged IP with an accepted login is an incident to investigate, not just an address to block.</p>
+          </div>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>Batch only: it reads the files it is given and exits, with no live tailing. Grouping is per IP, so an attack spread across many addresses that each stay under the thresholds is not correlated. The thresholds are defaults, not a calibrated baseline, and hostnames in <code>from</code> fields (sshd with <code>UseDNS yes</code>) are counted as malformed rather than resolved.</p>
           </div>
         </div>
       </article>
@@ -1052,7 +1131,7 @@ HOST       PORT  SERVICE                               TLS   LATENCY
 
     <footer>
       <p>Each case condenses its project README. Read the code before an interview that goes deep on one of them.</p>
-      <p>Sources: <a href="https://github.com/battlettt/cybersecurity-portfolio">cybersecurity-portfolio</a>, <a href="https://github.com/battlettt/sentinelscan">sentinelscan</a>, <a href="https://github.com/battlettt/porthawk">porthawk</a>, and the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a>.</p>
+      <p>Sources: <a href="https://github.com/battlettt/cybersecurity-portfolio">cybersecurity-portfolio</a>, <a href="https://github.com/battlettt/sentinelscan">sentinelscan</a>, <a href="https://github.com/battlettt/porthawk">porthawk</a>, <a href="https://github.com/battlettt/authlog-sentinel">authlog-sentinel</a>, and the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a>.</p>
     </footer>
   </main>
 </div>
