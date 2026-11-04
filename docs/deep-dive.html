@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Portfolio Case Files</title>
-<meta name="description" content="Twelve security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
+<meta name="description" content="Thirteen security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
 <link rel="canonical" href="https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Portfolio Case Files">
-<meta property="og:description" content="Twelve security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
+<meta property="og:description" content="Thirteen security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
 <meta property="og:url" content="https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
@@ -298,6 +298,7 @@
       <a href="#sentinelscan" data-target="sentinelscan"><span class="n">ss</span><span>SentinelScan</span><span class="st part">part</span></a>
       <a href="#porthawk" data-target="porthawk"><span class="n">ph</span><span>Porthawk</span><span class="st">ok</span></a>
       <a href="#authlog" data-target="authlog"><span class="n">al</span><span>AuthLog Sentinel</span><span class="st">ok</span></a>
+      <a href="#phishlens" data-target="phishlens"><span class="n">pl</span><span>PhishLens</span><span class="st">ok</span></a>
     </div>
     <div class="rail-group">
       <p>cybersecurity-portfolio</p>
@@ -321,15 +322,15 @@
     <header class="intro" id="overview">
       <p class="prompt" aria-hidden="true"><b>battlettt@portfolio</b>:~$ cat ./security/case-files --all</p>
       <h1 id="title">Case Files</h1>
-      <p class="lede">Twelve security projects and the mechanism behind each one. Every detection, fix and benchmark below was run, and the output shown is what it printed.</p>
+      <p class="lede">Thirteen security projects and the mechanism behind each one. Every detection, fix and benchmark below was run, and the output shown is what it printed.</p>
       <p>Each case covers what the project is, how it works, the evidence it produced, and the judgment calls to be ready to defend in an interview.</p>
       <dl class="ledger">
-        <div><dt>cases across 4 repos</dt><dd>12</dd></div>
-        <div><dt>run in full, output captured</dt><dd>8</dd></div>
-        <div><dt>unit tests passing in 5 tools</dt><dd>154</dd></div>
+        <div><dt>cases across 5 repos</dt><dd>13</dd></div>
+        <div><dt>run in full, output captured</dt><dd>9</dd></div>
+        <div><dt>unit tests passing in 6 tools</dt><dd>233</dd></div>
         <div><dt>live SIEM dashboard</dt><dd>1</dd></div>
       </dl>
-      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>4 of 4 entries</span><span>checked 2026-11-01</span></p>
+      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>5 of 5 entries</span><span>checked 2026-11-04</span></p>
     </header>
 
     <section class="index" aria-labelledby="ix-h">
@@ -339,6 +340,7 @@
         <a class="ix-row" href="#sentinelscan"><span class="n">ss</span><span class="t">SentinelScan</span><span class="l">AppSec</span><span class="m">Header, secrets, SRI and drift checks inside the browser, mapped to MITRE ATT&amp;CK</span></a>
         <a class="ix-row" href="#porthawk"><span class="n">ph</span><span class="t">Porthawk</span><span class="l">Network</span><span class="m">Concurrent TCP scanner for your own network with banners, TLS probing and scan diffs</span></a>
         <a class="ix-row" href="#authlog"><span class="n">al</span><span class="t">AuthLog Sentinel</span><span class="l">Detection</span><span class="m">SSH auth-log analyzer that ranks brute-force and credential-stuffing IPs, read-only by design</span></a>
+        <a class="ix-row" href="#phishlens"><span class="n">pl</span><span class="t">PhishLens</span><span class="l">Email</span><span class="m">Pasted headers and links to a plain-English verdict: SPF, DKIM and DMARC alignment, spoofing, URL tricks, no network</span></a>
       </div>
       <div class="ix-group">
         <p>cybersecurity-portfolio: nine projects, one repo</p>
@@ -578,6 +580,88 @@ RANK  IP                     SCORE  FAILS  USERS
           <div class="note limit">
             <b class="lbl">! limitation</b>
             <p>Batch only: it reads the files it is given and exits, with no live tailing. Grouping is per IP, so an attack spread across many addresses that each stay under the thresholds is not correlated. The thresholds are defaults, not a calibrated baseline, and hostnames in <code>from</code> fields (sshd with <code>UseDNS yes</code>) are counted as malformed rather than resolved.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===================== PHISHLENS ===================== -->
+      <article class="case" id="phishlens">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/phishlens"><b>battlettt</b>/phishlens</a></p>
+            <h2>PhishLens</h2>
+            <p class="lane">Email forensics. Python command-line tool, v1.0.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>Python</li><li>stdlib only</li><li>headers</li><li>URLs</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for PhishLens">
+            <p class="report-h">scan report: phishlens</p>
+            <ul>
+              <li><span class="k">unit tests passing</span><span class="lead"></span><span class="v">79</span></li>
+              <li><span class="k">network requests during analysis</span><span class="lead"></span><span class="v">0</span></li>
+              <li><span class="k">analyzed content stored</span><span class="lead"></span><span class="v">0 bytes</span></li>
+            </ul>
+            <ul class="go">
+              <li><a href="https://github.com/battlettt/phishlens">source</a></li>
+              <li><a href="https://github.com/battlettt/phishlens/blob/main/README.md">README</a></li>
+              <li><a href="https://battlettt.github.io/phishlens/demo/">demo</a></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Built PhishLens, a zero-dependency Python CLI that turns pasted email headers and links into a plain-English verdict (looks safe, suspicious, likely phishing) with ranked reasons: SPF, DKIM and DMARC reported separately with alignment to the From domain, display-name and look-alike domain spoofing, Received-chain anomalies, forged "pass" headers, and lexical URL checks; it makes no network or DNS calls, stores nothing and defangs every URL, enforced by 79 tests.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>A triage tool for the question "is this email real?" Paste the headers from "Show original" (or a single link) and it answers with one of three verdicts, the reasons ranked by severity, and what to do next. It works only on the text it is given: it never opens a mailbox, never fetches a link and never looks up a domain.</p>
+
+          <h3>How a verdict is built</h3>
+          <ul>
+            <li><strong>Sender identity.</strong> It parses From, Reply-To, Return-Path, Message-ID and the Received chain, then checks whether those agree: a Return-Path on another domain, replies routed to a free mailbox, a display name claiming a brand the address does not belong to, and look-alike or IDN domains checked against 22 commonly impersonated brands.</li>
+            <li><strong>Authentication, read not redone.</strong> SPF, DKIM and DMARC come from the Authentication-Results the receiving server already wrote, and each is reported on its own with whether it is aligned to the From domain (relaxed, by organizational domain). Nothing is looked up again.</li>
+            <li><strong>Contradictions.</strong> A lower "pass" header that disagrees with the receiving server's own result, a DMARC pass for a different domain, or Received-SPF disagreeing with the results are each a finding, because a sender can add headers but cannot change the ones written after it.</li>
+            <li><strong>Links.</strong> Every link in a pasted body is checked lexically: punycode and homographs, credentials before an <code>@</code>, IP-literal hosts in decimal, hex or octal form, shorteners, link text naming a different site than the target, brand-as-subdomain decoys, unusual ports and <code>javascript:</code> or <code>data:</code> schemes.</li>
+            <li><strong>Scoring.</strong> Any HIGH finding, or enough smaller ones together, gives LIKELY PHISHING; a couple of warning signs give SUSPICIOUS. Context that is normal for real mail, such as a newsletter whose Return-Path belongs to its email service but which still passes DMARC, is listed as "also noted" and does not count against the message.</li>
+          </ul>
+
+          <h3>Captured output</h3>
+          <div class="term">
+            <div class="term-tab">$ python -m phishlens --headers examples/phishing-headers.txt (run 2026-11-04, 5 of 10 finding titles shown)</div>
+            <pre><span class="t-bad">VERDICT: LIKELY PHISHING</span>
+<span class="t-dim">  SPF:   FAIL</span>
+<span class="t-dim">  DKIM:  NONE</span>
+<span class="t-dim">  DMARC: NONE</span>
+<span class="t-bad">  1. [HIGH] The sender's name claims to be PayPal, but the address is not PayPal's</span>
+<span class="t-bad">  2. [HIGH] The From domain imitates PayPal</span>
+<span class="t-bad">  3. [HIGH] A link in the message is dangerous</span>
+<span class="t-warn">  6. [MEDIUM] Authentication results contradict each other</span>
+<span class="t-warn">  7. [MEDIUM] Replies would go to a different address than the sender</span>
+
+<span class="t-dim">$ python -m phishlens --headers examples/legitimate-headers.txt</span>
+<span class="t-ok">VERDICT: LOOKS SAFE</span>
+<span class="t-ok">  SPF:   PASS (aligned)</span>
+<span class="t-ok">  DKIM:  PASS (aligned)</span>
+<span class="t-ok">  DMARC: PASS</span></pre>
+          </div>
+          <p class="dim">The phishing sample produces 10 findings (3 HIGH, 6 MEDIUM, 1 LOW). Both samples are made up for the project and ship as the built-in <code>--demo</code>. Every URL and domain in a real report is printed defanged (<code>hxxps://example[.]com</code>), so nothing in the output is clickable. The demo page is a static showcase of these two runs, not a live analyzer.</p>
+
+          <h3>Safe by construction, enforced by tests</h3>
+          <p>The safety claims are tests, not promises. One test replaces the socket connect, connection and DNS functions with ones that fail, then runs the demo and a set of tricky links. Another runs the CLI in an empty temporary directory and asserts the directory is still empty afterwards. A third scans the package source for network, mail, logging, database and file-writing code. A fourth checks every report for live links.</p>
+
+          <h3>Testing</h3>
+          <p>79 pytest tests: 39 for header parsing and spoofing, 27 for URL tricks and 13 for the CLI and the safety rules. Analysis uses only the Python standard library (3.11 or newer), and pytest is the only extra. The suite passed again on 2026-11-04 for this page.</p>
+
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>"SPF passed" on its own says little. SPF checks the envelope sender, which the attacker chooses, so a phishing email can pass SPF for its own throwaway domain. What protects the address a reader sees is alignment: did SPF or DKIM pass for a domain matching the From header? That is why PhishLens reports all three results separately with alignment, and why it trusts only the topmost Authentication-Results written by the receiving server.</p>
+          </div>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>It judges only what is pasted. A fully authenticated email from a domain the attacker owns can still be a scam, and the look-alike checks cover a built-in list of brands. Organizational domains come from a small built-in suffix list rather than the full Public Suffix List, and shortened links are flagged but never expanded, because expanding them means visiting them.</p>
           </div>
         </div>
       </article>
@@ -1131,7 +1215,7 @@ RANK  IP                     SCORE  FAILS  USERS
 
     <footer>
       <p>Each case condenses its project README. Read the code before an interview that goes deep on one of them.</p>
-      <p>Sources: <a href="https://github.com/battlettt/cybersecurity-portfolio">cybersecurity-portfolio</a>, <a href="https://github.com/battlettt/sentinelscan">sentinelscan</a>, <a href="https://github.com/battlettt/porthawk">porthawk</a>, <a href="https://github.com/battlettt/authlog-sentinel">authlog-sentinel</a>, and the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a>.</p>
+      <p>Sources: <a href="https://github.com/battlettt/cybersecurity-portfolio">cybersecurity-portfolio</a>, <a href="https://github.com/battlettt/sentinelscan">sentinelscan</a>, <a href="https://github.com/battlettt/porthawk">porthawk</a>, <a href="https://github.com/battlettt/authlog-sentinel">authlog-sentinel</a>, <a href="https://github.com/battlettt/phishlens">phishlens</a>, and the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a>.</p>
     </footer>
   </main>
 </div>
