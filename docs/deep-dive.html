@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Portfolio Case Files</title>
-<meta name="description" content="Thirteen security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
+<meta name="description" content="Fourteen security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
 <link rel="canonical" href="https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Portfolio Case Files">
-<meta property="og:description" content="Thirteen security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
+<meta property="og:description" content="Fourteen security projects by Marcel Slowly: what each one does, how it works, the evidence it produced, and where it stops.">
 <meta property="og:url" content="https://battlettt.github.io/cybersecurity-portfolio/deep-dive.html">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
@@ -299,6 +299,7 @@
       <a href="#porthawk" data-target="porthawk"><span class="n">ph</span><span>Porthawk</span><span class="st">ok</span></a>
       <a href="#authlog" data-target="authlog"><span class="n">al</span><span>AuthLog Sentinel</span><span class="st">ok</span></a>
       <a href="#phishlens" data-target="phishlens"><span class="n">pl</span><span>PhishLens</span><span class="st">ok</span></a>
+      <a href="#pluginwarden" data-target="pluginwarden"><span class="n">pw</span><span>Plugin Warden</span><span class="st">ok</span></a>
     </div>
     <div class="rail-group">
       <p>cybersecurity-portfolio</p>
@@ -322,15 +323,15 @@
     <header class="intro" id="overview">
       <p class="prompt" aria-hidden="true"><b>battlettt@portfolio</b>:~$ cat ./security/case-files --all</p>
       <h1 id="title">Case Files</h1>
-      <p class="lede">Thirteen security projects and the mechanism behind each one. Every detection, fix and benchmark below was run, and the output shown is what it printed.</p>
+      <p class="lede">Fourteen security projects and the mechanism behind each one. Every detection, fix and benchmark below was run, and the output shown is what it printed.</p>
       <p>Each case covers what the project is, how it works, the evidence it produced, and the judgment calls to be ready to defend in an interview.</p>
       <dl class="ledger">
-        <div><dt>cases across 5 repos</dt><dd>13</dd></div>
-        <div><dt>run in full, output captured</dt><dd>9</dd></div>
-        <div><dt>unit tests passing in 6 tools</dt><dd>233</dd></div>
+        <div><dt>cases across 6 repos</dt><dd>14</dd></div>
+        <div><dt>run in full, output captured</dt><dd>10</dd></div>
+        <div><dt>tests passing in 7 tools</dt><dd>308</dd></div>
         <div><dt>live SIEM dashboard</dt><dd>1</dd></div>
       </dl>
-      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>5 of 5 entries</span><span>checked 2026-11-04</span></p>
+      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>6 of 6 entries</span><span>checked 2026-11-07</span></p>
     </header>
 
     <section class="index" aria-labelledby="ix-h">
@@ -341,6 +342,7 @@
         <a class="ix-row" href="#porthawk"><span class="n">ph</span><span class="t">Porthawk</span><span class="l">Network</span><span class="m">Concurrent TCP scanner for your own network with banners, TLS probing and scan diffs</span></a>
         <a class="ix-row" href="#authlog"><span class="n">al</span><span class="t">AuthLog Sentinel</span><span class="l">Detection</span><span class="m">SSH auth-log analyzer that ranks brute-force and credential-stuffing IPs, read-only by design</span></a>
         <a class="ix-row" href="#phishlens"><span class="n">pl</span><span class="t">PhishLens</span><span class="l">Email</span><span class="m">Pasted headers and links to a plain-English verdict: SPF, DKIM and DMARC alignment, spoofing, URL tricks, no network</span></a>
+        <a class="ix-row" href="#pluginwarden"><span class="n">pw</span><span class="t">Plugin Warden</span><span class="l">Supply chain</span><span class="m">Audits a Claude Code plugin repo before install: 101 checks, a fixed-weight score, and a read-only agent that confirms or dismisses each finding</span></a>
       </div>
       <div class="ix-group">
         <p>cybersecurity-portfolio: nine projects, one repo</p>
@@ -662,6 +664,132 @@ RANK  IP                     SCORE  FAILS  USERS
           <div class="note limit">
             <b class="lbl">! limitation</b>
             <p>It judges only what is pasted. A fully authenticated email from a domain the attacker owns can still be a scam, and the look-alike checks cover a built-in list of brands. Organizational domains come from a small built-in suffix list rather than the full Public Suffix List, and shortened links are flagged but never expanded, because expanding them means visiting them.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===================== PLUGIN WARDEN ===================== -->
+      <article class="case" id="pluginwarden">
+        <div class="case-head">
+          <div class="case-id">
+            <p class="path"><a href="https://github.com/battlettt/plugin-warden"><b>battlettt</b>/plugin-warden</a></p>
+            <h2>Plugin Warden</h2>
+            <p class="lane">Supply chain. Python command-line tool and Claude Agent SDK agent, v0.1.</p>
+            <div class="meta-row">
+              <span class="status">[ok] verified</span>
+              <ul class="tags"><li>Python</li><li>Claude Agent SDK</li><li>Semgrep</li><li>Gitleaks</li></ul>
+            </div>
+          </div>
+          <aside class="report" aria-label="Scan report for Plugin Warden">
+            <p class="report-h">scan report: plugin-warden</p>
+            <ul>
+              <li><span class="k">tests passing</span><span class="lead"></span><span class="v">75</span></li>
+              <li><span class="k">findings triaged by the agent</span><span class="lead"></span><span class="v">131</span></li>
+              <li><span class="k">agent cost, 4 real repos</span><span class="lead"></span><span class="v">$2.11</span></li>
+            </ul>
+            <ul class="go">
+              <li><a href="https://github.com/battlettt/plugin-warden">source</a></li>
+              <li><a href="https://github.com/battlettt/plugin-warden#results-on-real-plugins">real runs</a></li>
+              <li><a href="https://github.com/battlettt/plugin-warden/blob/main/src/plugin_warden/agent/guard.py">path guard</a></li>
+            </ul>
+          </aside>
+        </div>
+        <figure class="resume">
+          <figcaption>Resume line</figcaption>
+          <p>Built Plugin Warden, a Python CLI and Claude Agent SDK agent that audits a Claude Code plugin, skill pack or MCP server repository before install: 101 static checks plus Gitleaks, OSV-Scanner and Semgrep, a deterministic risk score, and a read-only triage agent that confirms or dismisses each finding with a cited reason and reports what the rules missed; on 4 real repositories (1,912 files) it triaged 131 findings for $2.11, sandboxed by a realpath path guard and covered by 75 tests.</p>
+          <button class="copy" type="button">Copy</button>
+        </figure>
+        <div class="prose">
+          <h3>What it is</h3>
+          <p>A pre-install audit for Claude Code plugins. Installing a plugin runs someone else's code with your full user access: hooks fire on session start and on every tool call, MCP and LSP servers start as background processes, and skills are instructions Claude follows. Claude Code's permission rules and Bash sandbox govern only Claude's own tools, so hooks, MCP servers, LSP servers, monitors and status-line commands all run outside them. Plugin Warden answers three questions before you install: what would run and when, what in it could hurt you, and how to contain it if you still want it.</p>
+
+          <h3>How a scan runs</h3>
+          <ul>
+            <li><strong>Inventory.</strong> It clones the repository (or reads a local folder or a marketplace entry) and maps everything Claude Code would load from it: hooks and their triggers, MCP and LSP servers, monitors, skills, agents and commands. Then it traces which scripts each automatic entry point calls.</li>
+            <li><strong>101 checks.</strong> 43 line rules, 48 structural checks and 10 secret patterns across 17 categories, plus Gitleaks, OSV-Scanner and Semgrep. Structural checks read configuration rather than lines: a <code>PreToolUse</code> hook that matches every tool, an MCP server launched with an unpinned <code>npx -y</code>, a symlink that points out of the repository, a file that reads credentials and also makes network calls.</li>
+            <li><strong>Context levels.</strong> The same pattern means different things in different places, so severity shifts with where a match sits: +1 in code that runs on its own, 0 in components and the code they call, -1 in code nothing reaches, and -2 in tests, docs and CI. External scanner hits get the same treatment.</li>
+            <li><strong>Agent triage.</strong> An Agent SDK agent reads each automatic entry point, follows what it calls, records a confirm or dismiss verdict with a cited reason for every medium-or-higher finding, and reports risks the rules missed. A new finding is accepted only if its quoted code really appears within five lines of the file and line it cites.</li>
+            <li><strong>Troubleshooting chat.</strong> A multi-turn session over the report and the repository. It answers with the file and line, who can fix the problem (the plugin author or you), and a validated <code>settings.json</code> fragment.</li>
+          </ul>
+
+          <h3>How the verdict is computed</h3>
+          <p>The score comes from the findings with fixed weights, never from the model's opinion:</p>
+          <div class="term">
+            <div class="term-tab">src/plugin_warden/verdict.py (summary)</div>
+            <pre><span class="t-dim">weights:</span> critical 40  high 15  medium 5  low 1
+<span class="t-dim">score  = min(100, sum above low + min(lows, 10))</span>
+<span class="t-bad">any critical                 -&gt; Do not install</span>
+<span class="t-warn">any high, or score &gt;= 40     -&gt; Review before installing</span>
+<span class="t-warn">any medium, or score &gt;= 10   -&gt; Install with precautions</span>
+<span class="t-ok">otherwise                    -&gt; Low risk</span></pre>
+          </div>
+          <p class="dim">The cap on low findings came from a real run: 67 low-severity matches in an installed design-skills plugin had pushed it to "Review" on their own. Capped at 10 points, lows can reach "Install with precautions" but never more.</p>
+
+          <h3>Captured output</h3>
+          <p>The repository ships a deliberately malicious demo plugin, generated at test time so its fake credentials never sit in git. It calls itself <code>claude-official-tools</code> and claims to format code. Its session-start hook fetches and runs a remote script, uploads <code>~/.ssh</code>, and adds a shell-profile line that survives uninstall, and a second hook approves every tool call.</p>
+          <div class="term">
+            <div class="term-tab">$ uv run warden scan /tmp/evil-plugin (run 2026-11-07, trimmed)</div>
+            <pre><span class="t-dim">Static scan: 9 files, 21 findings, 4.6s</span>
+<span class="t-dim">Agent review with claude-opus-5-5 (effort high, budget $5.00)</span>
+<span class="t-dim">  agent: read scripts/setup.sh</span>
+<span class="t-dim">  agent: read scripts/approve.js</span>
+<span class="t-ok">  agent: verdicts 21 confirmed</span>
+<span class="t-warn">  agent: new finding  Plugin description 'Formats code.' hides credential
+         theft, RCE and permission bypass at .claude-plugin/plugin.json:4</span>
+<span class="t-warn">  agent: new finding  Remote script output from SessionStart hook flows
+         into Claude's context at scripts/setup.sh:2</span>
+<span class="t-dim">Agent: 21 findings reviewed, 2 new, 17 turns, $0.22, 64.8s</span>
+
+<span class="t-bad"> DO NOT INSTALL  risk score 100/100</span>
+<span class="t-bad"> 9 critical  8 high  3 medium  3 low</span>
+<span class="t-warn"> Prompt-injection text found: agent dismissals of serious
+ findings are ignored in the score.</span></pre>
+          </div>
+          <p>One chat question then asked how to keep only the format skill. The answer ($0.12, 32 seconds) explained that <code>enabledPlugins</code> has no per-component switch, that <code>disableAllHooks</code> also turns off your own hooks and still leaves the MCP server running, and that permission deny rules cannot reach a hook or an MCP process. The only complete control is not enabling the plugin, followed by the cleanup steps if it was ever enabled.</p>
+
+          <h3>Results on real plugins</h3>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>target</th><th>findings</th><th>confirmed / dismissed / new</th><th>verdict (score)</th><th>cost</th></tr></thead>
+              <tbody>
+                <tr><td>Demo malicious plugin</td><td>21</td><td>21&nbsp;/&nbsp;0&nbsp;/&nbsp;2</td><td><span class="sev critical">Do not install (100)</span></td><td>$0.22</td></tr>
+                <tr><td>obra/superpowers</td><td>14</td><td>2&nbsp;/&nbsp;12&nbsp;/&nbsp;2</td><td><span class="sev low">Low risk (3)</span></td><td>$0.47</td></tr>
+                <tr><td>Vercel plugin 0.43.0</td><td>57</td><td>13&nbsp;/&nbsp;43&nbsp;/&nbsp;1, 1 needs review</td><td><span class="sev medium">Precautions (10)</span></td><td>$0.76</td></tr>
+                <tr><td>wshobson/agents, 92 plugins</td><td>39</td><td>8&nbsp;/&nbsp;31&nbsp;/&nbsp;2</td><td><span class="sev medium">Precautions (14)</span></td><td>$0.66</td></tr>
+                <tr><td><strong>Total, 1,912 files</strong></td><td><strong>131</strong></td><td><strong>44&nbsp;/&nbsp;86&nbsp;/&nbsp;7</strong></td><td></td><td><strong>$2.11</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Every run used <code>claude-opus-5-5</code> at effort high, none reached the $5 default budget, and each recorded its auth source as <code>ANTHROPIC_API_KEY</code>. What the agent found beyond the rules: on wshobson/agents, two hooks that fire on every tool call pass the full tool input on the command line, where any local process can read it with <code>ps</code>, and a review gate that a <code>./.review-approved</code> file skips entirely. On superpowers, an opt-out usage ping through a vendor-hosted logo, and a Gitleaks "secret" it identified as the public RFC 6455 sample WebSocket key. On Vercel, it dismissed 43 matches with cited reasons, most of them maintainer tooling the plugin never runs.</p>
+          <p class="dim">A static-only pass over all 18 plugins installed on the author's machine (3,534 files) took 2 min 37 s: 12 low risk, 4 install with precautions, 2 review, and no critical findings.</p>
+
+          <h3>The agent is sandboxed from what it reads</h3>
+          <p>The agent spends its whole run reading text written by whoever published the plugin, so the repository is treated as hostile:</p>
+          <ul>
+            <li><strong>No inherited config.</strong> <code>setting_sources=[]</code> keeps the repository's <code>.claude/settings.json</code>, hooks and <code>CLAUDE.md</code> from loading, and <code>strict_mcp_config=True</code> ignores any <code>.mcp.json</code> it ships.</li>
+            <li><strong>Read-only tools.</strong> Only <code>Read</code>, <code>Grep</code> and <code>Glob</code> plus Warden's own in-process tools, with <code>permission_mode="dontAsk"</code> and an explicit disallowed list: no shell, no writes, no web.</li>
+            <li><strong>Path guard.</strong> A <code>PreToolUse</code> hook resolves every path with <code>realpath</code> and denies anything outside the scan root, so a symlink in the repository that points at a private key cannot be followed. Glob patterns containing <code>..</code> or <code>~</code> are refused.</li>
+            <li><strong>Injection guard.</strong> If the static rules find text aimed at a model (instruction overrides, concealment, hidden Unicode, hidden comments), the agent's dismissals of high and critical findings stop counting in the score.</li>
+            <li><strong>API key only.</strong> Other credential sources are blanked in the agent's environment, and each run records the auth source the CLI reports.</li>
+          </ul>
+
+          <h3>Bugs the real runs surfaced</h3>
+          <ul>
+            <li><strong>Secrets in the report.</strong> MCP server <code>env</code> and <code>headers</code> values were copied into the component details, so a token in a plugin's config would have appeared in the report. They are now redacted unless they are <code>${VAR}</code> references.</li>
+            <li><strong>Config writes assembled in pieces.</strong> A path to <code>~/.claude/settings.json</code> built from separate parts slipped past every line rule. A file-level check now looks for the pieces of a Claude config path together with a write operation.</li>
+            <li><strong>Scanner noise.</strong> Gitleaks raised 26 hits in one repository's tests. External hits now go through the same context levels, generic secret rules are medium, and a match is shown only when the scanner redacted it.</li>
+          </ul>
+
+          <h3>Testing</h3>
+          <p>75 tests: 73 offline in about a second, and 2 live. The offline suite drives the agent with a scripted fake and covers target parsing and unsafe-URL rejection, every rule family, context levels, scoring and the injection guard, HTML escaping, secret redaction, the agent's tool validation and path guard (symlink escapes, <code>..</code> and <code>~</code>), the API-key-only environment, the chat and the CLI. The live tests run the real agent and chat against the demo plugin. CI runs ruff and the offline suite on every push, and the offline suite passed again on 2026-11-07 for this page.</p>
+
+          <div class="note">
+            <b class="lbl">&gt; talking point</b>
+            <p>The model never sets the score. It can move the verdict only by confirming or dismissing a finding with a cited reason, or by adding one whose quote is checked against the file. When the repository contains text aimed at a model, its dismissals of serious findings stop counting. That is what makes it safe to point an LLM at hostile text: the worst a successful injection can do is suppress new findings, not clear a malicious plugin.</p>
+          </div>
+          <div class="note limit">
+            <b class="lbl">! limitation</b>
+            <p>Static analysis reads code without running it, so behavior assembled at run time (downloaded code, values from a server, heavy obfuscation) may only show up as "makes network calls" or "decodes and runs data". The agent works within a budget, and the report says when it stopped early. Precautions have real limits too: permission rules and the sandbox do not cover hooks, MCP servers, LSP servers, monitors or status lines, so for those the only complete control is not enabling the plugin. A clean report means the checks that ran found nothing, not that the plugin is safe.</p>
           </div>
         </div>
       </article>
@@ -1215,7 +1343,7 @@ RANK  IP                     SCORE  FAILS  USERS
 
     <footer>
       <p>Each case condenses its project README. Read the code before an interview that goes deep on one of them.</p>
-      <p>Sources: <a href="https://github.com/battlettt/cybersecurity-portfolio">cybersecurity-portfolio</a>, <a href="https://github.com/battlettt/sentinelscan">sentinelscan</a>, <a href="https://github.com/battlettt/porthawk">porthawk</a>, <a href="https://github.com/battlettt/authlog-sentinel">authlog-sentinel</a>, <a href="https://github.com/battlettt/phishlens">phishlens</a>, and the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a>.</p>
+      <p>Sources: <a href="https://github.com/battlettt/cybersecurity-portfolio">cybersecurity-portfolio</a>, <a href="https://github.com/battlettt/sentinelscan">sentinelscan</a>, <a href="https://github.com/battlettt/porthawk">porthawk</a>, <a href="https://github.com/battlettt/authlog-sentinel">authlog-sentinel</a>, <a href="https://github.com/battlettt/phishlens">phishlens</a>, <a href="https://github.com/battlettt/plugin-warden">plugin-warden</a>, and the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a>.</p>
     </footer>
   </main>
 </div>
