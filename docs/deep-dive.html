@@ -690,7 +690,7 @@ RANK  IP                     SCORE  FAILS  USERS
             <ul class="go">
               <li><a href="https://github.com/battlettt/plugin-warden">source</a></li>
               <li><a href="https://github.com/battlettt/plugin-warden#results-on-real-plugins">real runs</a></li>
-              <li><a href="https://github.com/battlettt/plugin-warden/blob/main/docs/teams.md">team gate</a></li>
+              <li><a href="https://battlettt.github.io/plugin-warden/">live registry</a></li>
             </ul>
           </aside>
         </div>
@@ -809,6 +809,7 @@ RANK  IP                     SCORE  FAILS  USERS
             <li><strong>A static-only scan gets no verdict and shows no findings.</strong> Rule matches are leads: on the four repositories above the agent dismissed 86 of 131. Without a completed agent review, an entry shows what the code does and a count of matches waiting for review.</li>
             <li><strong>Serious findings wait for the maintainer.</strong> Confirmed high and critical findings are withheld until the maintainer has been notified and 30 days have passed, or until a fix ships.</li>
           </ul>
+          <p>The registry site went live on 2026-11-15 at <a href="https://battlettt.github.io/plugin-warden/">battlettt.github.io/plugin-warden</a>. A nightly workflow rescans every repository whose upstream commit moved, so its counts change. On its first deployed run it tracked 63 repositories.</p>
           <p class="dim">The stored records in git follow the same two rules and keep no code snippets, because a snippet can carry credentials copied from the scanned repository.</p>
 
           <h3>Bugs the real runs surfaced</h3>
@@ -831,7 +832,7 @@ RANK  IP                     SCORE  FAILS  USERS
           <div class="note limit">
             <b class="lbl">! limitation</b>
             <p>Static analysis reads code without running it, so behavior assembled at run time (downloaded code, values from a server, heavy obfuscation) may only show up as "makes network calls" or "decodes and runs data". The agent works within a budget, and the report says when it stopped early. Precautions have real limits too: permission rules and the sandbox do not cover hooks, MCP servers, LSP servers, monitors or status lines, so for those the only complete control is not enabling the plugin. A clean report means the checks that ran found nothing, not that the plugin is safe.</p>
-            <p>The v0.2 registry is early. The registry site is built but not yet deployed, only one entry (obra/superpowers) has a completed agent review, and the paid review plans on its pricing page are a plan with no customers yet.</p>
+            <p>The v0.2 registry is early. The registry site is live, but only one entry (obra/superpowers) has a completed agent review, and the paid review plans on its pricing page are a plan with no customers yet.</p>
           </div>
         </div>
       </article>
