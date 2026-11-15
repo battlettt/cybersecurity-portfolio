@@ -328,10 +328,10 @@
       <dl class="ledger">
         <div><dt>cases across 6 repos</dt><dd>14</dd></div>
         <div><dt>run in full, output captured</dt><dd>10</dd></div>
-        <div><dt>tests passing in 7 tools</dt><dd>308</dd></div>
+        <div><dt>tests passing in 7 tools</dt><dd>359</dd></div>
         <div><dt>live SIEM dashboard</dt><dd>1</dd></div>
       </dl>
-      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>6 of 6 entries</span><span>checked 2026-11-07</span></p>
+      <p class="sync"><span><b>[sync]</b> matches the Security chapter of <a href="https://battlettt.github.io/#security">battlettt.github.io</a></span><span>6 of 6 entries</span><span>checked 2026-11-15</span></p>
     </header>
 
     <section class="index" aria-labelledby="ix-h">
@@ -342,7 +342,7 @@
         <a class="ix-row" href="#porthawk"><span class="n">ph</span><span class="t">Porthawk</span><span class="l">Network</span><span class="m">Concurrent TCP scanner for your own network with banners, TLS probing and scan diffs</span></a>
         <a class="ix-row" href="#authlog"><span class="n">al</span><span class="t">AuthLog Sentinel</span><span class="l">Detection</span><span class="m">SSH auth-log analyzer that ranks brute-force and credential-stuffing IPs, read-only by design</span></a>
         <a class="ix-row" href="#phishlens"><span class="n">pl</span><span class="t">PhishLens</span><span class="l">Email</span><span class="m">Pasted headers and links to a plain-English verdict: SPF, DKIM and DMARC alignment, spoofing, URL tricks, no network</span></a>
-        <a class="ix-row" href="#pluginwarden"><span class="n">pw</span><span class="t">Plugin Warden</span><span class="l">Supply chain</span><span class="m">Audits a Claude Code plugin repo before install: 101 checks, a fixed-weight score, and a read-only agent that confirms or dismisses each finding</span></a>
+        <a class="ix-row" href="#pluginwarden"><span class="n">pw</span><span class="t">Plugin Warden</span><span class="l">Supply chain</span><span class="m">Audits a Claude Code plugin repo before install: 101 checks, a fixed-weight score and a read-only agent that confirms or dismisses each finding, plus a team policy gate for CI and a public registry of 62 scanned repositories</span></a>
       </div>
       <div class="ix-group">
         <p>cybersecurity-portfolio: nine projects, one repo</p>
@@ -674,7 +674,7 @@ RANK  IP                     SCORE  FAILS  USERS
           <div class="case-id">
             <p class="path"><a href="https://github.com/battlettt/plugin-warden"><b>battlettt</b>/plugin-warden</a></p>
             <h2>Plugin Warden</h2>
-            <p class="lane">Supply chain. Python command-line tool and Claude Agent SDK agent, v0.1.</p>
+            <p class="lane">Supply chain. Python command-line tool and Claude Agent SDK agent, v0.2.</p>
             <div class="meta-row">
               <span class="status">[ok] verified</span>
               <ul class="tags"><li>Python</li><li>Claude Agent SDK</li><li>Semgrep</li><li>Gitleaks</li></ul>
@@ -683,20 +683,20 @@ RANK  IP                     SCORE  FAILS  USERS
           <aside class="report" aria-label="Scan report for Plugin Warden">
             <p class="report-h">scan report: plugin-warden</p>
             <ul>
-              <li><span class="k">tests passing</span><span class="lead"></span><span class="v">75</span></li>
+              <li><span class="k">tests passing</span><span class="lead"></span><span class="v">126</span></li>
               <li><span class="k">findings triaged by the agent</span><span class="lead"></span><span class="v">131</span></li>
               <li><span class="k">agent cost, 4 real repos</span><span class="lead"></span><span class="v">$2.11</span></li>
             </ul>
             <ul class="go">
               <li><a href="https://github.com/battlettt/plugin-warden">source</a></li>
               <li><a href="https://github.com/battlettt/plugin-warden#results-on-real-plugins">real runs</a></li>
-              <li><a href="https://github.com/battlettt/plugin-warden/blob/main/src/plugin_warden/agent/guard.py">path guard</a></li>
+              <li><a href="https://github.com/battlettt/plugin-warden/blob/main/docs/teams.md">team gate</a></li>
             </ul>
           </aside>
         </div>
         <figure class="resume">
           <figcaption>Resume line</figcaption>
-          <p>Built Plugin Warden, a Python CLI and Claude Agent SDK agent that audits a Claude Code plugin, skill pack or MCP server repository before install: 101 static checks plus Gitleaks, OSV-Scanner and Semgrep, a deterministic risk score, and a read-only triage agent that confirms or dismisses each finding with a cited reason and reports what the rules missed; on 4 real repositories (1,912 files) it triaged 131 findings for $2.11, sandboxed by a realpath path guard and covered by 75 tests.</p>
+          <p>Built Plugin Warden, a Python CLI and Claude Agent SDK agent that audits a Claude Code plugin, skill pack or MCP server repository before install: 101 static checks plus Gitleaks, OSV-Scanner and Semgrep, a deterministic risk score, and a read-only triage agent that confirms or dismisses each finding with a cited reason and reports what the rules missed; on 4 real repositories (1,912 files) it triaged 131 findings for $2.11, sandboxed by a realpath path guard. v0.2 adds a TOML policy with pinned approvals, a CI gate with SARIF output, a nightly diff of approved plugins against upstream, hashed and optionally HMAC-signed audit evidence packs, and a public registry of 62 scanned repositories; 126 tests.</p>
           <button class="copy" type="button">Copy</button>
         </figure>
         <div class="prose">
@@ -773,15 +773,56 @@ RANK  IP                     SCORE  FAILS  USERS
             <li><strong>API key only.</strong> Other credential sources are blanked in the agent's environment, and each run records the auth source the CLI reports.</li>
           </ul>
 
+          <h3>Policy and CI gate</h3>
+          <p>v0.2 turns the scanner into something a team can enforce. One TOML file in git, <code>warden-policy.toml</code>, says which plugins may be enabled, and <code>warden check</code> evaluates it in CI. Everything runs in the team's own repository and pipeline. There is no Plugin Warden server.</p>
+          <ul>
+            <li><strong>Two modes.</strong> In allowlist mode only plugins with an <code>[[allow]]</code> entry may be enabled. In threshold mode any plugin may be enabled while its scan stays inside the limits (worst accepted verdict, denied categories and rules).</li>
+            <li><strong>Pinned approvals.</strong> An approval names the commit that was reviewed, who approved it and why. When it matches the scanned commit it stands in for the thresholds: a person read exactly that code, so the scan verdict does not overrule them. Deny entries still win over any approval.</li>
+            <li><strong>Drift.</strong> When upstream moves, the approval stops matching and the check fails with <code>COMMIT-DRIFT</code> until someone looks at the diff and approves the new commit.</li>
+            <li><strong>Exceptions.</strong> An exception accepts one rule or category for one plugin. It must carry a reason and an end date, and after that date it stops applying.</li>
+            <li><strong>Fails closed.</strong> The check resolves each enabled plugin to its repository through the project's settings. Anything it cannot resolve or fetch is a failure, never a pass.</li>
+            <li><strong>Your own config too.</strong> It also scans the project's own <code>.mcp.json</code> and the hooks in its settings, judged by the thresholds alone.</li>
+          </ul>
+          <p class="dim">Exit code 0 means everything enabled is allowed, 1 means something is not, and 2 means the policy is invalid. <code>--sarif</code> writes SARIF 2.1.0, so on GitHub a failure appears on the settings line that enabled the plugin.</p>
+
+          <h3>Watching updates</h3>
+          <p><code>warden watch</code> asks each approved repository for its current commit with <code>git ls-remote</code>, without cloning. If the commit moved, it scans both the approved commit and the new one and compares the two reports. Findings are matched by rule, file and code rather than by line number, so code that only moved is not reported as new.</p>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>level</th><th>raised when</th></tr></thead>
+              <tbody>
+                <tr><td><span class="sev high">alert</span></td><td>A new hook, monitor or server, a new high or critical finding, or a worse verdict</td></tr>
+                <tr><td><span class="sev medium">notice</span></td><td>New network hosts, new credential-like environment variables, or new lower-severity findings</td></tr>
+                <tr><td><span class="sev low">none</span></td><td>Nothing the scanner tracks changed</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Evidence packs</h3>
+          <p><code>warden evidence</code> writes a folder and a zip for an auditor: the policy as enforced, the decision for every enabled plugin, the scan behind each decision, a readable summary, and a manifest with the SHA-256 of every file. With a key set, the manifest is also signed with HMAC-SHA256. Local paths are scrubbed, because a pack is handed to outsiders. <code>--verify</code> reports any file that changed, went missing or was added.</p>
+          <p class="dim">The summary lists where teams commonly map this in SOC 2 and ISO/IEC 27001, but that mapping is the team's to make with its auditor. Plugin Warden does not certify compliance.</p>
+
+          <h3>The public registry</h3>
+          <p>The same scans feed a public registry of well-known plugin, skill and MCP server repositories. The first full run on 2026-11-14 used static checks only and scanned 62 of 63 repositories (one fetch timed out), reading 55,205 files. It found 164 components that run on their own in 21 repositories, 64 background processes in 18, and 359 distinct network hosts named in code. It also produced 3,022 rule matches, which are waiting for review and are not published.</p>
+          <p>Two rules decide what the registry shows, and both exist to be fair to the people whose code is listed:</p>
+          <ul>
+            <li><strong>A static-only scan gets no verdict and shows no findings.</strong> Rule matches are leads: on the four repositories above the agent dismissed 86 of 131. Without a completed agent review, an entry shows what the code does and a count of matches waiting for review.</li>
+            <li><strong>Serious findings wait for the maintainer.</strong> Confirmed high and critical findings are withheld until the maintainer has been notified and 30 days have passed, or until a fix ships.</li>
+          </ul>
+          <p class="dim">The stored records in git follow the same two rules and keep no code snippets, because a snippet can carry credentials copied from the scanned repository.</p>
+
           <h3>Bugs the real runs surfaced</h3>
           <ul>
             <li><strong>Secrets in the report.</strong> MCP server <code>env</code> and <code>headers</code> values were copied into the component details, so a token in a plugin's config would have appeared in the report. They are now redacted unless they are <code>${VAR}</code> references.</li>
             <li><strong>Config writes assembled in pieces.</strong> A path to <code>~/.claude/settings.json</code> built from separate parts slipped past every line rule. A file-level check now looks for the pieces of a Claude config path together with a write operation.</li>
             <li><strong>Scanner noise.</strong> Gitleaks raised 26 hits in one repository's tests. External hits now go through the same context levels, generic secret rules are medium, and a match is shown only when the scanner redacted it.</li>
+            <li><strong>A timeout that took the batch down.</strong> During the registry run, one git fetch timed out and crashed the whole batch. A timeout is now an ordinary target error, and the other repositories carry on.</li>
+            <li><strong>Quadratic matching on minified code.</strong> Line rules were quadratic on minified bundles: a single 900 KB line took minutes. Minified files are now matched per statement, with a bounded window as the fallback.</li>
+            <li><strong>Snippets in public data.</strong> Registry data first stored raw rule-match snippets from third-party repositories. It now stores only public-safe records, with no snippets.</li>
           </ul>
 
           <h3>Testing</h3>
-          <p>75 tests: 73 offline in about a second, and 2 live. The offline suite drives the agent with a scripted fake and covers target parsing and unsafe-URL rejection, every rule family, context levels, scoring and the injection guard, HTML escaping, secret redaction, the agent's tool validation and path guard (symlink escapes, <code>..</code> and <code>~</code>), the API-key-only environment, the chat and the CLI. The live tests run the real agent and chat against the demo plugin. CI runs ruff and the offline suite on every push, and the offline suite passed again on 2026-11-07 for this page.</p>
+          <p>126 tests: 124 offline in about 5 seconds, and 2 live. The offline suite drives the agent with a scripted fake and covers target parsing and unsafe-URL rejection, every rule family, context levels, scoring and the injection guard, HTML escaping, secret redaction, the agent's tool validation and path guard (symlink escapes, <code>..</code> and <code>~</code>), the API-key-only environment, the chat and the CLI. For the team features it covers policy parsing and every violation code, pinned approvals, exceptions and their expiry, marketplace resolution, fail-closed behavior, SARIF locations, report diffing (including code that only moved), the update watch, evidence pack signing, tamper detection and path scrubbing, the registry's publication rules, and the generated site (every page built, repository text escaped, no third-party resources). The live tests run the real agent and chat against the demo plugin. CI runs ruff and the offline suite on every push, and the offline suite passed again on 2026-11-15 for this page.</p>
 
           <div class="note">
             <b class="lbl">&gt; talking point</b>
@@ -790,6 +831,7 @@ RANK  IP                     SCORE  FAILS  USERS
           <div class="note limit">
             <b class="lbl">! limitation</b>
             <p>Static analysis reads code without running it, so behavior assembled at run time (downloaded code, values from a server, heavy obfuscation) may only show up as "makes network calls" or "decodes and runs data". The agent works within a budget, and the report says when it stopped early. Precautions have real limits too: permission rules and the sandbox do not cover hooks, MCP servers, LSP servers, monitors or status lines, so for those the only complete control is not enabling the plugin. A clean report means the checks that ran found nothing, not that the plugin is safe.</p>
+            <p>The v0.2 registry is early. The registry site is built but not yet deployed, only one entry (obra/superpowers) has a completed agent review, and the paid review plans on its pricing page are a plan with no customers yet.</p>
           </div>
         </div>
       </article>
